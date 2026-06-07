@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Phiếu thực hiện</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.ws-actions{max-width:780px;margin:0 auto 16px;display:flex;gap:9px;justify-content:flex-end}
+.ws{max-width:780px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.ws-head{padding:20px 26px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:flex-start}
+.ws-head .logo-txt{font-family:'Outfit';font-weight:600;letter-spacing:3px;font-size:18px}
+.ws-head .logo-sub{font-size:10px;letter-spacing:3px;color:var(--ink-soft)}
+.ws-head h2{font-family:'Fraunces',serif;font-size:18px;font-weight:600;text-align:right}
+.ws-body{padding:22px 26px}
+.ws-kh{display:grid;grid-template-columns:1fr 1fr;gap:7px 20px;font-size:13px;margin-bottom:6px}
+.ws-kh b{font-weight:600}
+.ws-warn{background:#f9e6e6;border:1px solid #e9b3b3;border-radius:9px;padding:9px 12px;font-size:12.5px;color:#a64b4b;margin:12px 0;display:flex;gap:8px}
+.ws-warn svg{width:16px;height:16px;flex:none;margin-top:1px}
+.ws-sec-h{font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--teal-deep);font-weight:600;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.ws-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.ws-tbl th{background:var(--bg-2);text-align:left;padding:7px 10px;font-size:10.5px;text-transform:uppercase;color:var(--ink-soft);border:1px solid var(--line)}
+.ws-tbl td{padding:8px 10px;border:1px solid var(--line);vertical-align:top}
+.ws-chk{width:15px;height:15px;border:1.5px solid var(--ink-soft);border-radius:4px;display:inline-block}
+.ws-now{background:var(--teal-soft);border-left:4px solid var(--teal);border-radius:0 10px 10px 0;padding:12px 15px;margin:6px 0 16px}
+.ws-now b{font-size:14px;color:var(--teal-deep)}
+.ws-foot{display:flex;justify-content:space-between;padding:18px 26px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-soft)}
+.sign-box{text-align:center;min-width:140px}.sign-box .line{border-top:1px solid var(--ink-soft);margin-top:40px;padding-top:5px}
+@media print{.sidebar,.topbar,.ws-actions{display:none!important}.main{padding:0!important}.ws{box-shadow:none;border:none;max-width:100%}}
+@page{size:A4;margin:14mm}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('treatment');
+document.getElementById('main').innerHTML = topbar('Vận hành › Phiếu thực hiện','Phiếu thực hiện dịch vụ (in)',{who:'OP',branch:'CN Quận 1'}) + `
+  <div class="ws-actions">
+    <a class="btn btn-ghost" href="service-record.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Quay lại</a>
+    <button class="btn btn-teal" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>In phiếu</button>
+  </div>
+  <div class="ws">
+    <div class="ws-head"><div><div class="logo-txt">HASAKI</div><div class="logo-sub">CLINIC</div></div>
+      <div><h2>PHIẾU THỰC HIỆN DỊCH VỤ</h2><div style="font-size:11.5px;color:var(--ink-soft);text-align:right;margin-top:3px">Phiếu DV-0825 · CN Quận 1 · Hôm nay 10:00</div></div></div>
+    <div class="ws-body">
+      <div class="ws-kh"><span>Khách hàng: <b>Trần Thu Hà</b> (VIP)</span><span>Mã KH: <b>C-1042</b></span><span>Giới tính / tuổi: <b>Nữ · 32</b></span><span>Phòng: <b>Slim 1 → Laser 2</b></span></div>
+      <div class="ws-warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Lưu ý quan trọng:</b> Dị ứng Lidocaine, Paraben · da nhạy cảm vùng mặt · không thích KTV nam · <b>BS dặn: không dùng sản phẩm chứa Lidocaine.</b></div></div>
+
+      <div class="ws-now"><div style="font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.5px;font-weight:600">Hiện tại cần làm</div><b>Bước 4: Trị liệu RF vùng bụng — Hồng Trang (thợ chính)</b><div style="font-size:12px;color:var(--ink-soft);margin-top:2px">Máy RF mức 6/10 · 42°C · 25 phút · sau đó làm dịu & chụp ảnh after</div></div>
+
+      <div class="ws-sec-h">Trình tự thực hiện trong phiên (4 dịch vụ)</div>
+      <table class="ws-tbl"><thead><tr><th width="28"></th><th>Bước</th><th>Dịch vụ</th><th>Người làm</th><th>Máy / thông số</th><th>NVL</th></tr></thead><tbody>
+        <tr><td>✓</td><td>Khám & kết luận</td><td>Khám BS</td><td>BS Bích Hằng</td><td>—</td><td>—</td></tr>
+        <tr><td>✓</td><td>Tư vấn & đo chỉ số</td><td>RF (gói)</td><td>Hồng Trang</td><td>—</td><td>—</td></tr>
+        <tr><td>✓</td><td>Làm sạch & chuẩn bị</td><td>RF (gói)</td><td>Phương Anh</td><td>—</td><td>Gel sạch 20ml</td></tr>
+        <tr style="background:var(--teal-soft)"><td><span class="ws-chk"></span></td><td><b>Trị liệu RF bụng ◀ hiện tại</b></td><td>RF (gói)</td><td>Hồng Trang</td><td>RF · 6/10 · 42°C · 25p</td><td>Gel dẫn 45ml, tinh chất 1 ống</td></tr>
+        <tr><td><span class="ws-chk"></span></td><td>Làm dịu & kết thúc</td><td>RF (gói)</td><td>Hồng Trang</td><td>—</td><td>Mặt nạ 1 cái</td></tr>
+        <tr><td><span class="ws-chk"></span></td><td>Làm sạch da <i>(trùng — có thể bỏ)</i></td><td>Triệt lông (lẻ)</td><td>Thanh Mai</td><td>—</td><td>Gel sạch 20ml</td></tr>
+        <tr><td><span class="ws-chk"></span></td><td>Bắn laser triệt lông</td><td>Triệt lông (lẻ)</td><td>Thanh Mai</td><td>Laser 808nm · 14J · 240 phát</td><td>Gel lạnh 30ml</td></tr>
+        <tr><td><span class="ws-chk"></span></td><td>Bắn laser làm lại</td><td>Bảo hành (miễn phí)</td><td>Thanh Mai</td><td>Laser 808nm · 12J · 60 phát</td><td>Gel lạnh 10ml</td></tr>
+      </tbody></table>
+
+      <div class="ws-sec-h">Lưu ý từ bác sĩ & lịch sử</div>
+      <div style="font-size:12.5px;line-height:1.7"><b>· Khi kê toa:</b> không dùng sản phẩm chứa Lidocaine (khách dị ứng).<br><b>· Lần trước (15/06):</b> da vùng bụng phản ứng nhẹ với gel — đã đổi loại dịu hơn.<br><b>· Triệt lông buổi trước:</b> khách phản hồi hơi rát, giảm nhẹ cường độ.</div>
+    </div>
+    <div class="ws-foot">
+      <div class="sign-box"><div class="line">Người thực hiện</div></div>
+      <div class="sign-box"><div class="line">Bác sĩ giám sát</div></div>
+      <div class="sign-box"><div class="line">Khách hàng xác nhận</div></div>
+    </div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

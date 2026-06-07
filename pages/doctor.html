@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Bác sĩ · Khám</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css"></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('doctor');
+const right = `<div class="tenant" style="background:var(--teal-soft);color:var(--teal-deep);border-color:transparent"><span style="width:8px;height:8px;border-radius:50%;background:var(--teal-deep);display:inline-block"></span> Đang trực · Phòng khám 2</div>`;
+document.getElementById('main').innerHTML = topbar('Nghiệp vụ Bác sĩ','Hàng chờ khám của BS. Bích Hằng',{who:'BH',branch:'CN Quận 1',right}) + `
+  <div class="cn-tabs">
+    <a class="cn-link" href="doctor-cn.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>Toàn CN (điều phối bác sĩ)</a>
+    <a class="cn-link on" href="doctor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Của tôi (BS. Bích Hằng)</a>
+  </div>
+  <div id="myView">
+  <div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">7</div><div class="kpi-lbl">Khách trong hàng chờ</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div><div class="kpi-val">~12 phút</div><div class="kpi-lbl">Thời gian chờ trung bình</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div></div><div class="kpi-val">18</div><div class="kpi-lbl">Đã khám hôm nay</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg></div></div><div class="kpi-val">2 BS</div><div class="kpi-lbl">Đang trực khung giờ này</div></div>
+  </div>
+
+  <div class="spotlight">
+    <div class="spot live"><div class="spot-lbl">● Đang khám</div>
+      <div class="spot-row"><div class="q-av av-teal" style="width:52px;height:52px;border-radius:15px;font-size:17px">TH</div>
+        <div><div class="spot-name">Trần Thu Hà <span class="tag vip">VIP</span></div><div class="spot-meta">Nữ · 32 tuổi · Mã KH C-1042 · Vào lúc 09:02</div></div></div>
+      <div class="spot-meta" style="margin-top:12px">Lý do: tư vấn liệu trình giảm béo · Tiền sử: dị ứng lidocaine ⚠️</div>
+      <div class="spot-actions"><a class="btn btn-teal" href="doctor-prescription.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>Hoàn tất & kê toa</a><a class="btn btn-ghost" href="doctor-prescription.html">Kê toa</a></div>
+    </div>
+    <div class="spot"><div class="spot-lbl">Khách kế tiếp</div>
+      <div class="spot-row"><div class="q-av av-blush" style="width:52px;height:52px;border-radius:15px;font-size:17px">LM</div>
+        <div><div class="spot-name">Lê Minh</div><div class="spot-meta">Nam · 28 tuổi · Mã KH C-0987 · Số thứ tự 02</div></div></div>
+      <div class="spot-meta" style="margin-top:12px">Lý do: tái khám sau triệt lông buổi 4 · Tư vấn viên: Quỳnh Trang</div>
+      <div class="spot-actions"><a class="btn btn-primary" href="doctor-prescription.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Gọi vào khám</a><a class="btn btn-ghost" href="customer-treatment-record.html">Hồ sơ điều trị</a></div>
+    </div>
+  </div>
+
+  <div class="panel"><div class="panel-h"><div class="panel-title">Hàng chờ khám của tôi<small>Khách đã phân cho BS. Bích Hằng</small></div></div>
+      <table><thead><tr><th>STT</th><th>Khách hàng</th><th>Lý do</th><th>Chờ</th><th>Phân cho</th><th></th></tr></thead><tbody>
+        <tr class="clickable" onclick="location.href='doctor-prescription.html'"><td class="num-strong">01</td><td><div class="staff-cell"><div class="q-av av-teal">TH</div><div><b>Trần Thu Hà</b><br><span style="font-size:12px;color:var(--ink-soft)">C-1042</span></div></div></td><td>Tư vấn giảm béo <span class="tag vip">VIP</span></td><td>—</td><td>BS. Bích Hằng</td><td><span class="tag prog">Đang khám</span></td></tr>
+        <tr class="clickable" onclick="location.href='doctor-prescription.html'"><td class="num-strong">02</td><td><div class="staff-cell"><div class="q-av av-blush">LM</div><div><b>Lê Minh</b><br><span style="font-size:12px;color:var(--ink-soft)">C-0987</span></div></div></td><td>Tái khám triệt lông</td><td>8 phút</td><td>BS. Bích Hằng</td><td><span class="tag done">Sẵn sàng</span></td></tr>
+        <tr class="clickable"><td class="num-strong">03</td><td><div class="staff-cell"><div class="q-av av-gold">NK</div><div><b>Ngô Khánh</b><br><span style="font-size:12px;color:var(--ink-soft)">C-1130</span></div></div></td><td>Khám da liễu</td><td>15 phút</td><td>BS. Minh Quân</td><td><span class="tag wait">Chờ</span></td></tr>
+        <tr class="clickable"><td class="num-strong">04</td><td><div class="staff-cell"><div class="q-av av-sage">VP</div><div><b>Vũ Phương</b><br><span style="font-size:12px;color:var(--ink-soft)">C-1201</span></div></div></td><td>Tư vấn chăm sóc da <span class="tag new">Mới</span></td><td>20 phút</td><td>BS. Bích Hằng</td><td><span class="tag wait">Chờ</span></td></tr>
+        <tr class="clickable"><td class="num-strong">05</td><td><div class="staff-cell"><div class="q-av av-indigo">ĐL</div><div><b>Đỗ Lan</b><br><span style="font-size:12px;color:var(--ink-soft)">C-0875</span></div></div></td><td>Tái khám sau RF</td><td>24 phút</td><td>BS. Minh Quân</td><td><span class="tag wait">Chờ</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

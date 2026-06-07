@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Hồ sơ điều trị</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.med-head{background:linear-gradient(140deg,#fff,var(--indigo-soft));border:1px solid var(--line);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.med-head .q-av{width:60px;height:60px;border-radius:18px;font-size:22px}
+.allergy{background:#f9e6e6;border:1px solid #e9b3b3;border-radius:13px;padding:13px;font-size:13px;color:#a64b4b;display:flex;gap:9px}
+.allergy svg{width:18px;height:18px;flex:none;margin-top:1px}
+.vital{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.vital .v{background:var(--bg-2);border-radius:11px;padding:11px 13px}
+.vital .v b{font-family:'Fraunces',serif;font-size:18px;display:block}.vital .v span{font-size:11px;color:var(--ink-soft)}
+.enc{border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;background:#fff}
+.enc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.enc-top .d{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--indigo)}
+.enc dl{display:grid;grid-template-columns:90px 1fr;gap:6px 12px;font-size:13px;margin:0}
+.enc dt{color:var(--ink-soft)}.enc dd{margin:0}
+.icd{display:inline-block;font-size:11px;font-family:Consolas,monospace;background:var(--indigo-soft);color:var(--indigo);padding:2px 7px;border-radius:6px;margin-right:6px}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('doctor');
+const right=`<a class="btn btn-ghost" href="customer-detail.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Hồ sơ khách</a><a class="btn btn-teal" href="doctor-prescription.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/><circle cx="9" cy="10" r="1.5"/></svg>Khám & kê toa</a>`;
+document.getElementById('main').innerHTML = topbar('Bác sĩ › Hồ sơ điều trị','Hồ sơ điều trị — Trần Thu Hà',{who:'BH',branch:'CN Quận 1',right}) + `
+  <div class="med-head">
+    <div class="q-av av-indigo">TH</div>
+    <div style="flex:1;min-width:200px"><div style="font-family:Fraunces,serif;font-size:22px;font-weight:600">Trần Thu Hà <span class="tag vip">VIP</span></div>
+      <div style="font-size:13px;color:var(--ink-soft)">C-1042 · Nữ · 32 tuổi · Nhóm máu O+ · BS theo dõi: Bích Hằng</div></div>
+    <div class="allergy" style="max-width:340px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div><b>Dị ứng:</b> Lidocaine, Paraben, cồn khô · da nhạy cảm vùng mặt</div></div>
+  </div>
+
+  <div class="row r-2e" style="margin-bottom:18px">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Chỉ số & tiền sử</div></div>
+      <div class="vital"><div class="v"><b>52 kg</b><span>Cân nặng</span></div><div class="v"><b>160 cm</b><span>Chiều cao</span></div><div class="v"><b>118/76</b><span>Huyết áp</span></div><div class="v"><b>20.3</b><span>BMI</span></div></div>
+      <div style="font-size:13px;margin-top:14px;line-height:1.8"><b>Tiền sử y khoa:</b> không bệnh nền · không phẫu thuật thẩm mỹ trước đó · không mang thai.<br><b>Thói quen:</b> không hút thuốc · ít vận động · da khô theo mùa.</div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Liệu trình đang điều trị</div></div>
+      <div class="wpill"><div class="q-av av-gold">RF</div><div class="wi"><b>Giảm béo RF bụng · 1/10</b><span>BS chỉ định 10/06 · theo dõi phản ứng da</span></div></div>
+      <div class="wpill"><div class="q-av av-teal">TL</div><div class="wi"><b>Triệt lông Diode · 4/8</b><span>Ổn định, không phản ứng bất thường</span></div></div>
+      <div class="wpill"><div class="q-av av-blush">DA</div><div class="wi"><b>Chăm sóc da phục hồi · 2/3</b><span>Da cải thiện tốt</span></div></div>
+    </div>
+  </div>
+
+  <div class="panel"><div class="panel-h"><div class="panel-title">Bệnh án theo lần khám (encounters)<small>Chẩn đoán theo chuẩn ICD-10 Bộ Y tế · click "Xem chi tiết" để mở preview lần khám</small></div></div>
+    <div class="enc">
+      <div class="enc-top"><div class="d">10/06/2026 · BS. Bích Hằng</div><span class="tag new">Đơn QG-7741A</span><a href="encounter-summary.html" class="btn btn-ghost" style="margin-left:auto;padding:6px 13px;font-size:12px">Xem chi tiết</a></div>
+      <dl><dt>Lý do khám</dt><dd>Tư vấn giảm béo vùng bụng, eo</dd>
+        <dt>Chẩn đoán</dt><dd><span class="icd">E65</span> Mỡ khu trú · <span class="icd">L98.9</span> Rối loạn da, mô dưới da chưa đặc hiệu</dd>
+        <dt>Xử trí</dt><dd>Chỉ định liệu trình RF 10 buổi · kê toa hỗ trợ phục hồi</dd>
+        <dt>Lời dặn</dt><dd>Uống đủ nước, tái khám sau buổi 5</dd></dl>
+    </div>
+    <div class="enc">
+      <div class="enc-top"><div class="d">02/05/2026 · BS. Minh Quân</div><a href="encounter-summary.html" class="btn btn-ghost" style="margin-left:auto;padding:6px 13px;font-size:12px">Xem chi tiết</a></div>
+      <dl><dt>Lý do khám</dt><dd>Khám da định kỳ</dd>
+        <dt>Chẩn đoán</dt><dd><span class="icd">L70.0</span> Mụn trứng cá thông thường (nhẹ)</dd>
+        <dt>Xử trí</dt><dd>Tư vấn chăm sóc da, không kê thuốc</dd></dl>
+    </div>
+    <div class="enc">
+      <div class="enc-top"><div class="d">15/03/2026 · BS. Bích Hằng</div><span class="tag new">Đơn QG-7012F</span><a href="encounter-summary.html" class="btn btn-ghost" style="margin-left:auto;padding:6px 13px;font-size:12px">Xem chi tiết</a></div>
+      <dl><dt>Chẩn đoán</dt><dd><span class="icd">Z41.1</span> Chăm sóc thẩm mỹ sau thủ thuật</dd>
+        <dt>Xử trí</dt><dd>Kê kháng sinh bôi ngừa nhiễm khuẩn sau triệt lông</dd></dl>
+    </div>
+  </div>
+
+  <div class="row r-2e">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Lịch sử thuốc đã dùng<small>Tổng hợp từ các đơn — hỗ trợ tránh kê trùng / tương tác</small></div></div>
+      <table><thead><tr><th>Thuốc</th><th>SKU</th><th>Từ đơn</th><th>Ngày</th></tr></thead><tbody>
+        <tr><td><b>Kem phục hồi da (panthenol)</b></td><td style="font-family:Consolas,monospace;font-size:12px">MED-PAN-CR</td><td>QG-7741A</td><td>10/06</td></tr>
+        <tr><td><b>Vitamin C + E</b></td><td style="font-family:Consolas,monospace;font-size:12px">MED-VITCE</td><td>QG-7741A</td><td>10/06</td></tr>
+        <tr><td><b>Kháng sinh bôi (mupirocin)</b></td><td style="font-family:Consolas,monospace;font-size:12px">MED-MUPI</td><td>QG-7012F</td><td>15/03</td></tr>
+      </tbody></table>
+      <div class="alert al-warn" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div>Đã từng dùng kháng sinh bôi 15/03 — cân nhắc nếu kê lại nhóm này.</div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">SKU liệu trình / buổi đã sử dụng<small>Mã định danh từng buổi dịch vụ đã thực hiện</small></div></div>
+      <table><thead><tr><th>SKU buổi</th><th>Liệu trình</th><th>Buổi</th><th>Ngày</th></tr></thead><tbody>
+        <tr class="clickable" onclick="location.href='service-record.html'"><td style="font-family:Consolas,monospace;font-size:12px">SVC-RF-0012</td><td>Giảm béo RF bụng</td><td>1/10</td><td>Hôm nay</td></tr>
+        <tr class="clickable" onclick="location.href='service-record.html'"><td style="font-family:Consolas,monospace;font-size:12px">SVC-DA-0089</td><td>Chăm sóc da phục hồi</td><td>2/3</td><td>28/06</td></tr>
+        <tr class="clickable" onclick="location.href='service-record.html'"><td style="font-family:Consolas,monospace;font-size:12px">SVC-LSR-0341</td><td>Triệt lông Diode</td><td>4/8</td><td>15/06</td></tr>
+        <tr class="clickable" onclick="location.href='service-record.html'"><td style="font-family:Consolas,monospace;font-size:12px">SVC-LSR-0298</td><td>Triệt lông Diode</td><td>3/8</td><td>01/06</td></tr>
+      </tbody></table>
+      <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Click mã SKU buổi để mở <b>chi tiết thực hiện</b> (máy · thợ chính/phụ · step · ảnh).</div></div>
+    </div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

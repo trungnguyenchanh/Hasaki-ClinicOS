@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Tổng kết lần khám</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.summary-doc{max-width:840px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;animation:rise .5s both}
+.sd-head{background:linear-gradient(140deg,var(--teal-deep),var(--teal));color:#fff;padding:24px 30px}
+.sd-head h2{font-family:'Fraunces',serif;font-size:22px;font-weight:600}
+.sd-head .sub{opacity:.9;font-size:13px;margin-top:3px}
+.sd-body{padding:26px 30px}
+.sd-sec{margin-bottom:22px}
+.sd-sec h3{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--teal-deep);font-weight:600;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.sd-grid{display:grid;grid-template-columns:130px 1fr;gap:8px 16px;font-size:14px}
+.sd-grid dt{color:var(--ink-soft)}.sd-grid dd{margin:0}
+.icd{display:inline-block;font-size:11px;font-family:Consolas,monospace;background:var(--indigo-soft);color:var(--indigo);padding:2px 7px;border-radius:6px;margin-right:6px}
+.rx-tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+.rx-tbl th{background:var(--bg-2);text-align:left;padding:8px 11px;font-size:11px;text-transform:uppercase;color:var(--ink-soft)}
+.rx-tbl td{padding:9px 11px;border-top:1px solid var(--line)}
+.sd-foot{display:flex;justify-content:space-between;align-items:center;padding:18px 30px;border-top:1px solid var(--line);background:var(--bg-2)}
+.sign{text-align:center}.sign b{font-family:'Fraunces',serif;font-size:15px;display:block}.sign span{font-size:11px;color:var(--ink-soft)}
+.actions-top{max-width:840px;margin:0 auto 16px;display:flex;gap:9px;justify-content:flex-end}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('doctor');
+document.getElementById('main').innerHTML = topbar('Bác sĩ › Tổng kết khám','Phiếu tổng kết lần khám',{who:'BH',branch:'CN Quận 1'}) + `
+  <div class="actions-top">
+    <a class="btn btn-ghost" href="customer-treatment-record.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Quay lại hồ sơ</a>
+    <button class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>In phiếu</button>
+    <a class="btn btn-teal" href="pharmacy-dispense.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Kết thúc khám → chuyển dược sĩ</a>
+  </div>
+  <div class="summary-doc">
+    <div class="sd-head"><h2>Phiếu tổng kết khám</h2><div class="sub">Hasaki Clinic · CN Quận 1 · 10/06/2026 11:00 · Mã lần khám ENC-58120</div></div>
+    <div class="sd-body">
+      <div class="sd-sec"><h3>Thông tin khách</h3>
+        <dl class="sd-grid"><dt>Họ tên</dt><dd><b>Trần Thu Hà</b> · Nữ · 32 tuổi</dd><dt>Mã KH</dt><dd>C-1042</dd><dt>Dị ứng</dt><dd style="color:var(--rose)">Lidocaine, Paraben, cồn khô</dd></dl></div>
+      <div class="sd-sec"><h3>Khám lâm sàng</h3>
+        <dl class="sd-grid"><dt>Lý do khám</dt><dd>Tư vấn giảm béo vùng bụng, eo</dd><dt>Sinh hiệu</dt><dd>52 kg · 160 cm · HA 118/76 · BMI 20.3</dd><dt>Mô tả</dt><dd>Mỡ khu trú vùng bụng dưới, da nhạy cảm, không tổn thương viêm.</dd></dl></div>
+      <div class="sd-sec"><h3>Chẩn đoán (ICD-10 — Bộ Y tế)</h3>
+        <div style="font-size:14px"><span class="icd">E65</span> Mỡ khu trú &nbsp; <span class="icd">L98.9</span> Rối loạn da và mô dưới da chưa đặc hiệu</div></div>
+      <div class="sd-sec"><h3>Đơn thuốc (QG-7741A)</h3>
+        <table class="rx-tbl"><thead><tr><th>Thuốc</th><th>Liều dùng</th><th>SL</th><th>Số ngày</th></tr></thead><tbody>
+          <tr><td>Kem phục hồi da (panthenol)</td><td>Bôi 2 lần/ngày</td><td>1 tuýp</td><td>7</td></tr>
+          <tr><td>Vitamin C + E</td><td>1 viên/ngày sau ăn</td><td>30 viên</td><td>30</td></tr>
+          <tr><td>Ibuprofen 400mg <span class="tag prog">Hết thuốc tại kho</span></td><td>Khi đau, tối đa 3 lần/ngày</td><td>10 viên</td><td>—</td></tr>
+        </tbody></table>
+        <div class="alert al-warn" style="margin-top:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Ghi chú thuốc hết:</b> Ibuprofen 400mg hết tại kho bán — bác sĩ đã ghi chú "khách mua ngoài theo đơn, hoặc thay Paracetamol 500mg nếu cần".</div></div>
+      </div>
+      <div class="sd-sec"><h3>Chỉ định & xử trí</h3>
+        <dl class="sd-grid"><dt>Liệu trình</dt><dd>Giảm béo RF bụng — 10 buổi (chuyển tư vấn viên)</dd><dt>Lời dặn</dt><dd>Uống đủ nước, ăn giảm tinh bột, tái khám sau buổi 5.</dd></dl></div>
+    </div>
+    <div class="sd-foot">
+      <div style="font-size:12px;color:var(--ink-soft)">Đã liên thông Đơn thuốc Quốc gia · mã QG-7741A · Phiếu khám <b>KH-0825</b></div>
+      <div style="font-size:11px;color:var(--ink-soft);font-family:Consolas,monospace;margin-top:4px">Luồng: BK-0825 → TV-0825 → <b>KH-0825</b> → RC-0825 → DV-0825</div>
+      <div class="sign"><b>BS. Bích Hằng</b><span>Bác sĩ điều trị · đã ký điện tử</span></div>
+    </div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

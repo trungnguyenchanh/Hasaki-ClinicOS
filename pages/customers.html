@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Khách hàng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css"></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('customers');
+document.getElementById('main').innerHTML = topbar('Khách hàng','Hồ sơ khách hàng',{who:'CS',branch:'Tất cả CN'}) + `
+  <div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">8.412</div><div class="kpi-lbl">Tổng khách (toàn chuỗi)</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 15 9l7 .5-5.5 4.5L19 21l-7-4-7 4 1.5-7L1 9.5 8 9z"/></svg></div></div><div class="kpi-val">643</div><div class="kpi-lbl">Khách VIP</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/></svg></div><span class="trend up">▲ 5.6%</span></div><div class="kpi-val">128</div><div class="kpi-lbl">Khách mới tháng này</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4M4 6v12a2 2 0 0 0 2 2h14v-4"/></svg></div></div><div class="kpi-val">2.1tr</div><div class="kpi-lbl">Số dư ví trung bình</div></div>
+  </div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">Danh sách khách<small>Thông tin gốc đồng bộ từ Inside-Customer (CRM)</small></div><div class="pill-tabs"><button class="on">Tất cả</button><button>VIP</button><button>Có gói</button><button>Mới</button></div></div>
+    <table><thead><tr><th>Khách hàng</th><th>Mã KH</th><th>Nhóm dịch vụ chính</th><th>Gói / Ví</th><th>TVV phụ trách</th><th>Lần gần nhất</th></tr></thead><tbody>
+      <tr class="clickable" onclick="location.href='customer-detail.html?id=C-1042'"><td><div class="staff-cell"><div class="q-av av-teal">TH</div><div><b>Trần Thu Hà</b> <span class="tag vip">VIP</span></div></div></td><td>C-1042</td><td>Giảm béo, chăm sóc da</td><td>10 buổi · ví 4.5tr</td><td>Quỳnh Trang</td><td>Hôm nay</td></tr>
+      <tr class="clickable" onclick="location.href='customer-detail.html?id=C-1080'"><td><div class="staff-cell"><div class="q-av av-blush">LM</div><b>Lê Minh</b></div></td><td>C-1080</td><td>Triệt lông</td><td>2 buổi</td><td>Quỳnh Trang</td><td>2 ngày trước</td></tr>
+      <tr class="clickable" onclick="location.href='customer-detail.html?id=C-1136'"><td><div class="staff-cell"><div class="q-av av-gold">NK</div><b>Ngô Khánh</b></div></td><td>C-1136</td><td>Tư vấn mới</td><td>6 buổi</td><td>Quỳnh Trang</td><td>1 tuần trước</td></tr>
+      <tr class="clickable" onclick="location.href='customer-detail.html'"><td><div class="staff-cell"><div class="q-av av-sage">VP</div><div><b>Vũ Phương</b> <span class="tag new">Mới</span></div></div></td><td>C-1201</td><td>Chăm sóc da</td><td>—</td><td>Quỳnh Trang</td><td>Hôm nay</td></tr>
+      <tr class="clickable" onclick="location.href='customer-detail.html'"><td><div class="staff-cell"><div class="q-av av-indigo">ĐL</div><b>Đỗ Lan</b></div></td><td>C-0875</td><td>Giảm béo</td><td>ví 1.2tr</td><td>Quỳnh Trang</td><td>Hôm qua</td></tr>
+    </tbody></table>
+  </div>`;
+wireUI();
+</script>
+</body></html>

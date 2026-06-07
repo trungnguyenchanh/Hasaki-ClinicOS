@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Xem phiếu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.ro-banner{background:#eef1f4;border:1px solid #d4dade;border-radius:11px;padding:11px 14px;font-size:12.5px;color:#56636b;margin-bottom:16px;display:flex;gap:9px;align-items:center}
+.ro-banner svg{width:17px;height:17px;flex:none}
+.r-head{background:linear-gradient(140deg,#fff,var(--teal-soft));border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;box-shadow:var(--shadow);margin-bottom:16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.r-head .q-av{width:46px;height:46px;border-radius:14px;font-size:16px}
+.r-line{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bg-2);font-size:13.5px}
+.r-line:last-child{border:none}.r-line b{font-weight:600}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/data.js"></script>
+<script>
+renderLayout('cashier');
+const C = (typeof getCustomer==='function') ? getCustomer() : {id:'C-1080',name:'Lê Minh',initials:'LM',avatarClass:'av-blush',phone:'0912880830',tickets:{bk:'BK-0830',tv:'TV-0830',kh:'KH-0830',rc:'RC-0830',dv:'DV-0830'}};
+const fmt = n => n.toLocaleString('vi-VN')+'đ';
+
+// Trạng thái phụ trách / share của phiếu
+const owner = { name:'Thu Thảo', shared:true, sharedWith:CURRENT_USER.name };
+
+// dịch vụ + thuốc trong phiếu (read-only). med chưa pick → không tính tổng (ý 6)
+const items = [
+  { kind:'svc', name:'Triệt lông Diode', sku:'SVC-LSR', qty:1, price:1800000, disc:0,      rule:'—',                  done:true,  tag:'dịch vụ ban đầu' },
+  { kind:'svc', name:'Chăm sóc da phục hồi', sku:'SVC-SKN', qty:1, price:1400000, disc:140000, rule:'KM sinh nhật −10%', done:false, tag:'phát sinh thêm' },
+  { kind:'med', name:'Lidocaine gel 5%', sku:'MED-LIDO', qty:2, price:120000, disc:0, rule:'—', pick:'picked' },
+  { kind:'med', name:'Vitamin C bôi 10ml', sku:'MED-VITC', qty:1, price:260000, disc:0, rule:'—', pick:'nopick' },
+];
+const payments = [
+  { times:'Lần 1', at:'10:15', who:'Thu Thảo', amount:1800000, method:'Thẻ' },
+  { times:'Lần 2', at:'11:40', who:CURRENT_USER.name+' (được share)', amount:600000, method:'Tiền mặt' },
+];
+const billable = it => it.kind!=='med' || it.pick==='picked';
+const lineTotal = it => billable(it) ? (it.price*it.qty - it.disc) : 0;
+const grand = items.reduce((s,it)=>s+lineTotal(it),0);
+const paid  = payments.reduce((s,p)=>s+p.amount,0);
+const owe   = Math.max(0, grand-paid);
+
+function medBadge(it){
+  if(it.kind!=='med') return it.done?'<span class="svc-lock">✓ đã hoàn thành</span>':'<span style="color:var(--gold);font-size:11px;font-weight:600">⚠ phát sinh thêm</span>';
+  if(it.pick==='picked') return '<span class="med-badge med-picked">✓ đã pick</span>';
+  if(it.pick==='nopick') return '<span class="med-badge med-nopick">⚠ chưa pick — không tính tiền</span>';
+  return '<span class="med-badge med-nostock">⚠ hết stock</span>';
+}
+
+const right=`<a class="btn btn-ghost" href="cashier-cn.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Danh sách</a>`;
+document.getElementById('main').innerHTML = topbar('Cashier › Xem phiếu','Xem phiếu (chỉ đọc) '+C.tickets.rc,{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `
+  <div class="ro-banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><div><b>Chế độ xem (read-only):</b> trang preview không cho chỉnh sửa. Để xử lý, mở trang chỉnh sửa nếu là phiếu của bạn, hoặc đề nghị chủ phiếu "share" quyền.</div></div>
+  ${navCluster(C)}
+  <div class="r-head"><div class="q-av ${C.avatarClass}">${C.initials}</div>
+    <div style="flex:1;min-width:200px"><div style="font-family:Fraunces,serif;font-size:18px;font-weight:600">${C.name}</div>
+      <div style="font-size:12.5px;color:var(--ink-soft)">Mã KH ${C.id} · SĐT <b>${maskPhone(C.phone)}</b> · Receipt ${C.tickets.rc}</div>
+      <div style="font-size:11px;color:var(--ink-soft);font-family:Consolas,monospace;margin-top:3px">Luồng: ${C.tickets.bk} → ${C.tickets.tv} → <b>${C.tickets.rc}</b> → ${C.tickets.dv}</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+      <span class="lock-pill lock-other"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Phụ trách: ${owner.name}</span>
+      ${owner.shared?`<span class="lock-pill lock-shared"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.5 13.5l7 4M15.5 6.5l-7 4"/></svg>Đã share cho ${owner.sharedWith}</span>`:''}
+      <span class="tag" style="background:#f9e6e6;color:#a64b4b">Còn nợ ${fmt(owe)}</span>
+    </div>
+  </div>
+  <div class="row r-2">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Dịch vụ & SKU trong phiếu<small>SL · đơn giá · giảm (theo rule) · thành tiền</small></div></div>
+      <table style="width:100%;font-size:13px"><thead><tr style="text-align:left;color:var(--ink-soft);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px">
+        <th style="padding:6px 4px">Mục</th><th style="text-align:center">SL</th><th style="text-align:right">Đơn giá</th><th style="text-align:right">Giảm (rule)</th><th style="text-align:right">Thành tiền</th></tr></thead><tbody>
+        ${items.map(it=>`<tr style="border-top:1px solid var(--bg-2)">
+          <td style="padding:9px 4px"><b>${it.name}</b><div class="sub">${it.sku} · ${medBadge(it)}</div></td>
+          <td style="text-align:center">${it.qty}</td>
+          <td style="text-align:right">${fmt(it.price)}</td>
+          <td style="text-align:right">${it.disc?`<span style="color:var(--rose)">−${fmt(it.disc)}</span><div class="sub">${it.rule}</div>`:'—'}</td>
+          <td style="text-align:right">${billable(it)?`<b>${fmt(it.price*it.qty-it.disc)}</b>`:`<span style="text-decoration:line-through;color:var(--ink-soft)">${fmt(it.price*it.qty)}</span><div class="sub" style="color:#a64b4b">không tính</div>`}</td></tr>`).join('')}
+      </tbody></table>
+      <div class="r-line" style="margin-top:8px"><span>Tổng phiếu (chỉ mục được tính)</span><b>${fmt(grand)}</b></div>
+      <div class="r-line"><span>Đã thu</span><b>${fmt(paid)}</b></div>
+      <div class="r-line"><span style="color:var(--rose);font-weight:700">CÒN NỢ</span><b style="color:var(--rose);font-size:16px">${fmt(owe)}</b></div>
+      <div class="field" style="margin-top:14px"><label style="font-size:12px;font-weight:600;color:var(--ink-soft)">Ghi chú phiếu</label>
+        <div style="background:var(--bg-2);border:1px solid var(--line);border-radius:11px;padding:10px 12px;font-size:12.5px;color:var(--ink-soft);margin-top:5px">Khách phát sinh thêm chăm sóc da khi đang làm triệt lông. Đã thu 2 lần, hẹn thu nốt phần còn lại cuối buổi. SKU Vitamin C chưa pick — chưa tính tiền.</div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Lịch sử thanh toán<small>Đã pay ${payments.length} lần · ai · hình thức</small></div></div>
+      ${payments.map(p=>`<div class="r-line"><span>${p.times} · ${p.at} · ${p.who}</span><b>${fmt(p.amount)} <span style="color:var(--ink-soft);font-weight:500">(${p.method})</span></b></div>`).join('')}
+      <div class="r-line"><span style="color:var(--rose)">Chưa thu phần còn lại</span><b style="color:var(--rose)">${fmt(owe)}</b></div>
+      <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Đây là <b>trang xem</b>. Trang chỉnh sửa & thu tiền là <b>cashier-payment.html</b> (chỉ chủ phiếu <b>${owner.name}</b> hoặc người được share mới mở được).</div></div>
+    </div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

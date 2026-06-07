@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Chi tiết dịch vụ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.svc-head{background:linear-gradient(140deg,#fff,var(--teal-soft));border:1px solid var(--line);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.svc-head .q-av{width:54px;height:54px;border-radius:16px;font-size:18px}
+.svc-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.info-box{border-radius:13px;padding:14px 16px;font-size:13px;line-height:1.6;margin-bottom:12px}
+.ib-guide{background:var(--teal-soft);color:var(--teal-deep)}
+.ib-contra{background:#f9e6e6;color:#a64b4b}
+.ib-note{background:#fdf3e3;color:#9a6a1e}
+.info-box b{display:block;margin-bottom:5px;font-size:12.5px;letter-spacing:.3px}
+.info-box ul{margin:0;padding-left:18px}.info-box li{margin-bottom:3px}
+.step-flow{display:flex;flex-direction:column}
+.sf{display:flex;gap:14px;align-items:flex-start}
+.sf .sfn{width:30px;height:30px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;font-weight:600;font-size:13px;flex:none}
+.sf-col{display:flex;flex-direction:column;align-items:center}
+.sf .sfl{width:2px;flex:1;background:var(--line);margin:4px 0;min-height:14px}
+.sf:last-child .sfl{display:none}
+.sf-body{flex:1;border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:12px;background:#fff;transition:.14s}
+.sf-body:hover{border-color:var(--teal);box-shadow:var(--shadow)}
+.sf-body .sf-h{display:flex;align-items:center;gap:8px}
+.sf-body b{font-size:14px}
+.sf-body .sf-meta{font-size:12px;color:var(--ink-soft);margin-top:2px}
+.sf-rule{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);font-size:12px;color:var(--ink-soft);line-height:1.55}
+.sf-rule b{color:var(--ink);font-weight:600;font-size:11.5px;display:block;margin-bottom:3px}
+.sf-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.mp-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.mp{background:var(--bg-2);border-radius:11px;padding:10px 12px}
+.mp b{font-family:'Fraunces',serif;font-size:16px;display:block}.mp span{font-size:11px;color:var(--ink-soft)}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('catalog-service');
+const right=`<a class="btn btn-ghost" href="catalog-service.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Danh mục dịch vụ</a><button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Sửa dịch vụ</button>`;
+document.getElementById('main').innerHTML = topbar('Danh mục › Chi tiết dịch vụ','Giảm béo RF bụng',{who:'AD',branch:'Tất cả CN',right}) + `
+  <div class="svc-head">
+    <div class="q-av av-gold">RF</div>
+    <div style="flex:1;min-width:220px"><div style="font-family:Fraunces,serif;font-size:21px;font-weight:600">Giảm béo RF bụng</div>
+      <div style="font-size:13px;color:var(--ink-soft)">Mã DV <b>SVC-RF</b> · Nhóm Giảm béo · 55 phút/buổi · 10 buổi/liệu trình</div>
+      <div class="svc-badges"><span class="tag vip">Dùng máy cao cấp</span><span class="role-chip">Skill: RF · Senior</span><span class="tag done">Bảo hành 3 tháng</span></div></div>
+    <div style="text-align:right"><div style="font-family:Fraunces,serif;font-size:22px;font-weight:600;color:var(--teal-deep)">1.900.000đ</div><div style="font-size:12px;color:var(--ink-soft)">/ buổi lẻ · gói 18.000.000đ</div></div>
+  </div>
+
+  <div class="dtabs" id="dt" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px">
+    <button class="on" onclick="dtab('info')" style="border:1px solid var(--line);background:var(--ink);color:#fff;font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Hướng dẫn & chống chỉ định</button>
+    <button onclick="dtab('steps')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Quy trình các bước</button>
+    <button onclick="dtab('machine')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Máy & định mức NVL</button>
+  </div>
+  <div id="dv"></div>`;
+
+const DV=document.getElementById('dv');
+const TABS={
+info:`<div class="row r-2e">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Tóm tắt hướng dẫn nhân viên<small>Dùng để tư vấn khách hàng</small></div></div>
+      <div class="info-box ib-guide"><b>🟢 GIỚI THIỆU NGẮN (nói với khách)</b>Công nghệ RF (sóng cao tần) làm nóng mô mỡ sâu, kích thích collagen, giúp giảm mỡ khu trú & săn chắc vùng bụng/eo. Không xâm lấn, không nghỉ dưỡng. Hiệu quả rõ sau 4–6 buổi.</div>
+      <div class="info-box ib-guide"><b>🟢 ĐỐI TƯỢNG PHÙ HỢP</b><ul><li>Mỡ khu trú vùng bụng, eo; da chùng nhẹ sau sinh/giảm cân</li><li>Người muốn định hình không phẫu thuật</li></ul></div>
+      <div class="info-box ib-note"><b>🟡 LƯU Ý KHI TƯ VẤN</b><ul><li>Cam kết cần kết hợp ăn uống & vận động để hiệu quả</li><li>Khoảng cách buổi tối thiểu 1 tuần</li><li>Có thể ửng đỏ nhẹ sau buổi, tự hết sau vài giờ</li></ul></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Chống chỉ định<small>Bắt buộc kiểm tra trước khi làm</small></div></div>
+      <div class="info-box ib-contra"><b>🔴 KHÔNG THỰC HIỆN khi khách</b><ul><li>Mang thai hoặc đang cho con bú</li><li>Đặt máy tạo nhịp tim / thiết bị điện tử cấy ghép</li><li>Ung thư đang điều trị, u vùng điều trị</li><li>Viêm nhiễm, tổn thương hở vùng da điều trị</li><li>Đặt vòng tránh thai kim loại (vùng bụng dưới)</li></ul></div>
+      <div class="info-box ib-note"><b>🟡 THẬN TRỌNG — cần bác sĩ duyệt</b><ul><li>Bệnh nền tim mạch, huyết áp</li><li>Da quá nhạy cảm, đang dùng thuốc đặc trị</li></ul></div>
+      <div class="alert al-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Hệ thống tự đối chiếu chống chỉ định với hồ sơ khách (dị ứng, tiền sử) khi đặt lịch & trước khi thực hiện.</div></div>
+    </div>
+  </div>`,
+
+steps:`<div class="panel"><div class="panel-h"><div class="panel-title">Quy trình thực hiện — 4 bước<small>Mỗi bước có quy định riêng · click mở chi tiết bước trong catalog</small></div></div>
+    <div class="step-flow">
+      <div class="sf"><div class="sf-col"><div class="sfn">1</div><div class="sfl"></div></div>
+        <a class="sf-body" href="catalog-step.html" style="text-decoration:none;color:inherit"><div class="sf-h"><b>Tư vấn & đo chỉ số</b><span class="tag" style="margin-left:auto;background:var(--bg);color:var(--ink-soft)">10 phút</span></div><div class="sf-meta">Đo vòng bụng, chụp ảnh before, xác nhận chống chỉ định</div>
+          <div class="sf-rule"><b>Quy định</b>Bắt buộc chụp ảnh before & ghi số đo vào hồ sơ. Ký xác nhận không thuộc nhóm chống chỉ định.</div>
+          <div class="sf-tags"><span class="role-chip">Skill: Skincare</span></div></a></div>
+      <div class="sf"><div class="sf-col"><div class="sfn">2</div><div class="sfl"></div></div>
+        <a class="sf-body" href="catalog-step.html" style="text-decoration:none;color:inherit"><div class="sf-h"><b>Làm sạch & chuẩn bị da</b><span class="tag" style="margin-left:auto;background:var(--bg);color:var(--ink-soft)">10 phút</span></div><div class="sf-meta">Tẩy trang, làm sạch vùng điều trị, thoa gel dẫn</div>
+          <div class="sf-rule"><b>Quy định</b>Da phải khô sạch hoàn toàn trước khi thoa gel. Học việc được làm bước này dưới giám sát.</div>
+          <div class="sf-tags"><span class="role-chip">Skill: Skincare</span><span class="tag done">Gel làm sạch 20ml</span></div></a></div>
+      <div class="sf"><div class="sf-col"><div class="sfn">3</div><div class="sfl"></div></div>
+        <a class="sf-body" href="catalog-step.html" style="text-decoration:none;color:inherit"><div class="sf-h"><b>Trị liệu RF vùng bụng</b><span class="tag" style="margin-left:auto;background:var(--bg);color:var(--ink-soft)">25 phút</span></div><div class="sf-meta">Di chuyển đầu RF theo vòng tròn, kiểm soát nhiệt độ</div>
+          <div class="sf-rule"><b>Quy định</b>Chỉ KTV RF Senior trở lên. Giữ nhiệt độ bề mặt ≤ 42°C, hỏi cảm giác khách mỗi 5 phút. Không giữ đầu máy đứng yên quá 3 giây.</div>
+          <div class="sf-tags"><span class="role-chip">Skill: RF · Senior</span><span class="tag vip">Máy RF</span><span class="tag done">Gel dẫn 45ml</span></div></a></div>
+      <div class="sf"><div class="sf-col"><div class="sfn">4</div></div>
+        <a class="sf-body" href="catalog-step.html" style="text-decoration:none;color:inherit"><div class="sf-h"><b>Làm dịu & kết thúc</b><span class="tag" style="margin-left:auto;background:var(--bg);color:var(--ink-soft)">10 phút</span></div><div class="sf-meta">Đắp mặt nạ làm dịu, chụp ảnh after, dặn dò</div>
+          <div class="sf-rule"><b>Quy định</b>Chụp ảnh after cùng góc với before. Dặn khách uống nhiều nước, tránh nóng 24h.</div>
+          <div class="sf-tags"><span class="role-chip">Skill: Skincare</span><span class="tag done">Mặt nạ làm dịu</span></div></a></div>
+    </div>
+  </div>`,
+
+machine:`<div class="row r-2e">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Thông số máy chuẩn<small>Máy RF · EQ-RF-02 · định mức kỹ thuật</small></div></div>
+      <div class="mp-grid">
+        <div class="mp"><b>RF đơn cực</b><span>Loại năng lượng</span></div>
+        <div class="mp"><b>40–42°C</b><span>Nhiệt độ mục tiêu</span></div>
+        <div class="mp"><b>Mức 5–7/10</b><span>Cường độ khuyến nghị</span></div>
+        <div class="mp"><b>25 phút</b><span>Thời gian phát/buổi</span></div>
+        <div class="mp"><b>Đầu R6</b><span>Đầu tip vùng bụng</span></div>
+        <div class="mp"><b>≤ 42°C</b><span>Giới hạn an toàn bề mặt</span></div>
+      </div>
+      <div class="alert al-warn" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div>Vượt ngưỡng nhiệt/cường độ phải có lý do & ghi nhận. Máy cao cấp được theo dõi hiệu suất ở báo cáo.</div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Định mức NVL (BOM)<small>Mỗi buổi · tự xuất kho theo định mức</small></div></div>
+      <div class="cart-row"><div class="ci"><b>Gel làm sạch</b><span>Bước 2</span></div><div class="cp">20 ml</div></div>
+      <div class="cart-row"><div class="ci"><b>Gel dẫn RF</b><span>Bước 3</span></div><div class="cp">45 ml</div></div>
+      <div class="cart-row"><div class="ci"><b>Tinh chất tan mỡ</b><span>Bước 3</span></div><div class="cp">1 ống</div></div>
+      <div class="cart-row"><div class="ci"><b>Mặt nạ làm dịu</b><span>Bước 4</span></div><div class="cp">1 cái</div></div>
+      <div class="sumline total"><span>Chi phí NVL ước tính</span><span>~185.000đ</span></div>
+      <div class="alert al-info" style="margin-top:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Chênh lệch thực tế vs định mức được ghi nhận ở "Chi tiết thực hiện" & cảnh báo ở báo cáo NVL.</div></div>
+    </div>
+  </div>`,
+};
+function dtab(k){document.querySelectorAll('#dt button').forEach(b=>{b.style.background='#fff';b.style.color='var(--ink-soft)';});event&&event.target&&(event.target.style.background='var(--ink)',event.target.style.color='#fff');DV.innerHTML=TABS[k];wireUI();}
+dtab('info');
+</script>
+</body></html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Báo cáo & KPI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.rep-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.rep-tabs button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:13px;font-weight:500;padding:8px 16px;border-radius:30px;cursor:pointer;color:var(--ink-soft)}
+.rep-tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('reports');
+const right=`<button class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Xuất Excel</button>`;
+document.getElementById('main').innerHTML = topbar('Quản trị','Báo cáo & KPI',{who:'HQ',branch:'Tất cả CN',right}) + `
+  <div class="rep-tabs" id="rt">
+    <button class="on" onclick="rep('rev')">Doanh thu</button>
+    <button onclick="rep('kpi')">KPI nhân sự</button>
+    <button onclick="rep('machine')">Hiệu suất máy</button>
+    <button onclick="rep('booking')">Lấp đầy & khung giờ</button>
+    <button onclick="rep('nvl')">Tiêu hao NVL</button>
+    <button onclick="rep('consult')">Tư vấn & giữ khách</button>
+    <button onclick="rep('protocol')">Theo dõi phác đồ</button>
+  </div>
+  <div id="rv"></div>`;
+
+const RV=document.getElementById('rv');
+
+const REPORTS={
+rev:`<div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><span class="trend up">▲ 11%</span></div><div class="kpi-val">12,6 tỷ</div><div class="kpi-lbl">Doanh thu toàn chuỗi/tháng</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM5 7v14h14V7"/></svg></div></div><div class="kpi-val">6</div><div class="kpi-lbl">Chi nhánh · 4 tỉnh</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4M4 6v12a2 2 0 0 0 2 2h14v-4"/></svg></div></div><div class="kpi-val">61%</div><div class="kpi-lbl">Tỷ trọng doanh thu gói</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div></div><div class="kpi-val">4.8★</div><div class="kpi-lbl">NPS khách</div></div>
+  </div>
+  <div class="row r-2"><div class="panel"><div class="panel-h"><div class="panel-title">Doanh thu theo chi nhánh<small>6 chi nhánh</small></div></div><div class="chart" id="c_rev"></div><div class="legend"><span><i class="dot" style="background:var(--teal)"></i>Tỷ VND</span></div></div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Theo nhóm dịch vụ</div></div><div class="donut-box"><div class="donut" style="background:conic-gradient(var(--teal) 0 38%,var(--blush-deep) 38% 62%,var(--gold) 62% 81%,#9fbfd6 81% 100%)"><div class="donut-c"><div><b>12,6T</b><span>tổng</span></div></div></div><div class="leg-list"><div class="leg-row"><i class="dot" style="background:var(--teal)"></i>Triệt lông <b>38%</b></div><div class="leg-row"><i class="dot" style="background:var(--blush-deep)"></i>Chăm sóc da <b>24%</b></div><div class="leg-row"><i class="dot" style="background:var(--gold)"></i>Giảm béo <b>19%</b></div><div class="leg-row"><i class="dot" style="background:#9fbfd6"></i>Derma & Hair <b>19%</b></div></div></div></div></div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">Chi tiết theo chi nhánh / tỉnh thành</div></div>
+    <table><thead><tr><th>Chi nhánh</th><th>Tỉnh/TP</th><th>Doanh thu</th><th>Lẻ / Gói / Ví</th><th>Buổi</th><th>So tháng trước</th></tr></thead><tbody>
+      <tr><td><b>Quận 1</b></td><td>TP.HCM</td><td class="num-strong">2,8 tỷ</td><td>22% / 64% / 14%</td><td>486</td><td><span class="tag done">▲ 12%</span></td></tr>
+      <tr><td><b>Quận 7</b></td><td>TP.HCM</td><td class="num-strong">2,4 tỷ</td><td>26% / 60% / 14%</td><td>412</td><td><span class="tag done">▲ 8%</span></td></tr>
+      <tr><td><b>Đà Nẵng</b></td><td>Đà Nẵng</td><td class="num-strong">1,9 tỷ</td><td>30% / 55% / 15%</td><td>338</td><td><span class="tag prog">▲ 3%</span></td></tr>
+      <tr><td><b>Cần Thơ</b></td><td>Cần Thơ</td><td class="num-strong">1,6 tỷ</td><td>34% / 52% / 14%</td><td>290</td><td><span class="tag" style="background:#f9e6e6;color:#a64b4b">▼ 2%</span></td></tr>
+    </tbody></table>
+  </div>`,
+
+kpi:`<div class="panel"><div class="panel-h"><div class="panel-title">KPI theo nhóm nghiệp vụ<small>Quản lý theo vai trò · so mục tiêu</small></div><div class="pill-tabs"><button class="on">Tất cả</button><button>Bác sĩ</button><button>KTV</button></div></div>
+    <table><thead><tr><th>Nhóm</th><th>Chỉ số chính</th><th>Kết quả</th><th>Mục tiêu</th><th>Đạt</th></tr></thead><tbody>
+      <tr><td><span class="role-chip">Bác sĩ</span></td><td>Tỷ lệ chỉ định liệu trình được chốt</td><td class="num-strong">71%</td><td>65%</td><td><div class="kpi-bar"><i style="width:88%"></i></div></td></tr>
+      <tr><td><span class="role-chip">KTV</span></td><td>Năng suất/giờ · đúng định biên NVL</td><td class="num-strong">92%</td><td>85%</td><td><div class="kpi-bar"><i style="width:92%"></i></div></td></tr>
+      <tr><td><span class="role-chip">Điều dưỡng</span></td><td>Tuân thủ quy trình</td><td class="num-strong">98%</td><td>95%</td><td><div class="kpi-bar"><i style="width:98%"></i></div></td></tr>
+      <tr><td><span class="role-chip">Tư vấn viên</span></td><td>Tỷ lệ chốt · vi phạm giành khách</td><td class="num-strong">68% · 1</td><td>60% · 0</td><td><div class="kpi-bar"><i style="width:90%"></i></div></td></tr>
+      <tr><td><span class="role-chip">CSKH</span></td><td>Tỷ lệ tái booking · NPS</td><td class="num-strong">54% · 4.8</td><td>50%</td><td><div class="kpi-bar"><i style="width:86%"></i></div></td></tr>
+      <tr><td><span class="role-chip">Học việc</span></td><td>Tiến bộ tay nghề · buổi có giám sát</td><td class="num-strong">+2 cấp · 100%</td><td>—</td><td><div class="kpi-bar"><i style="width:70%"></i></div></td></tr>
+    </tbody></table></div>`,
+
+machine:`<div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div></div><div class="kpi-val">9</div><div class="kpi-lbl">Thiết bị cao cấp</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-val">11,2 tỷ</div><div class="kpi-lbl">Giá trị tài sản</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div></div><div class="kpi-val">71%</div><div class="kpi-lbl">Hiệu suất TB trung bình</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-val">3,8 tỷ</div><div class="kpi-lbl">Doanh thu từ DV dùng máy</div></div>
+  </div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">Báo cáo hiệu suất thiết bị cao cấp<small>Tài sản đắt tiền — giờ hoạt động · doanh thu sinh ra · ROI</small></div></div>
+    <table><thead><tr><th>Thiết bị</th><th>Giá trị</th><th>Giờ hoạt động/tháng</th><th>Hiệu suất</th><th>Doanh thu sinh ra</th><th>Số buổi</th><th>Tình trạng</th></tr></thead><tbody>
+      <tr><td><b>Laser Diode XL (Q1)</b></td><td>1,8 tỷ</td><td>198h</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:82%"></i></div> 82%</td><td class="num-strong">1,1 tỷ</td><td>286</td><td><span class="tag done">Hiệu quả</span></td></tr>
+      <tr><td><b>Máy RF (Q1)</b></td><td>950 tr</td><td>140h</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:58%"></i></div> 58%</td><td class="num-strong">820 tr</td><td>198</td><td><span class="tag prog">Trung bình</span></td></tr>
+      <tr><td><b>Máy HIFU (Q1)</b></td><td>1,2 tỷ</td><td>96h</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:40%"></i></div> 40%</td><td class="num-strong">560 tr</td><td>72</td><td><span class="tag" style="background:#f9e6e6;color:#a64b4b">Dưới kỳ vọng</span></td></tr>
+      <tr><td><b>Laser Diode XL (Q7)</b></td><td>1,8 tỷ</td><td>182h</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:76%"></i></div> 76%</td><td class="num-strong">980 tr</td><td>254</td><td><span class="tag done">Hiệu quả</span></td></tr>
+    </tbody></table>
+    <div class="alert al-warn" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div>Máy <b>HIFU (1,2 tỷ)</b> hiệu suất 40% & doanh thu thấp → cân nhắc đẩy khuyến mãi nâng cơ hoặc luân chuyển sang CN có nhu cầu cao.</div></div>
+  </div>`,
+
+booking:`<div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg></div></div><div class="kpi-val">86%</div><div class="kpi-lbl">Tỷ lệ lấp đầy slot</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div><div class="kpi-val">17:00</div><div class="kpi-lbl">Khung giờ cao điểm</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg></div></div><div class="kpi-val">2,8h</div><div class="kpi-lbl">Quá tải/ngày (trung bình)</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg></div></div><div class="kpi-val">3,2%</div><div class="kpi-lbl">No-show</div></div>
+  </div>
+  <div class="row r-2"><div class="panel"><div class="panel-h"><div class="panel-title">Lấp đầy theo khung giờ<small>Trung bình tuần</small></div></div><div class="chart" id="c_book"></div><div class="legend"><span><i class="dot" style="background:var(--teal)"></i>% lấp đầy</span></div></div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Khung giờ quá tải vs nhân sự</div></div>
+      <div class="alert al-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>10:00 & 17:00</b> — khách đặt vượt số KTV rảnh. Gợi ý part-time giờ vàng.</div></div>
+      <div class="alert al-warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg><div><b>13:30–14:00</b> — trùng lịch bảo trì máy HIFU, hạn chế đặt.</div></div>
+      <div class="alert al-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Khung <b>11:00–13:00</b> còn nhiều slot trống — đẩy khuyến mãi giờ thấp điểm.</div></div>
+    </div></div>`,
+
+nvl:`<div class="panel"><div class="panel-h"><div class="panel-title">Báo cáo tiêu hao NVL — định biên vs thực tế<small>Phát hiện thất thoát / lãng phí</small></div><div class="pill-tabs"><button class="on">Tháng này</button><button>Quý</button></div></div>
+    <table><thead><tr><th>Vật tư</th><th>Định mức (BOM)</th><th>Thực tế</th><th>Chênh lệch</th><th>Chi phí chênh</th><th>Đánh giá</th></tr></thead><tbody>
+      <tr><td><b>Gel dẫn RF</b></td><td>8.910 ml</td><td>9.640 ml</td><td>+8,2%</td><td class="num-strong">+1,2 tr</td><td><span class="tag prog">Cần xem</span></td></tr>
+      <tr><td><b>Gel lạnh triệt lông</b></td><td>8.580 ml</td><td>8.700 ml</td><td>+1,4%</td><td class="num-strong">+0,3 tr</td><td><span class="tag done">Ổn</span></td></tr>
+      <tr><td><b>Tinh chất tan mỡ</b></td><td>198 ống</td><td>214 ống</td><td>+8,1%</td><td class="num-strong">+3,2 tr</td><td><span class="tag" style="background:#f9e6e6;color:#a64b4b">Bất thường</span></td></tr>
+      <tr><td><b>Mặt nạ làm dịu</b></td><td>486 cái</td><td>486 cái</td><td>0%</td><td class="num-strong">0</td><td><span class="tag done">Khớp</span></td></tr>
+      <tr><td><b>Serum phục hồi tóc</b></td><td>156 ml</td><td>149 ml</td><td>−4,5%</td><td class="num-strong">−0,4 tr</td><td><span class="tag done">Tốt</span></td></tr>
+    </tbody></table>
+    <div class="alert al-rose" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Tinh chất tan mỡ</b> vượt định mức 8,1% (+3,2tr) — rà soát quy trình pha chế & kiểm kê kho NVL.</div></div></div>`,
+
+consult:`<div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div></div><div class="kpi-val">68%</div><div class="kpi-lbl">Tỷ lệ chốt trung bình</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-val">13,5tr</div><div class="kpi-lbl">Giá trị gói TB</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg></div></div><div class="kpi-val">4</div><div class="kpi-lbl">Vi phạm giành khách/tháng</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/></svg></div></div><div class="kpi-val">76%</div><div class="kpi-lbl">Giữ khách của owner</div></div>
+  </div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">Hiệu quả tư vấn viên<small>Chốt · giá trị gói · giữ khách · tuân thủ chống giành khách</small></div></div>
+    <table><thead><tr><th>Tư vấn viên</th><th>Khách phụ trách</th><th>Tỷ lệ chốt</th><th>Gói TB</th><th>Giữ khách</th><th>Vi phạm</th></tr></thead><tbody>
+      <tr><td><div class="staff-cell"><div class="q-av av-blush">QT</div><b>Quỳnh Trang</b></div></td><td>52</td><td class="num-strong">73%</td><td>14,2tr</td><td>82%</td><td><span class="tag done">0</span></td></tr>
+      <tr><td><div class="staff-cell"><div class="q-av av-gold">TN</div><b>Thảo Nguyên</b></div></td><td>44</td><td class="num-strong">68%</td><td>12,8tr</td><td>74%</td><td><span class="tag prog">1</span></td></tr>
+      <tr><td><div class="staff-cell"><div class="q-av av-indigo">KH</div><b>Khánh Huyền</b></div></td><td>38</td><td class="num-strong">61%</td><td>11,5tr</td><td>70%</td><td><span class="tag" style="background:#f9e6e6;color:#a64b4b">3</span></td></tr>
+    </tbody></table>
+    <div class="alert al-info" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Vi phạm giành khách ảnh hưởng KPI; TVV #KH cần nhắc nhở quy trình claim/owner.</div></div></div>`,
+
+protocol:`<div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">86</div><div class="kpi-lbl">Khách đang theo phác đồ</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div></div><div class="kpi-val">78%</div><div class="kpi-lbl">Tuân thủ trung bình</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg></div></div><div class="kpi-val">8</div><div class="kpi-lbl">Khách trễ buổi / lệch phác đồ</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div></div><div class="kpi-val">23</div><div class="kpi-lbl">Hoàn thành tháng này</div></div>
+  </div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">Khách đang theo phác đồ<small>Tiến độ & tuân thủ · click mở hồ sơ điều trị</small></div><a class="btn btn-ghost" href="protocol-tracking.html">Mở trang theo dõi đầy đủ</a></div>
+    <table><thead><tr><th>Khách</th><th>Phác đồ</th><th>Giai đoạn</th><th>Tiến độ</th><th></th><th>Tuân thủ</th><th>Trạng thái</th></tr></thead><tbody>
+      <tr class="clickable" onclick="location.href='customer-treatment-record.html'"><td><div class="staff-cell"><div class="q-av av-teal">TH</div><b>Trần Thu Hà</b></div></td><td>Trị nám chuyên sâu</td><td>GĐ2</td><td>2/8</td><td style="width:130px"><div class="kpi-bar"><i style="width:25%"></i></div></td><td><span class="num-strong">100%</span></td><td><span class="tag done">Đúng tiến độ</span></td></tr>
+      <tr class="clickable"><td><div class="staff-cell"><div class="q-av av-gold">PY</div><b>Phạm Yến</b></div></td><td>Phục hồi tóc & da đầu</td><td>GĐ3</td><td>5/6</td><td><div class="kpi-bar"><i style="width:83%"></i></div></td><td><span class="num-strong">95%</span></td><td><span class="tag prog">Sắp xong</span></td></tr>
+      <tr class="clickable"><td><div class="staff-cell"><div class="q-av av-indigo">ĐL</div><b>Đỗ Lan</b></div></td><td>Giảm béo định hình</td><td>GĐ2</td><td>3/7</td><td><div class="kpi-bar"><i style="width:43%;background:var(--rose)"></i></div></td><td><span class="num-strong" style="color:var(--rose)">61%</span></td><td><span class="tag" style="background:#f9e6e6;color:#a64b4b">Trễ 2 buổi</span></td></tr>
+    </tbody></table>
+    <div class="alert al-rose" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Đỗ Lan</b> trễ 2 buổi phác đồ giảm béo → CSKH nhắc lịch, tránh giảm hiệu quả.</div></div></div>`,
+};
+
+function rep(k){
+  document.querySelectorAll('#rt button').forEach(b=>b.classList.remove('on'));
+  event&&event.target&&event.target.classList.add('on');
+  RV.innerHTML=REPORTS[k];
+  if(k==='rev') drawBars(document.getElementById('c_rev'),[{d:'Q1',svc:2.8},{d:'Q7',svc:2.4},{d:'ĐN',svc:1.9},{d:'CT',svc:1.6},{d:'BD',svc:1.5},{d:'HP',svc:1.3}]);
+  if(k==='booking') drawBars(document.getElementById('c_book'),[{d:'9h',svc:72},{d:'10h',svc:96},{d:'11h',svc:60},{d:'13h',svc:55},{d:'14h',svc:80},{d:'15h',svc:78},{d:'16h',svc:84},{d:'17h',svc:99}]);
+  wireUI();
+}
+rep('rev');
+</script>
+</body></html>

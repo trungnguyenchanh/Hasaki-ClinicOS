@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Tính tiền</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.pay-head{background:linear-gradient(140deg,#fff,var(--teal-soft));border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;box-shadow:var(--shadow);margin-bottom:16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.pay-head .q-av{width:46px;height:46px;border-radius:14px;font-size:16px}
+.lock-pill{font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;display:inline-flex;align-items:center;gap:6px}
+.lock-mine{background:var(--teal-soft);color:var(--teal-deep)}
+.lock-shared{background:#fdf3e3;color:#9a6a1e}
+.lock-other{background:#eef1f4;color:#6b7a86}
+/* stepper */
+.stepper{display:flex;align-items:center;gap:0;margin-bottom:18px}
+.stp{display:flex;align-items:center;gap:9px;flex:1}
+.stp .sc{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-weight:600;font-size:13px;color:var(--ink-soft);flex:none;background:#fff}
+.stp.on .sc{background:var(--teal);border-color:var(--teal);color:#fff}
+.stp.done .sc{background:var(--teal);border-color:var(--teal);color:#fff}
+.stp .sl{font-size:13px;font-weight:600;color:var(--ink-soft)}
+.stp.on .sl{color:var(--ink)}
+.stp-line{height:2px;flex:1;background:var(--line);margin:0 4px}
+.stp-line.done{background:var(--teal)}
+.svc-edit-row{display:flex;align-items:center;gap:11px;padding:11px;border:1px solid var(--line);border-radius:12px;margin-bottom:9px;background:#fff}
+.svc-edit-row .ser-name{flex:1}.svc-edit-row .ser-name b{font-size:13.5px}.svc-edit-row .ser-name span{font-size:11.5px;color:var(--ink-soft)}
+.svc-edit-row .ser-price{font-family:'Fraunces',serif;font-weight:600;white-space:nowrap}
+.svc-edit-row .ser-rm{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;color:var(--rose);flex:none}
+.svc-edit-row.added{border-color:var(--gold);background:#fdfbf3}
+.svc-edit-row.locked-svc{opacity:.7}
+.pay-method{display:flex;align-items:center;gap:11px;padding:11px;border:1px solid var(--line);border-radius:12px;margin-bottom:9px}
+.pay-method .pm-name{flex:1}.pay-method .pm-name b{font-size:13px}.pay-method .pm-name span{font-size:11px;color:var(--ink-soft);display:block}
+.pay-method input{width:120px;text-align:right;padding:8px 10px;border:1px solid var(--line);border-radius:9px;font-family:inherit}
+.pay-history{background:var(--bg-2);border-radius:12px;padding:13px;margin-bottom:14px}
+.pay-history .ph-row{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--line)}
+.pay-history .ph-row:last-child{border:none}
+.readonly-banner{background:#eef1f4;border:1px solid #d4dade;border-radius:11px;padding:11px 14px;font-size:12.5px;color:#56636b;margin-bottom:16px;display:flex;gap:9px;align-items:center}
+.readonly-banner svg{width:17px;height:17px;flex:none}
+/* ===== Step 2 redesign ===== */
+.paid-lock-banner{background:#fdf3e3;border:1px solid #f0d9a8;border-radius:11px;padding:11px 14px;font-size:12.5px;color:#9a6a1e;margin-bottom:14px;display:flex;gap:9px;align-items:center}
+.paid-lock-banner svg{width:17px;height:17px;flex:none}
+.stat-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat-box{background:var(--bg-2);border:1px solid var(--line);border-radius:13px;padding:13px 15px}
+.stat-box .sv{font-family:'Fraunces',serif;font-size:22px;font-weight:600;line-height:1}
+.stat-box .sl{font-size:11.5px;color:var(--ink-soft);margin-top:5px;text-transform:uppercase;letter-spacing:.5px}
+.sku-sum{border:1px solid var(--line);border-radius:13px;overflow:hidden;margin-bottom:8px}
+.sku-sum .sr{display:flex;align-items:center;gap:10px;padding:10px 13px;border-bottom:1px solid var(--bg-2);font-size:13px}
+.sku-sum .sr:last-child{border:none}
+.sku-sum .sr .nm{flex:1}.sku-sum .sr .nm b{font-size:13px}.sku-sum .sr .nm span{font-size:11px;color:var(--ink-soft)}
+.sku-sum .sr .qx{font-size:12px;color:var(--ink-soft);white-space:nowrap}
+.sku-sum .sr .pr{font-family:'Fraunces',serif;font-weight:600;white-space:nowrap;min-width:90px;text-align:right}
+.sku-sum .sr.dim .pr{text-decoration:line-through;color:var(--ink-soft)}
+/* lịch sử pay to/rõ hơn */
+.paylog{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.paylog .pl{display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid var(--line);border-radius:13px;background:#fff}
+.paylog .pl .idx{width:34px;height:34px;border-radius:10px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
+.paylog .pl .meta{flex:1}.paylog .pl .meta b{font-size:14px}.paylog .pl .meta span{font-size:11.5px;color:var(--ink-soft);display:block;margin-top:1px}
+.paylog .pl .amt{font-family:'Fraunces',serif;font-size:16px;font-weight:600;text-align:right;white-space:nowrap}
+.paylog .pl .amt small{display:block;font-family:'Outfit';font-size:11px;font-weight:500;color:var(--ink-soft)}
+.paylog .pl.pending{border-style:dashed;border-color:var(--teal);background:var(--teal-soft)}
+/* form pay: chọn method → nhập tiền */
+.owe-box{border-radius:13px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;margin:6px 0 14px}
+.owe-box.debt{background:#f9e6e6;color:#a64b4b}
+.owe-box.clear{background:var(--teal-soft);color:var(--teal-deep)}
+.owe-box b{font-size:20px;font-family:'Fraunces',serif}
+/* ===== layout 40/60 + form thu tiền cỡ lớn ===== */
+.pay-grid{display:grid;grid-template-columns:40fr 60fr;gap:18px;align-items:start}
+@media(max-width:1100px){.pay-grid{grid-template-columns:1fr}}
+.pay-summary .sku-sum .sr{padding:8px 12px;font-size:12.5px}
+.pay-summary .stat-bar{gap:8px}
+.pay-summary .stat-box{padding:10px 12px}
+.pay-summary .stat-box .sv{font-size:18px}
+/* nút chọn hình thức thanh toán */
+.method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:18px}
+@media(max-width:560px){.method-grid{grid-template-columns:repeat(2,1fr)}}
+.method-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;border-radius:15px;border:2px solid var(--line);background:#fff;cursor:pointer;transition:.16s;text-align:center}
+.method-btn:hover{border-color:var(--teal);transform:translateY(-2px)}
+.method-btn .mi{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--bg-2)}
+.method-btn .mi svg{width:21px;height:21px;color:var(--ink-soft)}
+.method-btn .mt{font-size:13px;font-weight:600;color:var(--ink)}
+.method-btn .ms{font-size:11px;color:var(--ink-soft)}
+.method-btn.on{border-color:var(--teal-deep);background:var(--teal-soft);box-shadow:0 4px 14px rgba(15,118,110,.16)}
+.method-btn.on .mi{background:var(--teal-deep)}
+.method-btn.on .mi svg{color:#fff}
+.method-btn.on .mt{color:var(--teal-deep)}
+.method-btn .chk{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--teal-deep);color:#fff;display:none;place-items:center;font-size:11px}
+.method-btn{position:relative}
+.method-btn.on .chk{display:grid}
+/* ô nhập tiền lớn */
+.amount-wrap{background:var(--bg-2);border:2px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:12px;transition:.16s}
+.amount-wrap.focus{border-color:var(--teal-deep);background:#fff}
+.amount-wrap .alabel{font-size:12px;color:var(--ink-soft);font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.amount-row{display:flex;align-items:center;gap:8px}
+.amount-row input{flex:1;border:none;background:transparent;outline:none;font-family:'Fraunces',serif;font-size:34px;font-weight:600;color:var(--ink);width:100%}
+.amount-row .cur{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--ink-soft)}
+.btn-payfull{background:#fff;border:1px solid var(--teal);color:var(--teal-deep);border-radius:10px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn-payfull:hover{background:var(--teal-soft)}
+.owe-big{border-radius:16px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;margin:0 0 16px}
+.owe-big.debt{background:#f9e6e6;color:#a64b4b}
+.owe-big.clear{background:var(--teal-soft);color:var(--teal-deep)}
+.owe-big .lbl{font-size:14px;font-weight:700}
+.owe-big b{font-size:30px;font-family:'Fraunces',serif;line-height:1}
+.btn-confirm-big{width:100%;justify-content:center;font-size:16px;padding:16px;border-radius:14px;margin-top:6px}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/data.js"></script>
+<script>
+renderLayout('cashier');
+const C = (typeof getCustomer==='function') ? getCustomer() : {id:'C-1080',name:'Lê Minh',initials:'LM',avatarClass:'av-blush',phone:'0912880830',tickets:{bk:'BK-0830',tv:'TV-0830',kh:'KH-0830',rc:'RC-0830',dv:'DV-0830'}};
+let locked='mine'; // mine | shared | other
+const fmt = n => n.toLocaleString('vi-VN')+'đ';
+
+// ===== Data model phiếu =====
+let items = [
+  { kind:'svc', name:'Triệt lông Diode', sku:'SVC-LSR', price:1800000, qty:1, disc:0,      rule:'—',                  done:true,  note:'dịch vụ ban đầu · KTV đã xác nhận hoàn thành' },
+  { kind:'svc', name:'Chăm sóc da phục hồi', sku:'SVC-SKN', price:1400000, qty:1, disc:140000, rule:'KM sinh nhật −10%', done:false, note:'phát sinh thêm khi đang làm' },
+  { kind:'med', name:'Lidocaine gel 5%', sku:'MED-LIDO', price:120000, qty:2, disc:0, rule:'—', pick:'picked',  note:'đã scan pick tại quầy dược 10:22' },
+  { kind:'med', name:'Vitamin C bôi 10ml', sku:'MED-VITC', price:260000, qty:1, disc:0, rule:'—', pick:'nopick',  note:'CHƯA có lịch sử scan pick thuốc' },
+  { kind:'med', name:'Kem phục hồi B5', sku:'MED-B5', price:180000, qty:1, disc:0, rule:'—', pick:'nostock', note:'hết stock tại CN — chờ nhập' },
+];
+// MẶC ĐỊNH: chưa pay lần nào (xem trạng thái còn sửa được). ?paid=1 → đã pay 1 phần (khóa SKU).
+let payments = [];
+if(location.search.includes('paid=1')){
+  payments = [{ times:1, at:'10:15', who:'Thu Thảo', amount:1800000, method:'Thẻ / chuyển khoản' }];
+}
+
+// các hình thức thanh toán (icon + số dư khả dụng nếu có)
+const METHODS = [
+  { id:'cash', name:'Tiền mặt', sub:'Cash tại quầy', bal:null,    icon:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>' },
+  { id:'km1',  name:'Promotion 1', sub:'Số dư 500.000đ', bal:500000, icon:'<path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8"/><rect x="2" y="7" width="20" height="5" rx="1"/><path d="M12 21V7M12 7s-1.5-4-4-4-3 3 0 4M12 7s1.5-4 4-4 3 3 0 4"/>' },
+  { id:'km2',  name:'Promotion 2', sub:'Tặng · 300.000đ', bal:300000, icon:'<path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8"/><rect x="2" y="7" width="20" height="5" rx="1"/><path d="M12 21V7M12 7s-1.5-4-4-4-3 3 0 4M12 7s1.5-4 4-4 3 3 0 4"/>' },
+  { id:'card', name:'Thẻ / CK', sub:'Quẹt thẻ · chuyển khoản', bal:null, icon:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>' },
+  { id:'wallet', name:'Trừ ví', sub:'Ví trả trước', bal:null, icon:'<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><circle cx="17" cy="14" r="1.5"/>' },
+];
+const methodName = id => { const m=METHODS.find(x=>x.id===id); return m?m.name:id; };
+// trạng thái lần thu hiện tại: chọn 1 hình thức + 1 số tiền
+let selMethod = 'cash';
+let payAmount = 0;
+
+const billable   = it => it.kind!=='med' || it.pick==='picked';
+const lineTotal  = it => billable(it) ? (it.price*it.qty - it.disc) : 0;
+const grandTotal = () => items.reduce((s,it)=>s+lineTotal(it),0);
+const totalDisc  = () => items.reduce((s,it)=> s + (billable(it)?it.disc:0), 0);
+const totalItem  = () => items.reduce((s,it)=> s + (billable(it)?it.qty:0), 0);     // tổng số lượng
+const totalSku   = () => items.filter(billable).length;                              // số dòng SKU được tính
+const paidSoFar  = () => payments.reduce((s,p)=>s+p.amount,0);
+const remaining  = () => Math.max(0, grandTotal() - paidSoFar());
+const isPaid     = () => paidSoFar() > 0;
+const allocNow   = () => Number(String(payAmount).replace(/[^\d]/g,''))||0;
+
+const right=`<a class="btn btn-ghost" href="cashier.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Danh sách receipt</a>`;
+document.getElementById('main').innerHTML = topbar('Cashier › Tính tiền','Tính tiền receipt '+C.tickets.rc,{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `
+  <div class="pay-head">
+    <div class="q-av ${C.avatarClass}">${C.initials}</div>
+    <div style="flex:1;min-width:200px"><div style="font-family:Fraunces,serif;font-size:18px;font-weight:600">${C.name}</div>
+      <div style="font-size:12.5px;color:var(--ink-soft)">Mã KH ${C.id} · SĐT <b>${maskPhone(C.phone)}</b> · Receipt ${C.tickets.rc}</div>
+      <div style="font-size:11px;color:var(--ink-soft);font-family:Consolas,monospace;margin-top:3px">Luồng: ${C.tickets.bk} → ${C.tickets.tv} → <b>${C.tickets.rc}</b> → ${C.tickets.dv}</div></div>
+    <div id="lockArea"></div>
+  </div>
+  ${navCluster(C)}
+  <div id="roBanner"></div>
+  <div id="stepBody"></div>`;
+
+function renderLock(){
+  const a=document.getElementById('lockArea');
+  if(locked==='mine') a.innerHTML=`<span class="lock-pill lock-mine"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Phiếu của bạn · ${CURRENT_USER.name}</span> <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;margin-left:8px" onclick="shareR()">Share để pay dùm</button>`;
+  else if(locked==='shared') a.innerHTML=`<span class="lock-pill lock-shared"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.5 13.5l7 4M15.5 6.5l-7 4"/></svg>Đã share — người khác pay dùm</span> <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;margin-left:8px" onclick="reclaimR()">Thu lại quyền</button>`;
+  else a.innerHTML=`<span class="lock-pill lock-other"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>Phiếu của Thu Thảo · chỉ xem</span>`;
+}
+function shareR(){locked='shared';renderLock();renderStep();}
+function reclaimR(){locked='mine';renderLock();renderStep();}
+function renderRO(){
+  document.getElementById('roBanner').innerHTML = locked==='other'
+   ? `<div class="readonly-banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><div><b>Chế độ chỉ xem (read-only):</b> đây là phiếu của thu ngân khác. Đề nghị chủ phiếu "share" quyền nếu cần xử lý.</div></div>`
+   : '';
+}
+const ro = () => locked==='other';
+
+// ====== Nút chọn hình thức thanh toán (1 method/lần) ======
+function methodButtons(){
+  return METHODS.map(m=>{
+    const bal = m.bal!=null ? `<div class="ms">${fmt(m.bal)}</div>` : `<div class="ms">${m.sub}</div>`;
+    return `<button class="method-btn ${selMethod===m.id?'on':''}" onclick="pickMethod('${m.id}')">
+      <span class="chk">✓</span>
+      <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${m.icon}</svg></span>
+      <span class="mt">${m.name}</span>${bal}
+    </button>`;
+  }).join('');
+}
+
+function renderStep(){
+  renderRO();
+  const body=document.getElementById('stepBody');
+  const hasUnpicked = items.some(it=>it.kind==='med'&&it.pick!=='picked');
+  const posLink = (typeof linkFor==='function') ? linkFor('cashier-pos.html',C) : 'cashier-pos.html';
+  const rem = remaining();
+  const alloc = allocNow();
+  const afterPay = Math.max(0, rem - alloc);
+  const overPay = alloc > rem;
+
+  body.innerHTML=`
+  ${isPaid()?`<div class="paid-lock-banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><div><b>Phiếu đã thu một phần (${fmt(paidSoFar())}):</b> SKU đã chốt, không sửa được nữa — chỉ thu phần còn nợ.</div></div>`:''}
+  <div class="pay-grid">
+
+    <!-- CỘT TRÁI 40% — tóm tắt phiếu (thu nhỏ) -->
+    <div class="panel pay-summary">
+      <div class="panel-h"><div class="panel-title">Tóm tắt phiếu<small>Đối chiếu · sửa giỏ ở POS</small></div>${ro()?'':`<a class="btn btn-ghost" href="${posLink}" style="padding:5px 10px;font-size:11.5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>POS</a>`}</div>
+      <div class="stat-bar">
+        <div class="stat-box"><div class="sv">${totalItem()}</div><div class="sl">Số lượng</div></div>
+        <div class="stat-box"><div class="sv">${totalSku()}</div><div class="sl">SKU tính</div></div>
+        <div class="stat-box"><div class="sv" style="color:var(--rose)">${fmt(totalDisc())}</div><div class="sl">Giảm giá</div></div>
+      </div>
+      <div class="sku-sum">
+        ${items.map(it=>`<div class="sr ${billable(it)?'':'dim'}">
+          <div class="nm"><b>${it.name}</b><span>${it.sku}${it.disc?` · −${fmt(it.disc)}`:''}${!billable(it)?' · ko tính':''}</span></div>
+          <div class="qx">×${it.qty}</div>
+          <div class="pr">${billable(it)?fmt(it.price*it.qty-it.disc):fmt(it.price*it.qty)}</div>
+        </div>`).join('')}
+      </div>
+      ${hasUnpicked?`<div class="alert" style="margin-top:8px;background:#f9e6e6;border:1px solid #f0c9c9;color:#a64b4b;font-size:11.5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div>SKU thuốc chưa pick / hết stock không cộng tổng.</div></div>`:''}
+      <div class="sumline" style="margin-top:10px"><span>Tổng phiếu</span><span><b>${fmt(grandTotal())}</b></span></div>
+      <div class="sumline"><span>Đã thu (${payments.length} lần)</span><span>${fmt(paidSoFar())}</span></div>
+      <div class="panel-h" style="margin:14px 0 8px"><div class="panel-title" style="font-size:13px">Lịch sử thanh toán</div></div>
+      <div class="paylog">
+        ${payments.map(p=>`<div class="pl" style="padding:10px 12px"><div class="idx" style="width:28px;height:28px;font-size:12px">${p.times}</div>
+          <div class="meta"><b style="font-size:13px">${fmt(p.amount)}</b><span>${p.at} · ${p.who} · ${p.method}</span></div>
+          <div class="amt" style="font-size:13px">✓</div></div>`).join('') || '<div style="font-size:12px;color:var(--ink-soft);padding:6px 2px">Chưa có lần thu nào.</div>'}
+      </div>
+    </div>
+
+    <!-- CỘT PHẢI 60% — thanh toán (phóng to) -->
+    <div class="panel">
+      <div class="panel-h"><div class="panel-title">Thu tiền${rem>0?` · lần ${payments.length+1}`:''}<small>${rem>0?'Chọn 1 hình thức → nhập số tiền → xác nhận':'Phiếu đã hoàn tất'}</small></div></div>
+
+      <div class="owe-big ${rem>0?'debt':'clear'}">
+        <span class="lbl">${rem>0?'CÒN NỢ — CẦN THU':'ĐÃ THU ĐỦ'}</span>
+        <b>${fmt(rem)}</b>
+      </div>
+
+      ${(rem>0 && !ro())?`
+      <div style="font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:10px">1 · Chọn hình thức thanh toán</div>
+      <div class="method-grid">${methodButtons()}</div>
+
+      <div style="font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:10px">2 · Nhập số tiền thu lần này</div>
+      <div class="amount-wrap" id="amtWrap">
+        <div class="alabel"><span>Số tiền · ${methodName(selMethod)}</span><button class="btn-payfull" onclick="payFull()">Trả đủ phần còn nợ (${fmt(rem)})</button></div>
+        <div class="amount-row"><input id="payInput" inputmode="numeric" placeholder="0" value="${alloc?alloc.toLocaleString('vi-VN'):''}" oninput="onAmt(this.value)"><span class="cur">đ</span></div>
+      </div>
+      ${overPay?`<div style="font-size:12px;color:var(--amber);font-weight:600;margin-bottom:10px">⚠ Số tiền nhập (${fmt(alloc)}) lớn hơn phần còn nợ — sẽ chỉ ghi nhận ${fmt(rem)}.</div>`:''}
+
+      <div class="sumline"><span>Số tiền thu</span><span style="font-weight:600">${fmt(Math.min(alloc,rem))}</span></div>
+      <div class="sumline total"><span>Còn lại sau lần này</span><span style="color:${afterPay===0?'var(--teal-deep)':'var(--rose)'};font-size:16px">${fmt(afterPay)}${afterPay===0?' ✓':''}</span></div>
+
+      <button class="btn btn-teal btn-confirm-big" onclick="confirmPay()" ${alloc<=0?'disabled style="opacity:.5;cursor:not-allowed"':''}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>
+        Xác nhận thu ${fmt(Math.min(alloc,rem))} · ${methodName(selMethod)}
+      </button>
+      <a class="btn btn-ghost" href="${posLink}" style="width:100%;justify-content:center;margin-top:9px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Về POS sửa giỏ</a>
+      `:`
+      <div style="text-align:center;padding:30px 0;color:var(--teal-deep)">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:10px"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+        <div style="font-family:Fraunces,serif;font-size:18px;font-weight:600">Phiếu đã tất toán</div>
+        <div style="font-size:13px;color:var(--ink-soft);margin-top:4px">Đã thu đủ ${fmt(grandTotal())} qua ${payments.length} lần.</div>
+      </div>
+      <a class="btn btn-ghost" href="cashier.html" style="width:100%;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Về danh sách receipt</a>
+      `}
+    </div>
+  </div>`;
+}
+
+// ===== thao tác thu tiền (1 method) =====
+function pickMethod(id){ selMethod=id; renderStep(); }
+function onAmt(v){
+  payAmount = v;
+  renderStep();
+  // giữ focus + đưa con trỏ về cuối ô nhập sau khi rebuild
+  const el = document.getElementById('payInput');
+  if(el){ el.focus(); const L=el.value.length; el.setSelectionRange(L,L); }
+}
+function payFull(){ payAmount = remaining(); renderStep(); }
+function confirmPay(){
+  const alloc=allocNow(); if(alloc<=0)return;
+  const now=new Date(); const hh=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  payments.push({ times:payments.length+1, at:hh, who:CURRENT_USER.name, amount:Math.min(alloc,remaining()), method:methodName(selMethod) });
+  payAmount=0; selMethod='cash';
+  renderStep();
+}
+
+if(location.search.includes('ro=1'))locked='other';
+renderLock();renderStep();wireUI();
+</script>
+</body></html>

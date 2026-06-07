@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Kho & Pha chế</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css"></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('inventory');
+document.getElementById('main').innerHTML = topbar('Vận hành','Kho & Pha chế NVL',{who:'WH',branch:'CN Quận 1'}) + `
+  <div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM5 7v14h14V7"/></svg></div></div><div class="kpi-val">2</div><div class="kpi-lbl">Kho (Bán · NVL)</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg></div></div><div class="kpi-val">21</div><div class="kpi-lbl">Phiếu xuất NVL hôm nay</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div></div><div class="kpi-val">3</div><div class="kpi-lbl">Mục dưới định mức</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div><div class="kpi-val">2</div><div class="kpi-lbl">Sắp hết hạn</div></div>
+  </div>
+  <div class="row r-2">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Tồn kho<small>Đồng bộ WMS (source of truth)</small></div><div class="pill-tabs"><button class="on">Kho NVL</button><button>Kho bán</button></div></div>
+      <table><thead><tr><th>Vật tư</th><th>Tồn</th><th>Định mức tối thiểu</th><th>Hạn dùng</th><th>Trạng thái</th></tr></thead><tbody>
+        <tr><td><b>Gel lạnh triệt lông</b></td><td>8%</td><td>20%</td><td>11/2026</td><td><span class="tag" style="background:#f9e6e6;color:#a64b4b">Dưới mức</span></td></tr>
+        <tr><td><b>Gel dẫn RF</b></td><td>62%</td><td>20%</td><td>08/2026</td><td><span class="tag done">Ổn</span></td></tr>
+        <tr><td><b>Tinh chất tan mỡ</b></td><td>15%</td><td>25%</td><td>07/2026</td><td><span class="tag prog">Sắp hết</span></td></tr>
+        <tr><td><b>Mặt nạ làm dịu</b></td><td>74%</td><td>30%</td><td>03/2027</td><td><span class="tag done">Ổn</span></td></tr>
+        <tr><td><b>Serum phục hồi tóc</b></td><td>40%</td><td>20%</td><td>06/2026</td><td><span class="tag prog">Sắp hết hạn</span></td></tr>
+      </tbody></table>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Phiếu pha chế / xuất NVL<small>Mỗi phiếu gắn buổi liệu trình để truy vết</small></div></div>
+      <div class="q-item"><div class="q-av av-gold">RF</div><div class="q-main"><b>Giảm béo RF · Trần Thu Hà</b><span>Gel dẫn 45ml · tinh chất 1 ống</span></div><span class="tag done">Đã xuất</span></div>
+      <div class="q-item"><div class="q-av av-teal">TL</div><div class="q-main"><b>Triệt lông · Lê Minh</b><span>Gel lạnh 30ml</span></div><span class="tag prog">Đang pha</span></div>
+      <div class="q-item"><div class="q-av av-blush">DA</div><div class="q-main"><b>Chăm sóc da · Vũ Phương</b><span>Mặt nạ + serum (5 mục)</span></div><span class="tag wait">Chờ duyệt</span></div>
+      <div class="alert al-warn" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div>Buổi #b3 dùng <b>52ml</b> gel (định mức 45ml) — chênh +15%, đã ghi nhận.</div></div>
+    </div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

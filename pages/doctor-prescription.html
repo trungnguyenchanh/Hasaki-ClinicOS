@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Kê toa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.rx{display:grid;grid-template-columns:290px 1fr 290px;gap:18px;align-items:start}
+.allergy{background:#f9e6e6;border:1px solid #e9b3b3;border-radius:13px;padding:13px;font-size:13px;color:#a64b4b;margin-bottom:14px;display:flex;gap:9px}
+.allergy svg{width:18px;height:18px;flex:none;margin-top:1px}
+.vital{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.vital .v{background:var(--bg-2);border-radius:11px;padding:10px 12px}
+.vital .v b{font-family:'Fraunces',serif;font-size:17px;display:block}.vital .v span{font-size:11px;color:var(--ink-soft)}
+.hx{position:relative;padding-left:20px}
+.hx::before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:var(--line)}
+.hx-item{position:relative;padding-bottom:13px;font-size:12.5px}.hx-item:last-child{padding-bottom:0}
+.hx-dot{position:absolute;left:-20px;top:3px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+.hx-item.rx-dot .hx-dot{border-color:var(--blush-deep)}.hx-item b{display:block}.hx-item span{color:var(--ink-soft)}
+.search-box{position:relative;margin-bottom:6px}
+.search-box input{width:100%;font-family:inherit;font-size:14px;padding:11px 14px 11px 38px;border:1px solid var(--line);border-radius:12px;outline:none}
+.search-box input:focus{border-color:var(--teal)}
+.search-box svg{position:absolute;left:13px;top:12px;width:16px;height:16px;color:var(--ink-soft)}
+.drop{border:1px solid var(--line);border-radius:12px;margin-top:6px;overflow:hidden;max-height:200px;overflow-y:auto}
+.opt{padding:10px 14px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.opt:last-child{border:none}.opt:hover{background:var(--teal-soft)}
+.opt small{color:var(--ink-soft)}.opt.danger small{color:var(--rose);font-weight:600}
+.opt .icd{font-family:Consolas,monospace;background:var(--indigo-soft);color:var(--indigo);padding:2px 7px;border-radius:6px;font-size:11px;flex:none}
+.dx-chip{display:inline-flex;align-items:center;gap:7px;background:var(--indigo-soft);color:var(--indigo);padding:6px 11px;border-radius:20px;font-size:13px;margin:0 6px 6px 0}
+.dx-chip .x{cursor:pointer;font-weight:700}
+.dx-chip .icd{font-family:Consolas,monospace;font-size:11px;background:#fff;padding:1px 5px;border-radius:5px}
+.rx-line{padding:13px;border:1px solid var(--line);border-radius:13px;margin-bottom:10px;background:#fff}
+.rx-line.out{border-color:var(--amber);background:#fffaf0}
+.rx-head{display:flex;gap:9px;align-items:center}
+.rx-head .rn{width:26px;height:26px;border-radius:8px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;font-weight:600;font-size:12px;flex:none}
+.rx-head b{flex:1;font-size:13.5px}
+.rx-del{cursor:pointer;color:var(--ink-soft);font-size:18px;line-height:1}
+.rmini{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
+.rmini input{font-family:inherit;font-size:12px;padding:6px 9px;border:1px solid var(--line);border-radius:9px;outline:none;width:100%}
+.rmini input:focus{border-color:var(--teal)}
+.note-req{margin-top:9px}
+.note-req label{font-size:11.5px;font-weight:600;color:var(--amber);display:block;margin-bottom:4px}
+.note-req input{width:100%;font-family:inherit;font-size:12.5px;padding:8px 10px;border:1px solid var(--amber);border-radius:9px;outline:none;background:#fff}
+.sku-note{margin-top:9px}
+.sku-note label{font-size:11.5px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:4px}
+.sku-note input{width:100%;font-family:inherit;font-size:12.5px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;outline:none;background:var(--bg-2)}
+.sku-note input:focus{border-color:var(--teal);background:#fff}
+@media(max-width:1080px){.rx{grid-template-columns:1fr}}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('doctor');
+const right=`<a class="btn btn-ghost" href="customer-treatment-record.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>Hồ sơ điều trị</a><a class="btn btn-ghost" href="doctor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Hàng chờ</a>`;
+document.getElementById('main').innerHTML = topbar('Bác sĩ › Kê toa','Khám & kê toa — Trần Thu Hà',{who:'BH',branch:'CN Quận 1',right}) + `
+  <div class="rx">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Hồ sơ khách</div></div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="q-av av-teal" style="width:46px;height:46px;border-radius:13px">TH</div>
+        <div><b style="font-size:15px">Trần Thu Hà <span class="tag vip">VIP</span></b><div style="font-size:12px;color:var(--ink-soft)">C-1042 · Nữ · 32 tuổi</div></div></div>
+      <div class="allergy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div><b>Dị ứng: Lidocaine, Paraben</b><br>Cảnh báo khi kê thuốc cùng nhóm.</div></div>
+      <div class="vital"><div class="v"><b>52 kg</b><span>Cân nặng</span></div><div class="v"><b>160 cm</b><span>Chiều cao</span></div><div class="v"><b>118/76</b><span>Huyết áp</span></div><div class="v"><b>O+</b><span>Nhóm máu</span></div></div>
+      <div class="panel-title" style="font-size:14px;margin-bottom:10px">Lịch sử khám & đơn thuốc</div>
+      <div class="hx">
+        <div class="hx-item"><div class="hx-dot"></div><b>10/06 · BS. Bích Hằng</b><span>Tư vấn giảm béo · chỉ định RF</span></div>
+        <div class="hx-item rx-dot"><div class="hx-dot"></div><b>10/06 · Đơn QG-7741A</b><span>Giảm sưng, kem phục hồi, vitamin</span></div>
+        <div class="hx-item"><div class="hx-dot"></div><b>02/05 · BS. Minh Quân</b><span>Khám da · không kê thuốc</span></div>
+        <div class="hx-item rx-dot"><div class="hx-dot"></div><b>15/03 · Đơn QG-7012F</b><span>Kháng sinh bôi (đã xong)</span></div>
+      </div>
+      <a class="btn btn-ghost" href="customer-treatment-record.html" style="width:100%;justify-content:center;margin-top:14px">Mở hồ sơ điều trị</a>
+    </div>
+
+    <div class="panel"><div class="panel-h"><div class="panel-title">Đơn thuốc<small>Chuẩn Đơn thuốc Quốc gia · ICD-10 Bộ Y tế</small></div><span class="tag new">Nháp QG-7742B</span></div>
+      <label style="font-size:12px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:6px">Chẩn đoán (chọn theo mã ICD-10 — Bộ Y tế)</label>
+      <div id="dxchips" style="margin-bottom:8px"></div>
+      <div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input id="dxsearch" placeholder="Tìm chẩn đoán theo tên hoặc mã ICD-10…" onfocus="document.getElementById('dxdrop').style.display='block'" /></div>
+      <div class="drop" id="dxdrop" style="display:none"></div>
+
+      <label style="font-size:12px;font-weight:600;color:var(--ink-soft);display:block;margin:16px 0 6px">Thêm thuốc vào đơn</label>
+      <div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input id="msearch" placeholder="Tìm thuốc theo tên / hoạt chất…" onfocus="document.getElementById('mdrop').style.display='block'" /></div>
+      <div class="drop" id="mdrop" style="display:none"></div>
+      <div id="rxlist" style="margin-top:14px"></div>
+      <div class="field" style="margin-top:6px"><label>Lời dặn của bác sĩ</label><textarea class="txta" style="width:100%;min-height:60px;font-family:inherit;font-size:14px;padding:12px;border:1px solid var(--line);border-radius:12px;outline:none" placeholder="Uống sau ăn, tái khám sau 7 ngày…"></textarea></div>
+    </div>
+
+    <div class="panel"><div class="panel-h"><div class="panel-title">Chỉ định & liên thông</div></div>
+      <div class="panel-title" style="font-size:14px;margin-bottom:8px">Chỉ định liệu trình</div>
+      <div class="wpill"><div class="q-av av-gold">RF</div><div class="wi"><b>Giảm béo RF bụng</b><span>10 buổi · chuyển tư vấn</span></div></div>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-bottom:18px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Thêm chỉ định</button>
+      <div class="panel-title" style="font-size:14px;margin-bottom:8px">Kiểm tra an toàn</div>
+      <div class="alert al-info" id="safeBox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div id="allergyCheck"><b>Kiểm tra dị ứng:</b> chưa phát hiện xung đột.</div></div>
+      <div style="margin-top:18px;display:flex;flex-direction:column;gap:9px">
+        <a class="btn btn-teal" href="encounter-summary.html" style="width:100%;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>Xem tổng kết & ký đơn QG</a>
+        <button class="btn btn-ghost" style="width:100%;justify-content:center">Lưu nháp</button>
+      </div>
+    </div>
+  </div>`;
+
+// ===== ICD-10 catalog (Bộ Y tế) =====
+const ICD=[
+  {c:"E65",n:"Mỡ khu trú"},{c:"E66.9",n:"Béo phì, không đặc hiệu"},
+  {c:"L70.0",n:"Mụn trứng cá thông thường"},{c:"L81.0",n:"Tăng sắc tố sau viêm"},
+  {c:"L90.5",n:"Sẹo và xơ hóa da"},{c:"L98.9",n:"Rối loạn da và mô dưới da chưa đặc hiệu"},
+  {c:"L73.8",n:"Rối loạn nang lông khác"},{c:"Z41.1",n:"Chăm sóc thẩm mỹ sau thủ thuật"},
+];
+let dx=[{c:"E65",n:"Mỡ khu trú"}];
+// ===== medicine catalog (có SKU + cờ hết thuốc) =====
+const MEDS=[
+  {sku:"MED-PARA-500",n:"Paracetamol 500mg",a:"Giảm đau, hạ sốt"},
+  {sku:"MED-IBU-400",n:"Ibuprofen 400mg",a:"Kháng viêm, giảm sưng",out:true},
+  {sku:"MED-PAN-CR",n:"Kem phục hồi da (panthenol)",a:"Làm dịu, phục hồi"},
+  {sku:"MED-VITCE",n:"Vitamin C + E",a:"Chống oxy hóa"},
+  {sku:"MED-LIDO-2",n:"Lidocaine 2% (bôi)",a:"Gây tê tại chỗ",danger:true},
+  {sku:"MED-SPF50",n:"Kem chống nắng SPF50",a:"Bảo vệ da"},
+  {sku:"MED-MUPI",n:"Kháng sinh bôi (mupirocin)",a:"Ngừa nhiễm khuẩn",out:true},
+];
+let rx=[{sku:"MED-PAN-CR",n:"Kem phục hồi da (panthenol)",dose:"Bôi 2 lần/ngày",qty:"1 tuýp",days:"7",out:false,outnote:"",note:""}];
+
+// ---- diagnosis ----
+function renderDxChips(){
+  document.getElementById('dxchips').innerHTML = dx.map((d,i)=>`<span class="dx-chip"><span class="icd">${d.c}</span>${d.n}<span class="x" onclick="delDx(${i})">×</span></span>`).join('') || '<span style="font-size:12.5px;color:var(--ink-soft)">Chưa chọn chẩn đoán</span>';
+}
+function renderDxDrop(q=''){
+  const list=ICD.filter(x=>x.n.toLowerCase().includes(q.toLowerCase())||x.c.toLowerCase().includes(q.toLowerCase()));
+  document.getElementById('dxdrop').innerHTML=list.map(x=>`<div class="opt" onclick="addDx('${x.c}')"><span><span class="icd">${x.c}</span> ${x.n}</span></div>`).join('')||'<div class="opt"><small>Không tìm thấy mã ICD</small></div>';
+}
+function addDx(c){const x=ICD.find(i=>i.c===c);if(!dx.find(d=>d.c===c))dx.push(x);document.getElementById('dxdrop').style.display='none';document.getElementById('dxsearch').value='';renderDxChips();}
+function delDx(i){dx.splice(i,1);renderDxChips();}
+
+// ---- medicine ----
+function renderMedDrop(q=''){
+  const list=MEDS.filter(m=>m.n.toLowerCase().includes(q.toLowerCase())||m.a.toLowerCase().includes(q.toLowerCase())||m.sku.toLowerCase().includes(q.toLowerCase()));
+  document.getElementById('mdrop').innerHTML=list.map(m=>{const i=MEDS.indexOf(m);
+    const note=m.danger?'⚠ Dị ứng đã ghi nhận':(m.out?'⚠ Hết tại kho':m.a);
+    return `<div class="opt ${m.danger?'danger':''}" onclick="addMed(${i})"><span><b style="font-weight:600">${m.n}</b> <small style="font-family:Consolas,monospace">${m.sku}</small></span><small style="${m.out?'color:var(--amber);font-weight:600':''}">${note}</small></div>`;}).join('')||'<div class="opt"><small>Không tìm thấy</small></div>';
+}
+function addMed(i){const m=MEDS[i];
+  if(m.danger && !confirm('⚠ '+m.n+' xung đột DỊ ỨNG đã ghi nhận (Lidocaine). Vẫn thêm?'))return;
+  rx.push({sku:m.sku,n:m.n,dose:'',qty:'',days:'',out:!!m.out,outnote:'',note:''});
+  document.getElementById('mdrop').style.display='none';document.getElementById('msearch').value='';renderRx();
+}
+function renderRx(){
+  document.getElementById('rxlist').innerHTML=rx.map((r,i)=>`
+    <div class="rx-line ${r.out?'out':''}"><div class="rx-head"><div class="rn">${i+1}</div><b>${r.n} <small style="font-family:Consolas,monospace;color:var(--ink-soft);font-weight:400">${r.sku}</small> ${r.out?'<span class="tag prog">Hết tại kho</span>':''}</b><div class="rx-del" onclick="delRx(${i})">×</div></div>
+      <div class="rmini"><input placeholder="Liều dùng" value="${r.dose}"><input placeholder="Số lượng" value="${r.qty}"><input placeholder="Số ngày" value="${r.days}"></div>
+      <div class="sku-note"><label>Ghi chú riêng cho thuốc này (cách dùng đặc biệt / lưu ý dược sĩ)</label><input value="${r.note}" placeholder="VD: uống xa bữa ăn 30 phút, không dùng chung với thuốc khác…"></div>
+      ${r.out?`<div class="note-req"><label>⚠ Thuốc hết — bắt buộc ghi chú hướng xử lý</label><input value="${r.outnote}" placeholder="VD: khách mua ngoài theo đơn / thay thế Paracetamol 500mg…"></div>`:''}
+    </div>`).join('')||'<div style="font-size:13px;color:var(--ink-soft);padding:8px 0">Chưa có thuốc.</div>';
+  const has=rx.some(r=>r.n.toLowerCase().includes('lidocaine'));
+  document.getElementById('allergyCheck').innerHTML=has?'<b>⚠ CẢNH BÁO:</b> đơn có thuốc xung đột dị ứng Lidocaine!':'<b>Kiểm tra dị ứng:</b> chưa phát hiện xung đột.';
+  document.getElementById('safeBox').className='alert '+(has?'al-rose':'al-info');
+}
+function delRx(i){rx.splice(i,1);renderRx();}
+
+document.getElementById('dxsearch').addEventListener('input',e=>renderDxDrop(e.target.value));
+document.getElementById('msearch').addEventListener('input',e=>renderMedDrop(e.target.value));
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#dxsearch')&&!e.target.closest('#dxdrop'))document.getElementById('dxdrop').style.display='none';
+  if(!e.target.closest('#msearch')&&!e.target.closest('#mdrop'))document.getElementById('mdrop').style.display='none';
+});
+renderDxChips();renderDxDrop();renderMedDrop();renderRx();wireUI();
+</script>
+</body></html>

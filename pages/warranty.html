@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Bảo hành</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css"></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('warranty');
+const right=`<button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo phiếu bảo hành</button>`;
+document.getElementById('main').innerHTML = topbar('Danh mục','Bảo hành dịch vụ',{who:'CS',branch:'CN Quận 1',right}) + `
+  <div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div></div><div class="kpi-val">312</div><div class="kpi-lbl">Ca còn trong hạn BH</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div><div class="kpi-val">5</div><div class="kpi-lbl">Yêu cầu BH chờ xử lý</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div></div><div class="kpi-val">18</div><div class="kpi-lbl">Đã làm lại miễn phí (tháng)</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg></div></div><div class="kpi-val">7</div><div class="kpi-lbl">Sắp hết hạn (7 ngày)</div></div>
+  </div>
+  <div class="panel" style="margin-bottom:18px"><div class="panel-h"><div class="panel-title">Chính sách bảo hành theo dịch vụ<small>Thời hạn & điều kiện</small></div></div>
+    <table><thead><tr><th>Dịch vụ</th><th>Thời hạn BH</th><th>Điều kiện làm lại miễn phí</th></tr></thead><tbody>
+      <tr><td><b>Triệt lông Diode toàn thân</b></td><td><span class="tag done">12 tháng</span></td><td>Lông mọc lại vùng đã triệt đủ số buổi · theo lịch tái khám</td></tr>
+      <tr><td><b>Nâng cơ HIFU mặt</b></td><td><span class="tag done">6 tháng</span></td><td>Không đạt hiệu quả nâng cơ cam kết · ảnh before/after</td></tr>
+      <tr><td><b>Giảm béo RF bụng</b></td><td><span class="tag done">3 tháng</span></td><td>Không giảm theo cam kết với chế độ tuân thủ</td></tr>
+      <tr><td><b>Phục hồi tóc hư tổn</b></td><td><span class="tag done">1 tháng</span></td><td>Tóc hư tổn lại trong thời hạn</td></tr>
+    </tbody></table>
+  </div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">Yêu cầu bảo hành<small>Khách gặp vấn đề → đến làm lại miễn phí</small></div><div class="pill-tabs"><button class="on">Chờ xử lý</button><button>Đã duyệt</button><button>Hoàn tất</button></div></div>
+    <table><thead><tr><th>Phiếu BH</th><th>Khách</th><th>Dịch vụ gốc</th><th>Còn hạn</th><th>Vấn đề</th><th>Trạng thái</th></tr></thead><tbody>
+      <tr class="clickable"><td class="num-strong">BH-1042</td><td>Trần Thu Hà</td><td>Triệt lông Diode</td><td>còn 8 tháng</td><td>Lông mọc lại vùng nách</td><td><span class="tag prog">Chờ duyệt</span></td></tr>
+      <tr class="clickable"><td class="num-strong">BH-1039</td><td>Ngô Khánh</td><td>Nâng cơ HIFU</td><td>còn 4 tháng</td><td>Hiệu quả chưa rõ rệt</td><td><span class="tag prog">Chờ BS đánh giá</span></td></tr>
+      <tr class="clickable"><td class="num-strong">BH-1035</td><td>Đỗ Lan</td><td>Giảm béo RF</td><td>còn 1 tháng</td><td>Vùng eo chưa đạt</td><td><span class="tag done">Đã duyệt · đặt lịch</span></td></tr>
+    </tbody></table>
+    <div class="alert al-info" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Phiếu bảo hành được duyệt → tạo buổi dịch vụ <b>miễn phí</b> (không trừ gói/ví), ghi nhận lý do bảo hành để báo cáo chất lượng.</div></div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

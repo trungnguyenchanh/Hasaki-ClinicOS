@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Quầy của tôi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css"></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('cashier');
+const right=`<a class="btn btn-ghost" href="cashier-cn.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>To\u00e0n CN</a><a class="btn btn-teal" href="cashier-pos.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>B\u00e1n h\u00e0ng / t\u1ea1o phi\u1ebfu</a>`;
+document.getElementById('main').innerHTML = topbar('Nghi\u1ec7p v\u1ee5 Cashier','Qu\u1ea7y c\u1ee7a t\u00f4i \u2014 Ph\u01b0\u01a1ng Th\u1ea3o',{who:'PT',branch:'CN Qu\u1eadn 1',right}) + `
+  <div class="cn-tabs">
+    <a class="cn-link on" href="cashier.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18M9 21V9"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>Qu\u1ea7y c\u1ee7a t\u00f4i (receipt)</a>
+    <a class="cn-link" href="cashier-pos.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>B\u00e1n h\u00e0ng / t\u1ea1o phi\u1ebfu</a>
+  </div>
+  <div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div></div><div class="kpi-val">6</div><div class="kpi-lbl">Receipt t\u00f4i ph\u1ee5 tr\u00e1ch h\u00f4m nay</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div><div class="kpi-val">2</div><div class="kpi-lbl">\u0110ang pay (\u0111ang x\u1eed l\u00fd)</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg></div></div><div class="kpi-val">3</div><div class="kpi-lbl">C\u1ea7n theo d\u00f5i (tr\u00e1nh s\u00f3t)</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-val">64tr</div><div class="kpi-lbl">T\u00f4i \u0111\u00e3 thu h\u00f4m nay</div></div>
+  </div>
+
+  <div class="panel" style="margin-bottom:18px"><div class="panel-h"><div class="panel-title">Receipt t\u00f4i ph\u1ee5 tr\u00e1ch<small>L\u1ecdc theo tr\u1ea1ng th\u00e1i \u0111\u1ec3 kh\u00f4ng s\u00f3t kh\u00e1ch</small></div><div class="pill-tabs" id="rt"><button class="on" onclick="rtab('all')">T\u1ea5t c\u1ea3</button><button onclick="rtab('paying')">\u0110ang pay</button><button onclick="rtab('watch')">C\u1ea7n theo d\u00f5i</button></div></div>
+    <div id="rBody"></div>
+  </div>
+
+  <div class="alert al-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>\u0110\u00e2y l\u00e0 receipt <b>b\u1ea1n ph\u1ee5 tr\u00e1ch</b>. B\u1ea5m m\u1ed9t receipt \u0111\u1ec3 m\u1edf trang t\u00ednh ti\u1ec1n (2 b\u01b0\u1edbc). Phi\u1ebfu \u0111ang block c\u1ee7a b\u1ea1n c\u00f3 th\u1ec3 share cho ng\u01b0\u1eddi kh\u00e1c pay d\u00f9m khi ngh\u1ec9 ca.</div></div>`;
+
+const RT={
+  all:`<table><thead><tr><th>Receipt</th><th>Kh\u00e1ch</th><th>S\u0110T</th><th>N\u1ed9i dung</th><th>C\u00f2n l\u1ea1i</th><th>Tr\u1ea1ng th\u00e1i</th><th>Quy\u1ec1n</th></tr></thead><tbody>
+    <tr class="clickable" onclick="location.href='cashier-payment.html?id=C-1080'"><td class="num-strong">RC-0830</td><td>L\u00ea Minh</td><td>${maskPhone('0903123456')}</td><td>Tri\u1ec7t l\u00f4ng + ph\u00e1t sinh</td><td style="color:var(--rose);font-weight:600">1.400.000\u0111</td><td><span class="tag" style="background:#fdf3e3;color:#9a6a1e">\u0110ang pay</span></td><td><span class="tag done">B\u1ea1n \u00b7 s\u1eeda</span></td></tr>
+    <tr class="clickable" onclick="location.href='cashier-payment.html'"><td class="num-strong">RC-0842</td><td>Tr\u1ea7n Vy</td><td>${maskPhone('0911222333')}</td><td>G\u00f3i ch\u0103m s\u00f3c da</td><td style="color:var(--rose);font-weight:600">5.000.000\u0111</td><td><span class="tag" style="background:#fdf3e3;color:#9a6a1e">\u0110ang pay</span></td><td><span class="tag done">B\u1ea1n \u00b7 s\u1eeda</span></td></tr>
+    <tr class="clickable" onclick="location.href='cashier-payment.html?id=C-1136'"><td class="num-strong">RC-0836</td><td>Ng\u00f4 Kh\u00e1nh</td><td>${maskPhone('0987654321')}</td><td>Kh\u00e1m + ti\u1ec3u ph\u1eabu (\u0111ang l\u00e0m)</td><td style="color:var(--rose);font-weight:600">1.500.000\u0111</td><td><span class="tag prog">Ch\u01b0a t\u00ednh ti\u1ec1n</span></td><td><span class="tag done">B\u1ea1n \u00b7 s\u1eeda</span></td></tr>
+    <tr class="clickable" onclick="location.href='cashier-payment.html?id=C-1042'"><td class="num-strong">RC-0825</td><td>Tr\u1ea7n Thu H\u00e0</td><td>${maskPhone('0908123456')}</td><td>G\u00f3i RF + l\u1ebb + thu\u1ed1c</td><td>0\u0111</td><td><span class="tag done">\u0110\u00e3 thu \u0111\u1ee7</span></td><td><span class="tag done">B\u1ea1n \u00b7 s\u1eeda</span></td></tr>
+    <tr class="clickable" onclick="location.href='cashier-payment.html'"><td class="num-strong">RC-0848</td><td>Ho\u00e0ng Y\u1ebfn</td><td>${maskPhone('0900111222')}</td><td>D\u1ecbch v\u1ee5 l\u1ebb</td><td>0\u0111</td><td><span class="tag done">\u0110\u00e3 thu \u0111\u1ee7</span></td><td><span class="tag done">B\u1ea1n \u00b7 s\u1eeda</span></td></tr>
+    <tr class="clickable" onclick="location.href='receipt-preview.html'"><td class="num-strong">RC-0850</td><td>Ph\u1ea1m Y\u1ebfn</td><td>${maskPhone('0933444555')}</td><td>G\u00f3i ph\u1ee5c h\u1ed3i t\u00f3c <span style="color:var(--ink-soft);font-size:11px">(share t\u1eeb Thu Th\u1ea3o)</span></td><td style="color:var(--rose);font-weight:600">9.600.000\u0111</td><td><span class="tag prog">Ch\u01b0a t\u00ednh ti\u1ec1n</span></td><td><span class="tag" style="background:#fdf3e3;color:#9a6a1e">Pay d\u00f9m</span></td></tr>
+  </tbody></table>`,
+  paying:`<table><thead><tr><th>Receipt</th><th>Kh\u00e1ch</th><th>S\u0110T</th><th>C\u00f2n l\u1ea1i</th><th>Tr\u1ea1ng th\u00e1i</th></tr></thead><tbody>
+    <tr class="clickable" onclick="location.href='cashier-payment.html?id=C-1080'"><td class="num-strong">RC-0830</td><td>L\u00ea Minh</td><td>${maskPhone('0903123456')}</td><td style="color:var(--rose);font-weight:600">1.400.000\u0111</td><td><span class="tag" style="background:#fdf3e3;color:#9a6a1e">\u0110ang pay \u00b7 block c\u1ee7a b\u1ea1n</span></td></tr>
+    <tr class="clickable" onclick="location.href='cashier-payment.html'"><td class="num-strong">RC-0842</td><td>Tr\u1ea7n Vy</td><td>${maskPhone('0911222333')}</td><td style="color:var(--rose);font-weight:600">5.000.000\u0111</td><td><span class="tag" style="background:#fdf3e3;color:#9a6a1e">\u0110ang pay</span></td></tr>
+  </tbody></table>
+  <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Phi\u1ebfu \u0111ang pay \u0111\u01b0\u1ee3c <b>block</b> \u0111\u1ec3 tr\u00e1nh ng\u01b0\u1eddi kh\u00e1c thao t\u00e1c c\u00f9ng l\u00fac. N\u1ebfu ngh\u1ec9 ca \u2192 share cho \u0111\u1ed3ng nghi\u1ec7p pay d\u00f9m.</div></div>`,
+  watch:`<table><thead><tr><th>Receipt</th><th>Kh\u00e1ch</th><th>S\u0110T</th><th>V\u1ea5n \u0111\u1ec1</th><th>C\u00f2n l\u1ea1i</th></tr></thead><tbody>
+    <tr class="clickable" onclick="location.href='cashier-payment.html?id=C-1136'"><td class="num-strong">RC-0836</td><td>Ng\u00f4 Kh\u00e1nh</td><td>${maskPhone('0987654321')}</td><td><span style="color:var(--rose)">\u0110ang l\u00e0m DV, ch\u01b0a t\u00ednh ti\u1ec1n</span></td><td style="font-weight:600">1.500.000\u0111</td></tr>
+    <tr class="clickable" onclick="location.href='cashier-payment.html?id=C-1080'"><td class="num-strong">RC-0830</td><td>L\u00ea Minh</td><td>${maskPhone('0903123456')}</td><td><span style="color:var(--amber)">C\u00f2n n\u1ee3 do ph\u00e1t sinh th\u00eam</span></td><td style="font-weight:600">1.400.000\u0111</td></tr>
+    <tr class="clickable" onclick="location.href='receipt-preview.html'"><td class="num-strong">RC-0850</td><td>Ph\u1ea1m Y\u1ebfn</td><td>${maskPhone('0933444555')}</td><td><span style="color:var(--ink-soft)">Share pay d\u00f9m \u00b7 ch\u1edd kh\u00e1ch quay l\u1ea1i</span></td><td style="font-weight:600">9.600.000\u0111</td></tr>
+  </tbody></table>
+  <div class="alert al-rose" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>C\u1ea7n theo d\u00f5i \u0111\u1ec3 tr\u00e1nh s\u00f3t:</b> 3 receipt ch\u01b0a t\u1ea5t to\u00e1n (\u0111ang l\u00e0m DV / c\u00f2n n\u1ee3 ph\u00e1t sinh / share pay d\u00f9m). Nh\u1eafc thu khi kh\u00e1ch xong d\u1ecbch v\u1ee5.</div></div>`,
+};
+function rtab(k){document.querySelectorAll('#rt button').forEach((b,i)=>b.classList.toggle('on',['all','paying','watch'][i]===k));document.getElementById('rBody').innerHTML=RT[k];wireUI();}
+rtab('all');
+wireUI();
+</script>
+</body></html>

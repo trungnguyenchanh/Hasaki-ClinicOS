@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Điều phối tua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.cand{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:11px;transition:.16s;cursor:pointer;background:#fff}
+.cand:hover{border-color:var(--teal);box-shadow:var(--shadow)}
+.cand.best{border-color:var(--teal);background:linear-gradient(140deg,#fff,var(--teal-soft))}
+.cand-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.cand-top .nm{font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:8px}
+.cand-top .sub{font-size:12px;color:var(--ink-soft)}
+.score{margin-left:auto;text-align:center}
+.score b{font-family:'Fraunces',serif;font-size:22px;display:block;color:var(--teal-deep)}
+.score span{font-size:10px;color:var(--ink-soft);letter-spacing:.5px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.metric{background:var(--bg-2);border-radius:10px;padding:8px 10px;text-align:center}
+.metric b{font-family:'Fraunces',serif;font-size:15px;display:block}
+.metric span{font-size:10.5px;color:var(--ink-soft)}
+.metric.warn b{color:var(--rose)}
+.metric.good b{color:var(--teal-deep)}
+.skill-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.sc{font-size:10.5px;padding:2px 8px;border-radius:20px;background:var(--teal-soft);color:var(--teal-deep);font-weight:500}
+.sc.miss{background:#f6e1e1;color:var(--rose)}
+.rule-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.rule-row:last-child{border:none}
+.rule-row .ri{flex:1}.rule-row .ri b{font-size:13.5px;display:block}.rule-row .ri span{font-size:12px;color:var(--ink-soft)}
+.switch{width:42px;height:24px;border-radius:20px;background:var(--teal);position:relative;cursor:pointer;flex:none}
+.switch.off{background:var(--line)}
+.switch::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;right:3px;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.switch.off::after{right:21px}
+.rule-val{font-family:'Fraunces',serif;font-weight:600;font-size:14px;width:90px;text-align:right}
+.formula{background:#1d2a28;color:#d7ece4;border-radius:13px;padding:14px 16px;font-family:Consolas,monospace;font-size:12.5px;line-height:1.7;overflow-x:auto}
+.formula .k{color:#7fd1c0}.formula .n{color:#e8c87a}
+
+/* ===== Bàn điều phối mới ===== */
+.peak-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:13px;margin-bottom:16px;font-size:13px}
+.peak-bar.hot{background:linear-gradient(90deg,#fdeee3,#fbe3d8);border:1px solid #f0c9a8;color:#9a5a1e}
+.peak-bar.calm{background:var(--teal-soft);border:1px solid #bfe3da;color:var(--teal-deep)}
+.peak-bar svg{width:20px;height:20px;flex:none}
+.peak-bar .pulse{width:10px;height:10px;border-radius:50%;background:#e8763a;flex:none;animation:pp 1.2s infinite}
+@keyframes pp{0%{box-shadow:0 0 0 0 rgba(232,118,58,.5)}70%{box-shadow:0 0 0 8px rgba(232,118,58,0)}100%{box-shadow:0 0 0 0 rgba(232,118,58,0)}}
+
+.wq{border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:11px;cursor:pointer;transition:.16s;background:#fff}
+.wq:hover{border-color:var(--teal);box-shadow:var(--shadow)}
+.wq.sel{border-color:var(--teal-deep);background:linear-gradient(140deg,#fff,var(--teal-soft));box-shadow:0 4px 14px rgba(15,118,110,.14)}
+.wq-top{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.wq-top .nm{font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.wq-top .wt{margin-left:auto;text-align:right;white-space:nowrap}
+.wq-top .wt b{font-family:'Fraunces',serif;font-size:16px;color:var(--ink)}
+.wq-top .wt.over b{color:var(--rose)}
+.wq-top .wt span{font-size:10.5px;color:var(--ink-soft);display:block}
+.wq-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:9px}
+.wq-stat{background:var(--bg-2);border-radius:9px;padding:7px 4px;text-align:center}
+.wq-stat b{font-family:'Fraunces',serif;font-size:15px;display:block;line-height:1}
+.wq-stat span{font-size:9.5px;color:var(--ink-soft);letter-spacing:.2px}
+.wq-stat.mach b{color:var(--indigo)}
+.wq-sku{border-top:1px dashed var(--line);padding-top:8px;display:flex;flex-direction:column;gap:5px}
+.wq-sku .sl{display:flex;align-items:center;gap:7px;font-size:12px}
+.wq-sku .sl .sn{flex:1}
+.wq-sku .sl .req{display:flex;gap:4px}
+.tag-major{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--indigo-soft);color:var(--indigo)}
+.tag-skill{font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;background:var(--teal-soft);color:var(--teal-deep)}
+.tag-mach{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:#ece9fb;color:#5a4bd0}
+
+/* nhân sự */
+.stf{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+.stf:last-child{border:none}
+.stf .info{flex:1}.stf .info b{font-size:13.5px}.stf .info span{font-size:11.5px;color:var(--ink-soft);display:block}
+.stf .shift{font-size:11px;color:var(--ink-soft);font-family:Consolas,monospace}
+.st-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.st-avail{background:#3fae7a}.st-busy{background:#e0a13a}.st-break{background:#c9543f}.st-off{background:var(--line)}
+.st-pill{font-size:10.5px;font-weight:600;padding:2px 9px;border-radius:20px}
+.sp-avail{background:#e3f3ea;color:#2e7d54}.sp-busy{background:#fbf0db;color:#9a6a1e}.sp-break{background:#f9e2dd;color:#a64b4b}.sp-off{background:var(--bg-2);color:var(--ink-soft)}
+.req-by{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#fdefc9;color:#8a6a14}
+
+/* auto-engine + van xả */
+.auto-bar{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;background:linear-gradient(120deg,#1d2a28,#244640);color:#d7ece4;margin-bottom:16px}
+.auto-bar .led{width:11px;height:11px;border-radius:50%;background:#5fe0a8;flex:none;animation:pp 1.6s infinite}
+.auto-bar b{color:#fff}
+.auto-bar .mode{margin-left:auto;display:flex;gap:8px}
+.auto-pill{font-size:11.5px;font-weight:600;padding:5px 12px;border-radius:20px;background:rgba(255,255,255,.12);color:#d7ece4;border:none;cursor:pointer}
+.auto-pill.on{background:#5fe0a8;color:#10302a}
+.esc-step{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.esc-step:last-child{border:none}
+.esc-num{width:24px;height:24px;border-radius:7px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;font-weight:700;font-size:12px;flex:none}
+.esc-step.danger .esc-num{background:#f9e2dd;color:#a64b4b}
+.esc-step .et b{font-size:13px}.esc-step .et span{font-size:12px;color:var(--ink-soft)}
+/* anomaly */
+.anom{display:flex;gap:11px;align-items:flex-start;padding:12px;border:1px solid #f0d0c9;background:#fdf3f0;border-radius:12px;margin-bottom:9px}
+.anom.warn{border-color:#f0d9a8;background:#fdf6e8}
+.anom .ai{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none}
+.anom.flag .ai{background:#f9e2dd;color:#a64b4b}.anom.warn .ai{background:#fbeccb;color:#9a6a1e}
+.anom .ax{flex:1}.anom .ax b{font-size:13px}.anom .ax span{font-size:12px;color:var(--ink-soft);display:block;margin-top:2px}
+.anom .sev{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;white-space:nowrap}
+.sev-hi{background:#f4c9c0;color:#9a3b2c}.sev-md{background:#f6e1b8;color:#8a6a14}
+/* full width — mọi box xếp dọc 100% */
+#view .row{grid-template-columns:1fr !important}
+#view .panel{position:static !important}
+/* fix card anomaly không bị ép chiều cao */
+.anom{height:auto !important;width:100%;box-sizing:border-box}
+.anom .ai{display:inline-flex;align-items:center;justify-content:center}
+.anom .ai svg{width:16px;height:16px}
+.anom .ax{flex:1;min-width:0}
+.anom .ai,.anom .sev{align-self:flex-start}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/data.js"></script>
+<script>
+renderLayout('dispatch');
+const right=`<div class="pill-tabs"><button class="on" onclick="showTab('board')">Bàn điều phối</button><button onclick="showTab('rules')">Rule theo khu vực</button><button onclick="showTab('pay')">Rule tính công</button></div>`;
+document.getElementById('main').innerHTML = topbar('Vận hành','Điều phối tua · CN Quận 1',{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `<div id="view"></div>`;
+const VIEW=document.getElementById('view');
+const fmtMin = m => m>=60 ? `${Math.floor(m/60)}h${m%60?(' '+(m%60)+'p'):''}` : `${m}p`;
+
+/* ============================================================
+   DATA — hàng chờ khách (ý 1) + nhân sự (ý 2)
+   ============================================================ */
+// Mỗi khách: nhiều phiếu DV → nhiều SKU; mỗi SKU có nhóm, máy, thời gian, yêu cầu skill/major.
+// major = nghề bắt buộc (bác sĩ/tóc...) KHÔNG đổi dù skill; skill = cấp tay nghề có thể nâng.
+const QUEUE = [
+  { id:'C-1042', name:'Trần Thu Hà', av:'av-teal', vip:true, wait:6, peakSafe:false,
+    reqStaff:null, // không ai chỉ định
+    tickets:['DV-0825','DV-0826'],
+    skus:[
+      { n:'Giảm béo RF bụng · buổi 1/10', group:'Giảm béo', mins:45, machine:'RF Slim', major:null, skill:'RF · Senior' },
+      { n:'Triệt lông Diode 2 vùng',       group:'Triệt lông', mins:30, machine:'Laser Diode', major:null, skill:'Laser · Mid' },
+      { n:'Chăm sóc da phục hồi',          group:'Chăm sóc da', mins:40, machine:null, major:null, skill:'Skincare · Mid' },
+    ] },
+  { id:'C-1080', name:'Lê Minh', av:'av-indigo', vip:false, wait:16, peakSafe:false,
+    reqStaff:null,
+    tickets:['DV-0830'],
+    skus:[
+      { n:'Khám da liễu + kê toa', group:'Bác sĩ', mins:20, machine:null, major:'Bác sĩ', skill:null },
+      { n:'Triệt lông Diode lưng', group:'Triệt lông', mins:35, machine:'Laser Diode', major:null, skill:'Laser · Mid' },
+    ] },
+  { id:'C-1136', name:'Ngô Khánh', av:'av-gold', vip:false, wait:9, peakSafe:true, // khách yêu cầu NV, chấp nhận chờ
+    reqStaff:'Hồng Trang',
+    tickets:['DV-0836'],
+    skus:[
+      { n:'Phục hồi tóc & uốn',  group:'Derma & Hair', mins:90, machine:null, major:'Tóc', skill:'Hair · Senior' },
+      { n:'Gội dưỡng sinh',      group:'Derma & Hair', mins:25, machine:null, major:null, skill:'Spa · Junior' },
+    ] },
+];
+// gom thống kê cho 1 khách
+function wqAgg(q){
+  const groups = [...new Set(q.skus.map(s=>s.group))];
+  const machines = [...new Set(q.skus.filter(s=>s.machine).map(s=>s.machine))];
+  const mins = q.skus.reduce((s,x)=>s+x.mins,0);
+  return { tickets:q.tickets.length, skus:q.skus.length, groups:groups.length, machines, mins };
+}
+
+const STAFF = [
+  { nm:'Hồng Trang', sub:'KTV · Senior', av:'av-gold', shift:'08–17', status:'avail',  checkedIn:'07:58', major:['RF','Body'], skills:['RF·Senior','Body·Senior','Laser·Mid'], tua:1, tuaMax:6, cong:'1,2tr' },
+  { nm:'Thanh Mai',  sub:'KTV · Senior', av:'av-teal', shift:'08–17', status:'busy',   checkedIn:'07:50', major:['Laser'], skills:['Laser·Senior','RF·Mid'], tua:3, tuaMax:6, cong:'1,9tr', busyUntil:'10:20' },
+  { nm:'Ngọc Linh',  sub:'Điều dưỡng', av:'av-blush', shift:'08–17', status:'break',  checkedIn:'07:55', major:['Skincare'], skills:['Skincare·Mid','RF·Mid'], tua:1, tuaMax:4, cong:'1,1tr', breakBack:'10:05' },
+  { nm:'BS. Bích Hằng', sub:'Bác sĩ da liễu', av:'av-indigo', shift:'08–16', status:'avail', checkedIn:'08:02', major:['Bác sĩ'], skills:['Bác sĩ'], tua:2, tuaMax:8, cong:'—' },
+  { nm:'Mai Linh',   sub:'Stylist tóc', av:'av-sage', shift:'09–18', status:'avail', checkedIn:'08:48', major:['Tóc'], skills:['Hair·Senior','Spa·Mid'], tua:0, tuaMax:5, cong:'0,6tr' },
+  { nm:'Phương Anh', sub:'KTV · Học việc', av:'av-blush', shift:'08–17', status:'off', checkedIn:null, major:[], skills:['RF·Junior'], tua:0, tuaMax:5, cong:'0đ' },
+];
+
+// trạng thái chung
+const peak = { hot:true, waiting:QUEUE.length, longest:Math.max(...QUEUE.map(q=>q.wait)) };
+let selCust = QUEUE[0].id;
+let manualMode = false;
+let autoMode = 'full';
+
+/* ============================================================
+   TAB 1 — BÀN ĐIỀU PHỐI
+   ============================================================ */
+function staffStatus(s){
+  const map={avail:['st-avail','sp-avail','Sẵn sàng'],busy:['st-busy','sp-busy','Đang làm'+(s.busyUntil?` · tới ${s.busyUntil}`:'')],break:['st-break','sp-break','Giữa giờ'+(s.breakBack?` · về ${s.breakBack}`:'')],off:['st-off','sp-off','Chưa check-in']};
+  return map[s.status];
+}
+function renderBoard(){
+  VIEW.innerHTML=`
+  <div class="auto-bar">
+    <span class="led"></span>
+    <div><b>Tự động điều phối: ${autoMode==='full'?'BẬT HOÀN TOÀN':'BÁN TỰ ĐỘNG'}</b> — hệ tự gán theo điểm khi khách check-in, nhân viên chỉ Nhận/Từ chối trên app. ${autoMode==='full'?'Quản lý chỉ giám sát & xử ngoại lệ.':'Quản lý duyệt trước khi chốt.'}
+      <a href="dispatch-claim.html" target="_blank" style="color:#9fe6cf;text-decoration:underline;font-size:12px">↗ Xem app nhận tua của NV</a></div>
+    <div class="mode">
+      <button class="auto-pill ${autoMode==='full'?'on':''}" onclick="setAuto('full')">Tự động hoàn toàn</button>
+      <button class="auto-pill ${autoMode==='semi'?'on':''}" onclick="setAuto('semi')">Bán tự động</button>
+    </div>
+  </div>
+  <div class="peak-bar ${peak.hot?'hot':'calm'}">
+    ${peak.hot?'<span class="pulse"></span>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>'}
+    <div style="flex:1">${peak.hot
+      ? `<b>GIỜ CAO ĐIỂM</b> — ${peak.waiting} khách đang chờ, lâu nhất ${peak.longest} phút. Rule tối ưu thời gian chờ đang BẬT: NV vừa trống sẽ được gợi ý cho khách chờ lâu / sắp quá giờ trước.`
+      : `Lưu lượng bình thường — ${peak.waiting} khách chờ.`}</div>
+  </div>
+
+  <div class="row">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Khách đang chờ làm dịch vụ<small>Hệ tự gán · click để xem/can thiệp · phiếu · SKU · nhóm · máy · thời gian · tay nghề</small></div></div>
+      <div id="queue"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Nhân sự trong ca<small>Lịch ca · check-in/out · trạng thái realtime</small></div></div>
+      <div id="staff"></div>
+    </div>
+  </div>
+
+  <div id="dispatchPanel" style="margin-top:18px"></div>
+
+  <div class="row">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Van xả khi bất khả kháng<small>Không ai nhận / sự cố — hệ tự nâng bậc, hạn chế tay người</small></div></div>
+      <div class="esc-step"><div class="esc-num">1</div><div class="et"><b>Mở rộng bán kính & nới giờ chờ</b><span>Tự offer lại cho nhóm NV đủ skill kế cận, giãn thời gian bắt đầu.</span></div></div>
+      <div class="esc-step"><div class="esc-num">2</div><div class="et"><b>Nới cấp skill (có cờ)</b><span>Cho phép Mid thay Senior nếu vẫn an toàn; ghi cờ "hạ cấp" để rà sau. Major (bác sĩ/tóc) KHÔNG nới.</span></div></div>
+      <div class="esc-step"><div class="esc-num">3</div><div class="et"><b>Ghép tách step / đổi phòng-máy</b><span>Tách liệu trình cho 2 NV làm song song để rút thời gian chờ.</span></div></div>
+      <div class="esc-step danger"><div class="esc-num">4</div><div class="et"><b>Đẩy lên quản lý (bắt buộc lý do)</b><span>Chỉ khi 3 bậc trên thất bại. Override tay phải nhập lý do + ghi audit + bị đếm.</span></div></div>
+      <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Mục tiêu: tối thiểu can thiệp người. Mọi can thiệp tay đều để lại dấu vết.</div></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Phát hiện bất thường (chống cấu kết / ghim khách)<small>Hệ tự soi — bảo vệ công bằng</small></div></div>
+      <div class="anom flag"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="ax"><b>Khách tiềm năng cao bị treo bất thường</b><span>Một khách giá trị lớn chờ 14 phút dù có 2 NV đủ skill đang rảnh — nghi có người "để dành". Hệ đã tự gán ép.</span></div><span class="sev sev-hi">CAO</span></div>
+      <div class="anom warn"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M2 21v-2a5 5 0 0 1 9-3"/></svg></div>
+        <div class="ax"><b>Cặp TVV–KTV lặp lại với khách sộp</b><span>TVV Quỳnh Trang + KTV Thanh Mai trùng nhau ở 6/7 khách chi tiêu cao tuần này — vượt ngưỡng ngẫu nhiên.</span></div><span class="sev sev-md">THEO DÕI</span></div>
+      <div class="anom warn"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+        <div class="ax"><b>Tỉ lệ "bỏ qua tua" cao bất thường</b><span>1 KTV bỏ qua 5 tua thường nhưng nhận ngay tua giá trị cao — đang bị trừ điểm ưu tiên & gắn cờ.</span></div><span class="sev sev-md">THEO DÕI</span></div>
+      <div style="font-size:11.5px;color:var(--ink-soft);margin-top:10px;line-height:1.6">Cơ chế chống ghim: ẩn danh tính/giá trị khách trên app NV · auto-gán tức thì · log toàn bộ thao tác tay · so khớp mẫu cặp NV–khách.</div>
+    </div>
+  </div>`;
+  renderQueue(); renderStaff(); renderDispatch();
+}
+function setAuto(m){ autoMode=m; renderBoard(); }
+function renderQueue(){
+  document.getElementById('queue').innerHTML = QUEUE.map(q=>{
+    const a=wqAgg(q); const over=q.wait>15 && !q.peakSafe;
+    return `<div class="wq ${q.id===selCust?'sel':''}" onclick="pickCust('${q.id}')">
+      <div class="wq-top"><div class="q-av ${q.av}">${q.name.split(' ').slice(-1)[0].slice(0,2)}</div>
+        <div class="nm">${q.name} ${q.vip?'<span class="tag vip">VIP</span>':''} ${q.reqStaff?`<span class="req-by">★ Yêu cầu ${q.reqStaff}</span>`:''}</div>
+        <div class="wt ${over?'over':''}"><b>${q.wait}p</b><span>${over?'⚠ quá giờ chờ':(q.peakSafe?'chấp nhận chờ':'đang chờ')}</span></div>
+      </div>
+      <div class="wq-stats">
+        <div class="wq-stat"><b>${a.tickets}</b><span>PHIẾU DV</span></div>
+        <div class="wq-stat"><b>${a.skus}</b><span>SKU</span></div>
+        <div class="wq-stat"><b>${a.groups}</b><span>NHÓM DV</span></div>
+        <div class="wq-stat mach"><b>${a.machines.length||'—'}</b><span>MÁY</span></div>
+        <div class="wq-stat"><b>${fmtMin(a.mins)}</b><span>DỰ KIẾN</span></div>
+      </div>
+      <div class="wq-sku">
+        ${q.skus.map(s=>`<div class="sl"><span class="sn">${s.n} <span style="color:var(--ink-soft)">· ${s.group} · ${s.mins}p</span></span>
+          <span class="req">${s.machine?`<span class="tag-mach">⚙ ${s.machine}</span>`:''}${s.major?`<span class="tag-major">${s.major} (cố định)</span>`:''}${s.skill?`<span class="tag-skill">${s.skill}</span>`:''}</span></div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderStaff(){
+  document.getElementById('staff').innerHTML = STAFF.map(s=>{
+    const [dot,pill,label]=staffStatus(s);
+    return `<div class="stf">
+      <span class="st-dot ${dot}"></span>
+      <div class="q-av ${s.av}" style="width:36px;height:36px">${s.nm.split(' ').slice(-1)[0].slice(0,2)}</div>
+      <div class="info"><b>${s.nm}</b><span>${s.sub} · tua ${s.tua}/${s.tuaMax} · công ${s.cong}</span></div>
+      <div style="text-align:right"><span class="st-pill ${pill}">${label}</span><div class="shift" style="margin-top:3px">ca ${s.shift}${s.checkedIn?` · in ${s.checkedIn}`:''}</div></div>
+    </div>`;
+  }).join('');
+}
+
+/* ---- chấm điểm điều phối (giữ công thức ý 7) ---- */
+// score = .35·skillMatch + .25·(1−loadRatio) + .15·(1−payBalance) + .15·continuity + .10·vipPriority
+function scoreFor(staff, cust){
+  // skillMatch: có đủ major bắt buộc + có ít nhất 1 skill nhóm khớp
+  const needMajors = [...new Set(cust.skus.filter(x=>x.major).map(x=>x.major))];
+  const needSkillGroups = [...new Set(cust.skus.filter(x=>x.skill).map(x=>x.skill.split('·')[0].trim()))];
+  const hasAllMajor = needMajors.every(m=>staff.major.includes(m));
+  const skillHit = needSkillGroups.filter(g=>staff.skills.some(k=>k.startsWith(g))).length;
+  const skillMatch = (needMajors.length && !hasAllMajor) ? 0
+                    : Math.min(1, (skillHit + (hasAllMajor&&needMajors.length?1:0)) / Math.max(1, needSkillGroups.length + (needMajors.length?1:0)));
+  const loadRatio = staff.tua/staff.tuaMax;
+  const payNum = parseFloat((staff.cong||'0').replace(/[^\d,]/g,'').replace(',','.'))||0;
+  const payBalance = Math.min(1, payNum/2.0); // chuẩn hóa thô so nhóm
+  const continuity = (staff.nm===cust.reqStaff) ? 1 : 0;
+  const vipPriority = (cust.vip && /Senior/.test(staff.skills.join(''))) ? 1 : 0;
+  const score = 0.35*skillMatch + 0.25*(1-loadRatio) + 0.15*(1-payBalance) + 0.15*continuity + 0.10*vipPriority;
+  return { score, skillMatch, loadRatio, payBalance, continuity, vipPriority, hasAllMajor, needMajors, eligible: !(needMajors.length && !hasAllMajor) && skillMatch>0 };
+}
+function renderDispatch(){
+  const cust = QUEUE.find(q=>q.id===selCust); if(!cust)return;
+  const ranked = STAFF.map(s=>({s, ...scoreFor(s,cust)})).sort((a,b)=>b.score-a.score);
+  const best = ranked[0];
+  const offDuty = s=>s.status==='off';
+  document.getElementById('dispatchPanel').innerHTML=`
+  <div class="row r-2">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Điều phối cho: ${cust.name}${cust.vip?' <span class="tag vip">VIP</span>':''}<small>${manualMode?'Chế độ chỉnh tay — chọn người, vẫn phải đủ major & skill':'Hệ tự đề xuất theo rule · bấm Chỉnh tay để override'}</small></div>
+      <button class="btn ${manualMode?'btn-teal':'btn-ghost'}" style="padding:7px 14px;font-size:12.5px" onclick="toggleManual()">${manualMode?'⟲ Về tự động':'✎ Chỉnh tay (override)'}</button></div>
+      ${cust.reqStaff?`<div class="alert al-info" style="margin-bottom:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 17l-6.5 5 2-7L2 9h7z"/></svg><div>Khách <b>chỉ định ${cust.reqStaff}</b> qua booking và <b>chấp nhận chờ</b> — không tính cảnh báo trễ cho khách này.</div></div>`:''}
+      ${(peak.hot && cust.wait>15 && !cust.peakSafe)?`<div class="alert" style="margin-bottom:12px;background:#fdeee3;border:1px solid #f0c9a8;color:#9a5a1e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Cao điểm + chờ quá lâu:</b> ưu tiên gán NV trống gần nhất để giảm thời gian chờ, kể cả điểm chưa tối ưu nhất.</div></div>`:''}
+      <div id="cands"></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Cách tính điểm điều phối</div></div>
+      <div class="formula"><span class="k">score</span> =
+  <span class="n">0.35</span>·skillMatch
++ <span class="n">0.25</span>·(1 − loadRatio)
++ <span class="n">0.15</span>·(1 − payBalance)
++ <span class="n">0.15</span>·continuity
++ <span class="n">0.10</span>·vipPriority</div>
+      <div style="font-size:12.5px;color:var(--ink-soft);margin-top:14px;line-height:1.7">
+      • <b>skillMatch</b>: khớp kỹ năng & cấp độ; <b>major (bác sĩ/tóc…) bắt buộc</b>, thiếu là loại.<br>
+      • <b>loadRatio</b>: số tua đang gánh / công suất ca.<br>
+      • <b>payBalance</b>: tổng tiền công trong ca so với nhóm.<br>
+      • <b>continuity</b>: đã từng / được khách chỉ định.<br>
+      • <b>vipPriority</b>: ưu tiên KTV senior cho khách VIP.</div>
+      <div class="alert al-info" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Trọng số & rule chỉnh trong tab <b>Rule theo khu vực</b>.</div></div>
+    </div>
+  </div>`;
+  renderCands(ranked, best, cust);
+}
+function renderCands(ranked, best, cust){
+  document.getElementById('cands').innerHTML = ranked.map((r)=>{
+    const s=r.s; const isBest = r===best && !manualMode;
+    const dim = s.status==='off';
+    const majorMiss = r.needMajors.length && !r.hasAllMajor;
+    return `<div class="cand ${isBest?'best':''}" style="${dim?'opacity:.5':''}">
+      <div class="cand-top"><div class="q-av ${s.av}">${s.nm.split(' ').slice(-1)[0].slice(0,2)}</div>
+        <div><div class="nm">${s.nm}
+          ${isBest?'<span class="tag done">Đề xuất tốt nhất</span>':''}
+          ${r.continuity?'<span class="tag new">Khách chỉ định</span>':''}
+          ${s.status==='off'?'<span class="tag" style="background:var(--bg-2);color:var(--ink-soft)">Chưa check-in</span>':''}</div>
+          <div class="sub">${s.sub} · ca ${s.shift}</div></div>
+        <div class="score"><b>${r.score.toFixed(2)}</b><span>ĐIỂM</span></div></div>
+      <div class="metrics">
+        <div class="metric ${r.loadRatio<=0.4?'good':''}"><b>${s.tua}/${s.tuaMax}</b><span>Tua đang làm</span></div>
+        <div class="metric"><b>${s.cong}</b><span>Tổng công ca</span></div>
+        <div class="metric ${majorMiss?'warn':'good'}"><b>${majorMiss?'✕':'✓'}</b><span>${r.needMajors.length?r.needMajors.join('/'):'Không cần major'}</span></div>
+        <div class="metric ${r.skillMatch>=0.6?'good':(r.skillMatch>0?'':'warn')}"><b>${Math.round(r.skillMatch*100)}%</b><span>Khớp skill</span></div>
+      </div>
+      <div class="skill-chips">${s.skills.map(k=>`<span class="sc">${k}</span>`).join('')}
+        <span style="margin-left:auto">${
+          majorMiss ? `<button class="btn btn-ghost" style="padding:6px 14px;font-size:12px" disabled>Thiếu major bắt buộc</button>`
+          : (r.eligible ? `<button class="btn ${isBest?'btn-teal':'btn-ghost'}" style="padding:6px 14px;font-size:12px" onclick="assign('${s.nm}',${manualMode})">${manualMode?'Override gán':'Phân công'}</button>`
+            : `<button class="btn btn-ghost" style="padding:6px 14px;font-size:12px" disabled>Không đủ skill</button>`)
+        }</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+function pickCust(id){ selCust=id; renderQueue(); renderDispatch(); }
+function toggleManual(){ manualMode=!manualMode; renderDispatch(); }
+function assign(n, manual){ alert((manual?'[CHỈNH TAY] ':'')+'Đã phân công cho '+n+'. Ghi nhận audit điều phối'+(manual?' (override rule).':'.')); }
+
+/* ============================================================
+   TAB 2 — RULE THEO KHU VỰC (ý 3)
+   ============================================================ */
+let region='hcm-q1';
+const REGIONS={
+  'hcm-q1':{label:'HCM · CN Quận 1', w:[0.35,0.25,0.15,0.15,0.10], cap:6, peakOpt:true, peakWindow:'17:00–20:00'},
+  'hcm-q7':{label:'HCM · CN Quận 7', w:[0.30,0.30,0.15,0.15,0.10], cap:7, peakOpt:true, peakWindow:'18:00–21:00'},
+  'hn-cg' :{label:'Hà Nội · CN Cầu Giấy', w:[0.40,0.20,0.10,0.20,0.10], cap:5, peakOpt:false, peakWindow:'—'},
+};
+function renderRules(){
+  const r=REGIONS[region];
+  const labels=['Khớp kỹ năng (skillMatch)','Cân bằng tải (loadRatio)','Công bằng thu nhập (payBalance)','Liên tục chăm sóc (continuity)','Ưu tiên VIP (vipPriority)'];
+  VIEW.innerHTML=`
+  <div class="panel" style="margin-bottom:18px"><div class="panel-h"><div class="panel-title">Chọn khu vực / chi nhánh<small>Mỗi nơi có bộ rule điều phối riêng</small></div>
+    <select onchange="setRegion(this.value)" style="padding:9px 13px;border:1px solid var(--line);border-radius:11px;font-family:inherit;font-size:13px;outline:none;background:#fff">
+      ${Object.entries(REGIONS).map(([k,v])=>`<option value="${k}" ${k===region?'selected':''}>${v.label}</option>`).join('')}
+    </select></div>
+    <div style="font-size:12.5px;color:var(--ink-soft)">Đang cấu hình cho: <b style="color:var(--teal-deep)">${r.label}</b></div>
+  </div>
+  <div class="row r-2">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Trọng số điểm điều phối<small>Tổng nên = 1.00</small></div></div>
+      ${labels.map((l,i)=>`<div class="rule-row"><div class="ri"><b>${l}</b></div><div class="rule-val">${r.w[i].toFixed(2)}</div></div>`).join('')}
+      <div class="rule-row"><div class="ri"><b>Tổng trọng số</b></div><div class="rule-val" style="color:${Math.abs(r.w.reduce((a,b)=>a+b,0)-1)<0.001?'var(--teal-deep)':'var(--rose)'}">${r.w.reduce((a,b)=>a+b,0).toFixed(2)}</div></div>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:14px">Lưu trọng số cho ${r.label}</button>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Quy tắc bật/tắt theo khu vực</div></div>
+      <div class="rule-row"><div class="ri"><b>Chặn phân nếu thiếu major/skill</b><span>Không phân người dưới cấp yêu cầu</span></div><div class="switch"></div></div>
+      <div class="rule-row"><div class="ri"><b>Học việc chỉ trong scope</b><span>Vượt scope phải có supervisor</span></div><div class="switch"></div></div>
+      <div class="rule-row"><div class="ri"><b>Giới hạn tua/người/ca</b><span>Tránh quá tải</span></div><div class="rule-val">${r.cap}</div></div>
+      <div class="rule-row"><div class="ri"><b>Cho phép override thủ công</b><span>Quản lý can thiệp (ghi audit)</span></div><div class="switch"></div></div>
+      <div class="rule-row"><div class="ri"><b>Rule tối ưu thời gian chờ (cao điểm)</b><span>NV vừa trống → ưu tiên khách chờ lâu</span></div><div class="switch ${r.peakOpt?'':'off'}"></div></div>
+      <div class="rule-row"><div class="ri"><b>Khung giờ cao điểm</b><span>Áp rule tối ưu chờ trong khung này</span></div><div class="rule-val" style="width:auto;font-size:12px">${r.peakWindow}</div></div>
+      <div class="rule-row"><div class="ri"><b>Bỏ cảnh báo trễ khi khách chỉ định NV</b><span>Khách chấp nhận chờ người mình chọn</span></div><div class="switch"></div></div>
+    </div>
+  </div>`;
+  wireSwitches();
+}
+function setRegion(r){region=r;renderRules();}
+
+/* ============================================================
+   TAB 3 — RULE TÍNH CÔNG (giữ nguyên ý 7)
+   ============================================================ */
+const PAY = `
+  <div class="panel"><div class="panel-h"><div class="panel-title">Rule tính tiền công (payroll rule)<small>Tăng ca, ngày lễ, hoa hồng buổi</small></div><button class="btn btn-teal" style="padding:7px 14px;font-size:12.5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Thêm rule</button></div>
+    <table><thead><tr><th>Tên rule</th><th>Điều kiện áp dụng</th><th>Công thức</th><th>Áp dụng cho</th><th>Trạng thái</th></tr></thead><tbody>
+      <tr class="clickable"><td><b>Tăng ca thường</b></td><td>Giờ làm > 8h/ngày</td><td>Tiền công × <b>1.5</b> giờ vượt</td><td>KTV, ĐD</td><td><span class="tag done">Bật</span></td></tr>
+      <tr class="clickable"><td><b>Tăng ca đêm</b></td><td>Buổi sau 21:00</td><td>Tiền công × <b>1.8</b></td><td>Tất cả</td><td><span class="tag done">Bật</span></td></tr>
+      <tr class="clickable"><td><b>Ngày lễ / Tết</b></td><td>Ngày trong danh mục nghỉ lễ</td><td>Tiền công × <b>3.0</b></td><td>Tất cả</td><td><span class="tag done">Bật</span></td></tr>
+      <tr class="clickable"><td><b>Hoa hồng buổi dịch vụ</b></td><td>Mỗi buổi hoàn tất theo nhóm DV</td><td><b>+5–8%</b> giá buổi</td><td>KTV, ĐD</td><td><span class="tag done">Bật</span></td></tr>
+      <tr class="clickable"><td><b>Phụ cấp kèm học việc</b></td><td>Mentor giám sát buổi học việc</td><td><b>+30.000đ</b>/buổi kèm</td><td>Supervisor</td><td><span class="tag done">Bật</span></td></tr>
+      <tr class="clickable"><td><b>Part-time giờ cao điểm</b></td><td>Ca 17:00–20:00</td><td>Đơn giá giờ × <b>1.25</b></td><td>Part-time</td><td><span class="tag prog">Thử nghiệm</span></td></tr>
+    </tbody></table>
+    <div style="margin-top:18px"><div class="panel-title" style="font-size:14px;margin-bottom:8px">Ví dụ công thức tiền công 1 ca (KTV tăng ca)</div>
+      <div class="formula"><span class="k">payCa</span> = (giờThường × đơnGiá)
+        + (giờTăngCa × đơnGiá × <span class="n">1.5</span>)
+        + Σ(buổi × hoaHồngNhóm)
+        + phụCấpKèm
+        <span style="color:#9fb8b0">// nếu rơi ngày lễ: toàn bộ × 3.0</span></div>
+    </div>
+  </div>`;
+
+/* ============================================================ */
+function showTab(t){
+  const idx={board:0,rules:1,pay:2}[t];
+  document.querySelectorAll('.pill-tabs button').forEach((b,i)=>b.classList.toggle('on', i===idx));
+  if(t==='board') renderBoard();
+  else if(t==='rules') renderRules();
+  else { VIEW.innerHTML=PAY; }
+}
+function wireSwitches(){document.querySelectorAll('.switch').forEach(s=>s.onclick=()=>s.classList.toggle('off'));}
+showTab('board');
+</script>
+</body></html>

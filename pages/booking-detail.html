@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Hành trình khách</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.bd-head{background:linear-gradient(140deg,#fff,var(--teal-soft));border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.bd-head .q-av{width:48px;height:48px;border-radius:14px;font-size:16px}
+/* timeline phiếu */
+.flowline{position:relative;padding-left:8px}
+.fl-item{display:flex;gap:14px;align-items:flex-start;position:relative}
+.fl-col{display:flex;flex-direction:column;align-items:center;flex:none}
+.fl-dot{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff;flex:none;z-index:1}
+.fl-dot svg{width:19px;height:19px}
+.fl-line{width:2px;flex:1;background:var(--line);min-height:26px;margin:4px 0}
+.fl-item:last-child .fl-line{display:none}
+.fl-body{flex:1;border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:14px;background:#fff;transition:.14s;text-decoration:none;color:inherit;display:block}
+.fl-body:hover{border-color:var(--teal);box-shadow:var(--shadow)}
+.fl-body.done{background:linear-gradient(140deg,#fff,var(--teal-soft))}
+.fl-h{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.fl-h .pcode{font-family:Consolas,monospace;font-size:12px;font-weight:600;color:var(--teal-deep)}
+.fl-h b{font-size:14px}
+.fl-h .fl-time{margin-left:auto;font-size:11.5px;color:var(--ink-soft)}
+.fl-meta{font-size:12px;color:var(--ink-soft);margin-top:4px}
+.fl-extra{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--ink-soft)}
+.branch{margin-left:54px;border-left:2px dashed var(--gold);padding-left:14px;margin-bottom:14px}
+.branch .bl{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:6px}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/data.js"></script>
+<script>
+renderLayout('booking');
+const right=`<a class="btn btn-ghost" href="booking.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>L\u1ecbch booking</a><a class="btn btn-ghost" href="customer-treatment-record.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>H\u1ed3 s\u01a1 \u0111i\u1ec1u tr\u1ecb</a>`;
+const C = getCustomer();
+document.getElementById('main').innerHTML = topbar('L\u1ecbch & Booking \u203a Chi ti\u1ebft','Chi ti\u1ebft booking',{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `
+  <div class="cn-tabs">
+    <a class="cn-link" href="booking.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Dashboard (calendar CN)</a>
+    <a class="cn-link" href="booking-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Danh s\u00e1ch booking</a>
+    <a class="cn-link on" href="booking-detail.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Chi ti\u1ebft booking</a>
+  </div>
+  <div class="bd-head"><div class="q-av ${C.avatarClass}">${C.initials}</div>
+    <div style="flex:1;min-width:220px"><div style="font-family:Fraunces,serif;font-size:19px;font-weight:600">${C.name} <span class="tag vip">${C.tier}</span></div>
+      <div style="font-size:12.5px;color:var(--ink-soft)">${C.id} \u00b7 S\u0110T <b>${maskPhone(C.phone)}</b> \u00b7 Booking ${C.tickets.bk} \u00b7 v\u00e0o l\u00fac 09:55</div></div>
+    <a class="btn btn-ghost" href="${linkFor('customer-treatment-record.html')}" style="padding:7px 13px;font-size:12.5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>H\u1ed3 s\u01a1 \u0111i\u1ec1u tr\u1ecb</a>
+    <span class="tag prog">\u0110ang trong quy tr\u00ecnh</span>
+  </div>
+
+  <div class="row r-2" style="margin-bottom:18px">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Th\u00f4ng tin l\u1ecbch h\u1eb9n & kh\u00e1ch</div></div>
+      <div class="sumline"><span style="color:var(--ink-soft)">M\u00e3 booking</span><span class="pcode" style="font-family:Consolas,monospace;font-weight:600">${C.tickets.bk}</span></div>
+      <div class="sumline"><span style="color:var(--ink-soft)">D\u1ecbch v\u1ee5 \u0111\u1eb7t</span><span>Gi\u1ea3m b\u00e9o RF b\u1ee5ng \u00b7 10:00</span></div>
+      <div class="sumline"><span style="color:var(--ink-soft)">Ngu\u1ed3n</span><span>Online (app)</span></div>
+      <div class="sumline"><span style="color:var(--ink-soft)">Ph\u00f2ng / NV</span><span>Slim 1 \u00b7 KTV H\u1ed3ng Trang</span></div>
+      <div class="sumline"><span style="color:var(--ink-soft)">Ph\u00e2n lo\u1ea1i KH</span><span><span class="tag vip">VIP</span> \u00b7 th\u00e2n thi\u1ebft 2 n\u0103m</span></div>
+      <div class="sumline"><span style="color:var(--ink-soft)">L\u01b0u \u00fd</span><span style="color:var(--rose)">D\u1ecb \u1ee9ng Lidocaine \u00b7 kh\u00f4ng KTV nam</span></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">L\u1ecbch s\u1eed booking & \u0111i\u1ec1u tr\u1ecb</div><a class="btn btn-ghost" href="customer-treatment-record.html" style="padding:5px 11px;font-size:11.5px">Xem \u0111\u1ea7y \u0111\u1ee7</a></div>
+      <div class="hx-item" style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--bg-2)"><div class="q-av av-teal" style="width:30px;height:30px;font-size:10px">RF</div><div style="flex:1"><b style="font-size:12.5px">28/05 \u00b7 Gi\u1ea3m b\u00e9o RF (bu\u1ed5i 9/10)</b><div style="font-size:11.5px;color:var(--ink-soft)">Ho\u00e0n t\u1ea5t \u00b7 KTV H\u1ed3ng Trang</div></div></div>
+      <div class="hx-item" style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--bg-2)"><div class="q-av av-blush" style="width:30px;height:30px;font-size:10px">DA</div><div style="flex:1"><b style="font-size:12.5px">14/05 \u00b7 Ch\u0103m s\u00f3c da</b><div style="font-size:11.5px;color:var(--ink-soft)">Ho\u00e0n t\u1ea5t</div></div></div>
+      <div class="hx-item" style="display:flex;gap:10px;padding:9px 0"><div class="q-av av-gold" style="width:30px;height:30px;font-size:10px">KH</div><div style="flex:1"><b style="font-size:12.5px">02/05 \u00b7 Kh\u00e1m da li\u1ec5u</b><div style="font-size:11.5px;color:var(--ink-soft)">BS B\u00edch H\u1eb1ng \u00b7 toa QG-7740</div></div></div>
+      <div class="alert al-info" style="margin-top:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>G\u00f3i RF c\u00f2n <b>1 bu\u1ed5i</b> sau h\u00f4m nay \u00b7 g\u00f3i ch\u0103m s\u00f3c da c\u00f2n hi\u1ec7u l\u1ef1c \u0111\u1ebfn 11/2026.</div></div>
+    </div>
+  </div>
+
+  <div class="row r-2">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Gói đang có<small>Gói/liệu trình còn hiệu lực của khách</small></div></div>
+      <div class="cart-row"><div class="q-av av-gold">RF</div><div class="ci"><b>Gói giảm béo RF · 10 buổi</b><span>Còn 1 buổi · hiệu lực đến 09/2026</span></div><div class="cp" style="font-family:'Fraunces',serif">9/10</div></div>
+      <div class="cart-row"><div class="q-av av-teal">CS</div><div class="ci"><b>Gói chăm sóc da · 5 buổi</b><span>Còn 3 buổi · hiệu lực đến 11/2026</span></div><div class="cp" style="font-family:'Fraunces',serif">2/5</div></div>
+      <div class="cart-row"><div class="q-av av-blush">BH</div><div class="ci"><b>Bảo hành triệt lông</b><span>Còn hiệu lực · redo miễn phí</span></div><span class="tag done">Active</span></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Lịch sử dùng dịch vụ<small>Các buổi đã thực hiện gần đây</small></div><a class="btn btn-ghost" href="customer-treatment-record.html" style="padding:5px 11px;font-size:11.5px">Hồ sơ điều trị</a></div>
+      <table><thead><tr><th>Ngày</th><th>Dịch vụ</th><th>KTV</th><th>Mã phiếu</th></tr></thead><tbody>
+        <tr class="clickable" onclick="location.href='service-record.html'"><td>28/05</td><td>Giảm béo RF (buổi 9)</td><td>Hồng Trang</td><td><span class="pcode" style="font-family:Consolas,monospace;font-size:11px;color:var(--teal-deep)">DV-0712</span></td></tr>
+        <tr class="clickable" onclick="location.href='service-record.html'"><td>21/05</td><td>Giảm béo RF (buổi 8)</td><td>Hồng Trang</td><td><span class="pcode" style="font-family:Consolas,monospace;font-size:11px;color:var(--teal-deep)">DV-0698</span></td></tr>
+        <tr class="clickable" onclick="location.href='service-record.html'"><td>14/05</td><td>Chăm sóc da phục hồi</td><td>Phương Anh</td><td><span class="pcode" style="font-family:Consolas,monospace;font-size:11px;color:var(--teal-deep)">DV-0651</span></td></tr>
+        <tr class="clickable" onclick="location.href='service-record.html'"><td>02/05</td><td>Khám da liễu</td><td>BS Bích Hằng</td><td><span class="pcode" style="font-family:Consolas,monospace;font-size:11px;color:var(--teal-deep)">KH-0610</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

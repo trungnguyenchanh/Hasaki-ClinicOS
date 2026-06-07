@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Catalog Máy móc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css"></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('catalog-machine');
+const right=`<button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Thêm thiết bị</button>`;
+document.getElementById('main').innerHTML = topbar('Danh mục','Catalog — Máy móc & Thiết bị cao cấp',{who:'AD',branch:'CN Quận 1',right}) + `
+  <div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div></div><div class="kpi-val">9</div><div class="kpi-lbl">Thiết bị cao cấp</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-val">11,2 tỷ</div><div class="kpi-lbl">Tổng giá trị tài sản</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div></div><div class="kpi-val">71%</div><div class="kpi-lbl">Hiệu suất sử dụng TB</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div></div><div class="kpi-val">2</div><div class="kpi-lbl">Sắp đến hạn bảo trì</div></div>
+  </div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">Danh mục máy móc<small>Tài sản đắt tiền — theo dõi hiệu suất, khấu hao, bảo trì</small></div><div class="pill-tabs"><button class="on">Tất cả</button><button>Đang hoạt động</button><button>Cần bảo trì</button></div></div>
+    <table><thead><tr><th>Thiết bị</th><th>Mã TS</th><th>Giá trị</th><th>Chi nhánh</th><th>Hiệu suất tháng</th><th>Bảo trì kế tiếp</th><th>Trạng thái</th></tr></thead><tbody>
+      <tr class="clickable"><td><b>Laser Diode XL</b></td><td>EQ-LSR-01</td><td class="num-strong">1,8 tỷ</td><td>Quận 1</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:82%"></i></div> 82%</td><td>15/07</td><td><span class="tag done">Hoạt động</span></td></tr>
+      <tr class="clickable"><td><b>Máy HIFU nâng cơ</b></td><td>EQ-HIF-01</td><td class="num-strong">1,2 tỷ</td><td>Quận 1</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:40%"></i></div> 40%</td><td>Hôm nay</td><td><span class="tag prog">Bảo trì</span></td></tr>
+      <tr class="clickable"><td><b>Máy RF giảm béo</b></td><td>EQ-RF-02</td><td class="num-strong">950 tr</td><td>Quận 1</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:58%"></i></div> 58%</td><td>30/07</td><td><span class="tag done">Hoạt động</span></td></tr>
+      <tr class="clickable"><td><b>Laser Diode XL</b></td><td>EQ-LSR-05</td><td class="num-strong">1,8 tỷ</td><td>Quận 7</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:76%"></i></div> 76%</td><td>22/07</td><td><span class="tag done">Hoạt động</span></td></tr>
+      <tr class="clickable"><td><b>Máy điện di Mesotherapy</b></td><td>EQ-MESO-01</td><td class="num-strong">620 tr</td><td>Đà Nẵng</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:64%"></i></div> 64%</td><td>05/08</td><td><span class="tag done">Hoạt động</span></td></tr>
+    </tbody></table>
+    <div class="alert al-warn" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div>Máy HIFU hiệu suất chỉ <b>40%</b> — thấp so với giá trị tài sản; gợi ý đẩy dịch vụ nâng cơ hoặc luân chuyển chi nhánh.</div></div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

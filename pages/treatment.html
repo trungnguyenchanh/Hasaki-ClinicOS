@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Phiếu dịch vụ trong ngày</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.cust-block{border:1px solid var(--line);border-radius:16px;background:#fff;margin-bottom:16px;overflow:hidden}
+.cb-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(140deg,#fff,var(--teal-soft));border-bottom:1px solid var(--line);flex-wrap:wrap}
+.cb-head .q-av{width:40px;height:40px;border-radius:12px;font-size:14px}
+.cb-head b{font-size:14.5px}
+.cb-head .cb-meta{font-size:12px;color:var(--ink-soft)}
+.cb-head .cb-codes{margin-left:auto;font-family:Consolas,monospace;font-size:11px;color:var(--ink-soft);display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.cb-codes a{color:var(--teal-deep);text-decoration:none;padding:2px 7px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.cb-codes a.cur{background:var(--teal);color:#fff;border-color:var(--teal)}
+.ticket{border-bottom:1px solid var(--bg-2)}
+.ticket:last-child{border:none}
+.tk-bar{display:flex;align-items:center;gap:10px;padding:11px 16px;background:var(--bg-2)}
+.tk-bar .pcode{font-family:Consolas,monospace;font-size:12px;font-weight:600;color:var(--teal-deep)}
+.tk-bar .tk-when{font-size:11.5px;color:var(--ink-soft)}
+.tk-bar .tk-rel{margin-left:auto;font-size:11px}
+.tk-bar .tk-rel a{color:var(--indigo);text-decoration:none}
+.tag-new2{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#fdf3e3;color:#9a6a1e}
+.svc-line{display:grid;grid-template-columns:1.4fr 90px 90px 1.6fr 110px 96px;gap:10px;align-items:center;padding:10px 16px;font-size:12.5px}
+.svc-line .sl-name b{font-weight:600}
+.svc-line .sl-name span{font-size:11px;color:var(--ink-soft);display:block}
+.svc-line .time-cell b{font-family:'Fraunces',serif}
+.over{color:var(--rose);font-weight:600}.soon{color:var(--amber);font-weight:600}
+.mc-chip{font-size:10.5px;padding:2px 7px;border-radius:20px;background:#fff;border:1px solid var(--line);color:var(--ink-soft);font-weight:600;white-space:nowrap}
+.staff-list{display:flex;flex-direction:column;gap:3px}
+.staff-one{display:flex;align-items:center;gap:6px;font-size:11.5px}
+.staff-one .q-av{width:20px;height:20px;font-size:8px}
+.staff-one .major{font-size:10px;color:var(--ink-soft)}
+.svc-head-row{display:grid;grid-template-columns:1.4fr 90px 90px 1.6fr 110px 96px;gap:10px;padding:7px 16px;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink-soft);font-weight:600;background:#fff;border-bottom:1px solid var(--bg-2)}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('treatment');
+const right=`<a class="btn btn-ghost" href="flow-tracking.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>H\u00e0nh tr\u00ecnh kh\u00e1ch (booking)</a>`;
+document.getElementById('main').innerHTML = topbar('V\u1eadn h\u00e0nh','Phi\u1ebfu d\u1ecbch v\u1ee5 ph\u00e1t sinh trong ng\u00e0y',{who:'OP',branch:'CN Qu\u1eadn 1',right}) + `
+  <div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">8</div><div class="kpi-lbl">Kh\u00e1ch \u0111ang l\u00e0m DV</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg></div></div><div class="kpi-val">12</div><div class="kpi-lbl">Phi\u1ebfu DV trong ng\u00e0y</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg></div></div><div class="kpi-val">2</div><div class="kpi-lbl">Qu\u00e1 gi\u1edd d\u1ef1 ki\u1ebfn</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div></div><div class="kpi-val">3</div><div class="kpi-lbl">Kh\u00e1ch c\u00f3 phi\u1ebfu ph\u00e1t sinh th\u00eam</div></div>
+  </div>
+
+  <div class="panel-h" style="padding:0 2px 4px"><div class="panel-title">Phi\u1ebfu DV \u0111ang l\u00e0m \u2014 nh\u00f3m theo kh\u00e1ch<small>M\u1ed7i kh\u00e1ch c\u00f3 th\u1ec3 c\u00f3 nhi\u1ec1u phi\u1ebfu \u00b7 nhi\u1ec1u d\u1ecbch v\u1ee5 \u00b7 nhi\u1ec1u ng\u01b0\u1eddi ph\u1ee5c v\u1ee5</small></div></div>
+
+  <!-- Khách 1: Trần Thu Hà — 2 phiếu (phiếu 2 phát sinh) -->
+  <div class="cust-block">
+    <div class="cb-head"><div class="q-av av-teal">TH</div><div><b>Tr\u1ea7n Thu H\u00e0 <span class="tag vip">VIP</span></b><div class="cb-meta">C-1042 \u00b7 ph\u00f2ng Slim 1 \u2192 Laser 2</div></div>
+      <div class="cb-codes">Lu\u1ed3ng: <a href="booking.html">BK-0825</a><a href="consultant-survey.html">TV-0825</a><a href="encounter-summary.html">KH-0825</a><a href="cashier-payment.html">RC-0825</a><a href="service-record.html" class="cur">DV-0825</a></div></div>
+    <div class="ticket">
+      <div class="tk-bar"><span class="pcode">DV-0825</span><span class="tk-when">B\u1eaft \u0111\u1ea7u 10:00</span><span class="tag prog">\u0110ang l\u00e0m</span><span class="tk-rel">\u00b7 phi\u1ebfu g\u1ed1c</span></div>
+      <div class="svc-head-row"><span>D\u1ecbch v\u1ee5</span><span>B\u1eaft \u0111\u1ea7u</span><span>D\u1ef1 ki\u1ebfn</span><span>Ng\u01b0\u1eddi ph\u1ee5c v\u1ee5</span><span>M\u00e1y</span><span></span></div>
+      <div class="svc-line"><div class="sl-name"><b>Gi\u1ea3m b\u00e9o RF b\u1ee5ng 1/10</b><span>g\u00f3i li\u1ec7u tr\u00ecnh</span></div><div class="time-cell"><b>10:00</b></div><div class="time-cell"><b>10:55</b></div>
+        <div class="staff-list"><div class="staff-one"><div class="q-av av-teal">HT</div>H\u1ed3ng Trang <span class="major">\u00b7 KTV RF</span></div><div class="staff-one"><div class="q-av av-sage">PA</div>Ph\u01b0\u01a1ng Anh <span class="major">\u00b7 ph\u1ee5</span></div></div>
+        <span class="mc-chip">M\u00e1y RF</span><a class="btn btn-ghost" href="service-record.html" style="padding:5px 10px;font-size:11px">Chi ti\u1ebft</a></div>
+    </div>
+    <div class="ticket">
+      <div class="tk-bar"><span class="pcode">DV-0826</span><span class="tk-when">B\u1eaft \u0111\u1ea7u 11:05</span><span class="tag wait">Ch\u1edd</span><span class="tag-new2">Ph\u00e1t sinh th\u00eam</span><span class="tk-rel">\u00b7 <a href="cashier-payment.html">li\u00ean quan RC-0826</a></span></div>
+      <div class="svc-line"><div class="sl-name"><b>Tri\u1ec7t l\u00f4ng n\u00e1ch (l\u1ebb)</b><span>kh\u00e1ch mua th\u00eam khi \u0111ang l\u00e0m</span></div><div class="time-cell"><b>11:05</b></div><div class="time-cell"><b>11:25</b></div>
+        <div class="staff-list"><div class="staff-one"><div class="q-av av-gold">TM</div>Thanh Mai <span class="major">\u00b7 KTV Laser</span></div></div>
+        <span class="mc-chip">Laser Diode</span><a class="btn btn-ghost" href="service-record.html" style="padding:5px 10px;font-size:11px">Chi ti\u1ebft</a></div>
+    </div>
+  </div>
+
+  <!-- Khách 2: Lê Minh — quá giờ -->
+  <div class="cust-block">
+    <div class="cb-head"><div class="q-av av-blush">LM</div><div><b>L\u00ea Minh</b><div class="cb-meta">C-0987 \u00b7 ph\u00f2ng Laser 2</div></div>
+      <div class="cb-codes">Lu\u1ed3ng: <a href="booking.html">BK-0830</a><a href="consultant-survey.html">TV-0830</a><a href="cashier-payment.html">RC-0830</a><a href="service-record.html" class="cur">DV-0830</a></div></div>
+    <div class="ticket">
+      <div class="tk-bar"><span class="pcode">DV-0830</span><span class="tk-when">B\u1eaft \u0111\u1ea7u 09:40</span><span class="tag" style="background:#f9e6e6;color:#a64b4b">Qu\u00e1 gi\u1edd</span><span class="tk-rel">\u00b7 phi\u1ebfu g\u1ed1c</span></div>
+      <div class="svc-head-row"><span>D\u1ecbch v\u1ee5</span><span>B\u1eaft \u0111\u1ea7u</span><span>D\u1ef1 ki\u1ebfn</span><span>Ng\u01b0\u1eddi ph\u1ee5c v\u1ee5</span><span>M\u00e1y</span><span></span></div>
+      <div class="svc-line"><div class="sl-name"><b>Tri\u1ec7t l\u00f4ng Diode</b><span>d\u1ecbch v\u1ee5 l\u1ebb</span></div><div class="time-cell"><b>09:40</b></div><div class="time-cell"><b class="over">10:10 \u00b7 qu\u00e1 12p</b></div>
+        <div class="staff-list"><div class="staff-one"><div class="q-av av-gold">TM</div>Thanh Mai <span class="major">\u00b7 KTV Laser</span></div></div>
+        <span class="mc-chip">Laser Diode</span><a class="btn btn-ghost" href="service-record.html" style="padding:5px 10px;font-size:11px">Chi ti\u1ebft</a></div>
+      <div class="svc-line"><div class="sl-name"><b>Ch\u0103m s\u00f3c da ph\u1ee5c h\u1ed3i</b><span>ph\u00e1t sinh trong phi\u1ebfu</span></div><div class="time-cell"><b>10:15</b></div><div class="time-cell"><b>10:45</b></div>
+        <div class="staff-list"><div class="staff-one"><div class="q-av av-blush">NL</div>Ng\u1ecdc Linh <span class="major">\u00b7 \u0110i\u1ec1u d\u01b0\u1ee1ng</span></div></div>
+        <span class="mc-chip">\u2014</span><a class="btn btn-ghost" href="service-record.html" style="padding:5px 10px;font-size:11px">Chi ti\u1ebft</a></div>
+    </div>
+  </div>
+
+  <!-- Khách 3: Ngô Khánh — bác sĩ + 3 phiếu -->
+  <div class="cust-block">
+    <div class="cb-head"><div class="q-av av-gold">NK</div><div><b>Ng\u00f4 Kh\u00e1nh</b><div class="cb-meta">C-1130 \u00b7 P.Kh\u00e1m 2 \u2192 Laser CO2</div></div>
+      <div class="cb-codes">Lu\u1ed3ng: <a href="booking.html">BK-0836</a><a href="consultant-survey.html">TV-0836</a><a href="encounter-summary.html">KH-0836</a><a href="cashier-payment.html">RC-0836</a><a href="service-record.html" class="cur">DV-0836</a></div></div>
+    <div class="ticket">
+      <div class="tk-bar"><span class="pcode">DV-0836</span><span class="tk-when">B\u1eaft \u0111\u1ea7u 09:50</span><span class="tag" style="background:#f9e6e6;color:#a64b4b">Qu\u00e1 gi\u1edd</span><span class="tk-rel">\u00b7 phi\u1ebfu g\u1ed1c</span></div>
+      <div class="svc-head-row"><span>D\u1ecbch v\u1ee5</span><span>B\u1eaft \u0111\u1ea7u</span><span>D\u1ef1 ki\u1ebfn</span><span>Ng\u01b0\u1eddi ph\u1ee5c v\u1ee5</span><span>M\u00e1y</span><span></span></div>
+      <div class="svc-line"><div class="sl-name"><b>Ti\u1ec3u ph\u1eabu n\u1ed1t ru\u1ed3i</b><span>DV b\u00e1c s\u0129</span></div><div class="time-cell"><b>09:50</b></div><div class="time-cell"><b class="over">10:20 \u00b7 qu\u00e1 3p</b></div>
+        <div class="staff-list"><div class="staff-one"><div class="q-av av-indigo">MQ</div>BS Minh Qu\u00e2n <span class="major">\u00b7 B\u00e1c s\u0129</span></div><div class="staff-one"><div class="q-av av-blush">NL</div>Ng\u1ecdc Linh <span class="major">\u00b7 \u0110i\u1ec1u d\u01b0\u1ee1ng ph\u1ee5</span></div></div>
+        <span class="mc-chip">Laser CO2</span><a class="btn btn-ghost" href="service-record.html" style="padding:5px 10px;font-size:11px">Chi ti\u1ebft</a></div>
+    </div>
+    <div class="ticket">
+      <div class="tk-bar"><span class="pcode">DV-0837</span><span class="tk-when">B\u1eaft \u0111\u1ea7u 10:40</span><span class="tag wait">Ch\u1edd</span><span class="tag-new2">Ph\u00e1t sinh th\u00eam</span><span class="tk-rel">\u00b7 <a href="cashier-payment.html">li\u00ean quan RC-0837</a></span></div>
+      <div class="svc-line"><div class="sl-name"><b>Ch\u0103m s\u00f3c da sau th\u1ee7 thu\u1eadt</b><span>BS ch\u1ec9 \u0111\u1ecbnh th\u00eam</span></div><div class="time-cell"><b>10:40</b></div><div class="time-cell"><b>11:10</b></div>
+        <div class="staff-list"><div class="staff-one"><div class="q-av av-blush">PA</div>Ph\u01b0\u01a1ng Anh <span class="major">\u00b7 \u0110i\u1ec1u d\u01b0\u1ee1ng</span></div></div>
+        <span class="mc-chip">\u2014</span><a class="btn btn-ghost" href="service-record.html" style="padding:5px 10px;font-size:11px">Chi ti\u1ebft</a></div>
+    </div>
+  </div>
+
+  <div class="alert al-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>M\u1ed7i kh\u00e1ch gom th\u00e0nh 1 kh\u1ed1i; trong \u0111\u00f3 m\u1ed7i <b>phi\u1ebfu DV</b> ri\u00eang (phi\u1ebfu ph\u00e1t sinh th\u00eam c\u00f3 nh\u00e3n & link phi\u1ebfu li\u00ean quan). Thanh m\u00e3 phi\u1ebfu tr\u00ean \u0111\u1ea7u m\u1ed7i kh\u1ed1i link c\u1ea3 lu\u1ed3ng BK\u2192TV\u2192KH\u2192RC\u2192DV. Xem <b>h\u00e0nh tr\u00ecnh \u0111\u1ea7y \u0111\u1ee7</b> \u1edf chi ti\u1ebft booking.</div></div>`;
+wireUI();
+</script>
+</body></html>

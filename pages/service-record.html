@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Chi tiết thực hiện</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.sess-head{background:linear-gradient(140deg,#fff,var(--teal-soft));border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;box-shadow:var(--shadow);margin-bottom:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.sess-head .q-av{width:46px;height:46px;border-radius:14px;font-size:16px}
+/* role tabs */
+.role-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.role-tab{border:1.5px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;font-weight:600;padding:8px 15px;border-radius:30px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;gap:7px}
+.role-tab svg{width:15px;height:15px}
+.role-tab.on{border-color:transparent}
+.role-tab.on[data-r="all"]{background:var(--ink);color:#fff}
+.role-tab.on[data-r="doctor"]{background:var(--indigo);color:#fff}
+.role-tab.on[data-r="ktv"]{background:var(--teal);color:#fff}
+.role-tab.on[data-r="nurse"]{background:var(--blush-deep);color:#fff}
+.role-tab.on[data-r="hair"]{background:var(--gold);color:#fff}
+/* service order map */
+.svc-order{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;margin-bottom:6px}
+.svc-chip{border:1.5px solid var(--line);border-radius:13px;padding:11px 13px;background:#fff;min-width:180px;flex:1;position:relative}
+.svc-chip.dimmed{opacity:.4}
+.svc-chip .sc-top{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.svc-chip .type-badge{font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:20px}
+.tb-le{background:var(--teal-soft);color:var(--teal-deep)}.tb-goi{background:#f7eed3;color:#9a7b1e}.tb-bh{background:#fbe7e0;color:var(--blush-deep)}.tb-bs{background:var(--indigo-soft);color:var(--indigo)}
+.svc-chip b{font-size:12.5px;display:block;line-height:1.3}
+.svc-chip .sc-meta{font-size:10.5px;color:var(--ink-soft);margin-top:3px}
+.par-tag{font-size:9.5px;font-weight:600;padding:1px 7px;border-radius:10px;background:var(--teal-soft);color:var(--teal-deep);margin-top:5px;display:inline-block}
+.seq-tag{background:#eef1f4;color:#6b7a86}
+.order-flow{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-soft);margin:4px 0 16px;flex-wrap:wrap}
+.order-flow .of-node{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:4px 9px;font-weight:500;color:var(--ink)}
+.order-flow .of-par{border-style:dashed;border-color:var(--teal)}
+/* timeline steps */
+.tl-step{display:flex;gap:13px;align-items:flex-start}
+.tl-col{display:flex;flex-direction:column;align-items:center}
+.tl-num{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-weight:600;font-size:13px;flex:none;border:2px solid var(--line);color:var(--ink-soft);background:#fff}
+.tl-step.done .tl-num{background:var(--teal);border-color:var(--teal);color:#fff}
+.tl-step.doing .tl-num{border-color:var(--teal-deep);color:var(--teal-deep);box-shadow:0 0 0 4px var(--teal-soft)}
+.tl-line{width:2px;flex:1;background:var(--line);min-height:14px;margin:3px 0}
+.tl-step:last-child .tl-line{display:none}
+.tl-body{flex:1;border:1px solid var(--line);border-radius:13px;padding:13px 15px;margin-bottom:12px;background:#fff}
+.tl-body.skip{opacity:.6;border-style:dashed}
+.tl-body.dim{opacity:.35}
+.tl-h{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.tl-h b{font-size:14px}
+.tl-svc-pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:auto}
+.tl-meta{font-size:12px;color:var(--ink-soft);margin-top:3px}
+.tl-detail{margin-top:11px;padding-top:11px;border-top:1px dashed var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}
+.dt-block .dt-lbl{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:5px}
+.dt-person{display:flex;align-items:center;gap:7px;font-size:12.5px;margin-bottom:4px}
+.dt-person .q-av{width:24px;height:24px;font-size:9px}
+.dt-person .rl{font-size:9px;font-weight:600;padding:1px 6px;border-radius:10px;margin-left:auto}
+.rl-main{background:var(--teal);color:#fff}.rl-sub{background:var(--teal-soft);color:var(--teal-deep)}.rl-doc{background:var(--indigo);color:#fff}.rl-nurse{background:var(--blush-deep);color:#fff}
+.mini-mp{font-size:12px;display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bg-2)}
+.mini-mp:last-child{border:none}.mini-mp b{font-family:'Fraunces',serif;font-weight:600}
+.mini-mp .nvl-warn{color:var(--amber)}
+.mini-photo{display:flex;gap:6px}
+.mini-photo .pp{width:42px;height:42px;border-radius:9px;display:grid;place-items:center;flex:none}
+.pp.ba{background:linear-gradient(135deg,#e8e2d6,#d4cdbf)}.pp.aa{background:linear-gradient(135deg,var(--teal-soft),#c9e6df)}.pp.add{border:1.5px dashed var(--line);cursor:pointer;color:var(--ink-soft)}
+.pp svg{width:16px;height:16px;color:rgba(29,42,40,.4)}
+.dup-warn{background:#fdf3e3;border:1px solid #f0d9a8;border-radius:9px;padding:8px 11px;font-size:11.5px;color:#9a6a1e;margin-top:9px;display:flex;gap:7px;align-items:center}
+.dup-warn svg{width:15px;height:15px;flex:none}
+.dup-warn button{margin-left:auto;font-family:inherit;font-size:11px;font-weight:600;border:1px solid #e0c483;background:#fff;color:#9a6a1e;padding:3px 10px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.dr-alert{background:var(--indigo-soft);border:1px solid #c5c9e8;border-radius:11px;padding:12px 14px;font-size:12.5px;color:var(--indigo);margin-bottom:12px;display:flex;gap:9px}
+.dr-alert svg{width:17px;height:17px;flex:none;margin-top:1px}
+.next-box{background:linear-gradient(140deg,var(--teal-deep),var(--teal));color:#fff;border-radius:14px;padding:15px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.next-box .nb-ic{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.2);display:grid;place-items:center;flex:none}
+.next-box .nb-ic svg{width:22px;height:22px}
+.next-box b{font-size:15px;display:block}.next-box span{font-size:12.5px;opacity:.9}
+@media print{.sidebar,.topbar,.role-tabs,.next-box,.dup-warn button{display:none!important}.main{padding:0!important}}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('treatment');
+const right=`<a class="btn btn-ghost" href="customer-treatment-record.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Hồ sơ điều trị</a><a class="btn btn-ghost" href="service-worksheet.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>In phiếu thực hiện</a><button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>Hoàn tất phiên</button>`;
+document.getElementById('main').innerHTML = topbar('Vận hành › Chi tiết thực hiện','Chi tiết thực hiện — phiên hôm nay',{who:'OP',branch:'CN Quận 1',right}) + `
+  <div class="sess-head">
+    <div class="q-av av-teal">TH</div>
+    <div style="flex:1;min-width:200px"><div style="font-family:Fraunces,serif;font-size:18px;font-weight:600">Trần Thu Hà · C-1042 <span class="tag vip">VIP</span></div>
+      <div style="font-size:12.5px;color:var(--ink-soft)">Phiếu DV-0825 · Hôm nay · 4 dịch vụ · <span style="color:var(--rose)">⚠ Dị ứng Lidocaine · không thích KTV nam</span></div>
+      <div style="font-size:11px;color:var(--ink-soft);font-family:Consolas,monospace;margin-top:3px">Luồng: BK-0825 → TV-0825 → KH-0825 → RC-0825 → <b>DV-0825</b></div></div>
+    <div style="text-align:right"><div style="font-size:11px;color:var(--ink-soft)">Tiến độ phiên</div><div style="font-family:Fraunces,serif;font-size:17px;font-weight:600;color:var(--teal-deep)">3/9 bước</div></div>
+  </div>
+
+  <div class="role-tabs" id="roleTabs">
+    <span style="font-size:11.5px;color:var(--ink-soft);font-weight:600;margin-right:3px">Góc nhìn:</span>
+    <button class="role-tab on" data-r="all" onclick="setRole('all')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></svg>Tất cả</button>
+    <button class="role-tab" data-r="doctor" onclick="setRole('doctor')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/></svg>Bác sĩ</button>
+    <button class="role-tab" data-r="nurse" onclick="setRole('nurse')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6M9 5h6"/><circle cx="12" cy="15" r="6"/></svg>Điều dưỡng</button>
+    <button class="role-tab" data-r="ktv" onclick="setRole('ktv')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5"/></svg>KTV</button>
+    <button class="role-tab" data-r="hair" onclick="setRole('hair')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 2 5 6 5 11c0 4 2 7 7 11 5-4 7-7 7-11 0-5-3-9-7-9z"/></svg>Hair</button>
+  </div>
+
+  <div id="nextBox"></div>
+  <div id="orderMap"></div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">Trình tự các bước trong phiên<small>Step-centric · mỗi bước hiển thị người làm · máy · thông số · NVL · ảnh</small></div></div>
+    <div id="stepList"></div>
+  </div>`;
+
+// ===== DATA: dịch vụ + quan hệ thứ tự (parallel/sequence) =====
+const SVCS={
+  rf:{name:'Giảm béo RF bụng · 1/10',type:'goi',tl:'Gói',pill:'tb-goi',order:'seq',seqAfter:'bs'},
+  laser:{name:'Triệt lông Diode · nách',type:'le',tl:'Lẻ',pill:'tb-le',order:'par'},
+  warr:{name:'Triệt lông · làm lại (BH)',type:'bh',tl:'Bảo hành',pill:'tb-bh',order:'par'},
+  bs:{name:'Khám da liễu (bác sĩ)',type:'bs',tl:'DV bác sĩ',pill:'tb-bs',order:'first'},
+};
+// các step trong phiên (step-centric). role: ai làm. dup: trùng với step nào
+const STEPS=[
+  {svc:'bs',role:'doctor',n:'Khám & kết luận',status:'done',time:'09:12',
+   persons:[['BH','BS. Bích Hằng','Bác sĩ','rl-doc'],['NL','Ngọc Linh','Điều dưỡng phụ','rl-nurse']],
+   machine:null,nvl:[],photos:[],
+   drNote:'Kê toa QG-7741A · có Lidocaine trong nhóm chống chỉ định (khách dị ứng). Lưu ý KTV: KHÔNG dùng sản phẩm chứa Lidocaine khi làm dịch vụ.'},
+  {svc:'rf',role:'ktv',n:'Tư vấn & đo chỉ số',status:'done',time:'10:00',dupKey:'prep',
+   persons:[['HT','Hồng Trang','Thợ chính','rl-main']],machine:null,
+   nvl:[],photos:['ba']},
+  {svc:'rf',role:'ktv',n:'Làm sạch & chuẩn bị da',status:'done',time:'10:08',dupKey:'clean',
+   persons:[['PA','Phương Anh','Thợ phụ','rl-sub']],machine:null,
+   nvl:[['Gel làm sạch','20 ml',false]],photos:[]},
+  {svc:'rf',role:'ktv',n:'Trị liệu RF vùng bụng',status:'doing',time:'10:18',
+   persons:[['HT','Hồng Trang','Thợ chính','rl-main']],
+   machine:{name:'Máy RF · EQ-RF-02',params:[['Cường độ','Mức 6/10'],['Nhiệt độ','42°C'],['Thời gian','25 phút']]},
+   nvl:[['Gel dẫn RF','48 ml',true],['Tinh chất tan mỡ','1 ống',false]],photos:[]},
+  {svc:'rf',role:'ktv',n:'Làm dịu & kết thúc',status:'wait',time:'—',
+   persons:[['HT','Hồng Trang','Thợ chính','rl-main']],machine:null,
+   nvl:[['Mặt nạ làm dịu','1 cái',false]],photos:['aa']},
+  {svc:'laser',role:'ktv',n:'Làm sạch & chuẩn bị da',status:'wait',time:'11:00',dupKey:'clean',dup:true,
+   persons:[['TM','Thanh Mai','Thợ chính','rl-main']],machine:null,
+   nvl:[['Gel làm sạch','20 ml',false]],photos:[]},
+  {svc:'laser',role:'ktv',n:'Bắn laser triệt lông',status:'wait',time:'11:08',
+   persons:[['TM','Thanh Mai','Thợ chính','rl-main']],
+   machine:{name:'Laser Diode XL · EQ-LSR-01',params:[['Bước sóng','808nm'],['Năng lượng','14 J/cm²'],['Số phát','240']]},
+   nvl:[['Gel lạnh','30 ml',false]],photos:['ba','aa']},
+  {svc:'warr',role:'ktv',n:'Bắn laser làm lại (BH)',status:'wait',time:'11:25',warr:true,
+   persons:[['TM','Thanh Mai','Thợ chính','rl-main']],
+   machine:{name:'Laser Diode XL · EQ-LSR-01',params:[['Bước sóng','808nm'],['Năng lượng','12 J/cm²'],['Số phát','60']]},
+   nvl:[['Gel lạnh','10 ml',false]],photos:['ba']},
+];
+const STATUSCLS={done:['Xong','done'],doing:['Đang làm','prog'],wait:['Chờ','wait']};
+const ROLELBL={doctor:'Bác sĩ',nurse:'Điều dưỡng',ktv:'KTV',hair:'Hair'};
+let role='all';
+
+function setRole(r){role=r;document.querySelectorAll('.role-tab').forEach(b=>b.classList.toggle('on',b.dataset.r===r));renderAll();}
+
+function renderNext(){
+  // bước doing hoặc wait đầu tiên thuộc role (hoặc all)
+  const cand=STEPS.find(s=>(role==='all'||s.role===role)&&(s.status==='doing'||s.status==='wait'));
+  const box=document.getElementById('nextBox');
+  if(!cand){box.innerHTML='';return;}
+  const svc=SVCS[cand.svc];
+  box.innerHTML=`<div class="next-box"><div class="nb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div style="flex:1"><span>${role==='all'?'Việc tiếp theo trong phiên':'Việc tiếp theo của '+ROLELBL[role]}</span><b>${cand.n} — ${svc.name}</b></div>
+    <div style="text-align:right;font-size:12px;opacity:.9">${cand.persons.map(p=>p[1]).join(', ')}<br>${cand.time}</div></div>`;
+}
+
+function renderOrder(){
+  // bản đồ thứ tự: bác sĩ trước → RF (sau bác sĩ) ; laser & BH song song
+  document.getElementById('orderMap').innerHTML=`
+  <div class="panel" style="margin-bottom:14px"><div class="panel-h"><div class="panel-title">Thứ tự & quan hệ dịch vụ<small>Song song hoặc tuần tự</small></div></div>
+    <div class="svc-order">${Object.entries(SVCS).map(([k,s])=>{
+      const dim = role!=='all' && !STEPS.some(st=>st.svc===k&&st.role===role);
+      return `<div class="svc-chip ${dim?'dimmed':''}"><div class="sc-top"><span class="type-badge ${s.pill}">${s.tl}</span></div><b>${s.name}</b>
+        <div class="sc-meta">${STEPS.filter(st=>st.svc===k).length} bước</div>
+        ${s.order==='par'?'<span class="par-tag">Song song</span>':s.order==='first'?'<span class="par-tag">Làm trước</span>':'<span class="par-tag seq-tag">Tuần tự (sau khám)</span>'}</div>`;
+    }).join('')}</div>
+    <div class="order-flow"><span class="of-node">① Khám bác sĩ</span> → <span class="of-node">② Giảm béo RF</span> → <span class="of-node of-par">③ Triệt lông + ④ Bảo hành (song song, cùng máy Laser)</span></div>
+    <div class="alert al-info" style="margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>RF phải làm <b>sau khi bác sĩ khám</b>. Triệt lông & bảo hành dùng <b>cùng máy Laser</b> nên xếp liền nhau (có thể gộp bước trùng).</div></div>
+  </div>`;
+}
+
+function renderSteps(){
+  let html='';
+  STEPS.forEach((s,i)=>{
+    const svc=SVCS[s.svc];const st=STATUSCLS[s.status];
+    const dim = role!=='all' && s.role!==role;
+    const isDup = s.dup;
+    html+=`<div class="tl-step ${s.status}"><div class="tl-col"><div class="tl-num">${s.status==='done'?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6"/></svg>':(i+1)}</div><div class="tl-line"></div></div>
+      <div class="tl-body ${dim?'dim':''} ${isDup?'skip':''}">
+        <div class="tl-h"><b>${s.n}</b><span class="type-badge ${svc.pill}">${svc.tl}</span><span class="tl-svc-pill" style="background:var(--bg);color:var(--ink-soft)">${st[0]} · ${s.time}</span></div>
+        <div class="tl-meta">${svc.name}${s.warr?' · <span style="color:var(--blush-deep);font-weight:600">miễn phí (bảo hành)</span>':''}</div>
+        ${isDup?`<div class="dup-warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Bước trùng:</b> "Làm sạch & chuẩn bị da" đã làm ở dịch vụ RF cùng phiên. Có thể bỏ qua nếu làm liên tục.</div><button onclick="this.closest('.tl-body').style.opacity=.4;this.textContent='Đã bỏ qua'">Bỏ qua bước</button></div>`:''}
+        ${s.drNote?`<div class="dr-alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Lưu ý từ bác sĩ (khi kê toa):</b> ${s.drNote}</div></div>`:''}
+        <div class="tl-detail">
+          <div class="dt-block"><div class="dt-lbl">Người thực hiện</div>${s.persons.map(p=>`<div class="dt-person"><div class="q-av av-${p[3]==='rl-doc'?'indigo':p[3]==='rl-nurse'?'blush':p[3]==='rl-sub'?'sage':'teal'}">${p[0]}</div>${p[1]}<span class="rl ${p[3]}">${p[2]}</span></div>`).join('')}</div>
+          ${s.machine?`<div class="dt-block"><div class="dt-lbl">Máy & thông số</div><div style="font-size:11.5px;font-weight:600;color:var(--teal-deep);margin-bottom:5px">${s.machine.name}</div>${s.machine.params.map(p=>`<div class="mini-mp"><span style="color:var(--ink-soft)">${p[0]}</span><b>${p[1]}</b></div>`).join('')}</div>`:'<div class="dt-block"><div class="dt-lbl">Máy</div><div style="font-size:12px;color:var(--ink-soft)">Không dùng máy</div></div>'}
+          ${s.nvl.length?`<div class="dt-block"><div class="dt-lbl">NVL bị trừ</div>${s.nvl.map(n=>`<div class="mini-mp"><span style="color:var(--ink-soft)">${n[0]}</span><b class="${n[2]?'nvl-warn':''}">${n[1]}${n[2]?' ⚠':''}</b></div>`).join('')}</div>`:'<div class="dt-block"><div class="dt-lbl">NVL</div><div style="font-size:12px;color:var(--ink-soft)">—</div></div>'}
+          ${s.photos.length||s.status!=='wait'?`<div class="dt-block"><div class="dt-lbl">Hình ảnh</div><div class="mini-photo">${s.photos.map(p=>`<div class="pp ${p}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div>`).join('')}<div class="pp add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div></div>`:''}
+        </div>
+      </div></div>`;
+  });
+  document.getElementById('stepList').innerHTML=html;
+}
+
+function renderAll(){renderNext();renderOrder();renderSteps();}
+renderAll();wireUI();
+</script>
+</body></html>

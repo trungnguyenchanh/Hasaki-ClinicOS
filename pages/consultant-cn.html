@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Điều phối tư vấn CN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css"></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/data.js"></script>
+<script>
+renderLayout('consultant');
+const right = `<a class="btn btn-ghost" href="consultant.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Bàn của tôi</a>`;
+document.getElementById('main').innerHTML = topbar('Nghiệp vụ Tư vấn viên','Điều phối tư vấn — Toàn CN Quận 1',{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `
+  <div class="cn-tabs">
+    <a class="cn-link on" href="consultant-cn.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>Toàn CN (điều phối tư vấn)</a>
+    <a class="cn-link" href="consultant.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Của tôi (Quỳnh Trang)</a>
+  </div>
+    <div class="kpi-grid">
+      <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v6l-3 3 3 3v6"/></svg></div></div><div class="kpi-val">4 TVV</div><div class="kpi-lbl">Tư vấn viên trực hôm nay</div></div>
+      <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div></div><div class="kpi-val">23</div><div class="kpi-lbl">Lượt tư vấn hôm nay</div></div>
+      <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg></div></div><div class="kpi-val">14</div><div class="kpi-lbl">Chốt được hôm nay</div></div>
+      <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">5</div><div class="kpi-lbl">Khách đang chờ tư vấn</div></div>
+    </div>
+    <div class="panel" style="margin-bottom:18px"><div class="panel-h"><div class="panel-title">Tình trạng từng tư vấn viên<small>Đang tư vấn ai · hàng chờ · số chốt · ai rảnh → phân khách</small></div></div>
+      <div class="staff-board">
+        <div class="staff-card busy"><div class="sc-head"><div class="q-av av-blush">QT</div><div><b>Quỳnh Trang</b><div class="sc-role">TVV senior</div></div><span class="sc-state st-busy">Đang tư vấn</span></div>
+          <div class="sc-now"><div class="scn-lbl">Đang tư vấn</div><b>Trần Thu Hà</b> · gói giảm béo (~8p)</div>
+          <div class="sc-stats"><div class="ss"><b>7</b><span>Tư vấn</span></div><div class="ss"><b>5</b><span>Chốt</span></div><div class="ss"><b>2</b><span>Đang chờ</span></div></div></div>
+        <div class="staff-card busy"><div class="sc-head"><div class="q-av av-teal">TN</div><div><b>Thảo Nguyên</b><div class="sc-role">TVV</div></div><span class="sc-state st-busy">Đang tư vấn</span></div>
+          <div class="sc-now"><div class="scn-lbl">Đang tư vấn</div><b>Khách walk-in</b> · triệt lông (~4p)</div>
+          <div class="sc-stats"><div class="ss"><b>6</b><span>Tư vấn</span></div><div class="ss"><b>4</b><span>Chốt</span></div><div class="ss"><b>3</b><span>Đang chờ</span></div></div></div>
+        <div class="staff-card free"><div class="sc-head"><div class="q-av av-gold">MN</div><div><b>Mỹ Ngọc</b><div class="sc-role">TVV</div></div><span class="sc-state st-free">Rảnh</span></div>
+          <div class="sc-now"><div class="scn-lbl">Hiện tại</div><b>Đang rảnh — nhận khách ngay</b></div>
+          <div class="sc-stats"><div class="ss"><b>5</b><span>Tư vấn</span></div><div class="ss"><b>3</b><span>Chốt</span></div><div class="ss"><b>0</b><span>Đang chờ</span></div></div></div>
+        <div class="staff-card free"><div class="sc-head"><div class="q-av av-indigo">HA</div><div><b>Hồng Ánh</b><div class="sc-role">TVV học việc</div></div><span class="sc-state st-free">Rảnh</span></div>
+          <div class="sc-now"><div class="scn-lbl">Hiện tại</div><b>Rảnh — ưu tiên khách đơn giản</b></div>
+          <div class="sc-stats"><div class="ss"><b>5</b><span>Tư vấn</span></div><div class="ss"><b>2</b><span>Chốt</span></div><div class="ss"><b>0</b><span>Đang chờ</span></div></div></div>
+      </div>
+      <div class="alert al-warn" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Điều phối:</b> Thảo Nguyên đang có 3 khách chờ trong khi <b>Mỹ Ngọc & Hồng Ánh đang rảnh</b> → chuyển bớt khách sang để giảm thời gian chờ.</div></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:18px"><div class="panel-h"><div class="panel-title">Giám sát chống ghim khách<small>Mỗi TVV chỉ 1 khách active · soi giữ khách lâu & mẫu lặp TVV–KTV</small></div></div>
+      <table><thead><tr><th>Tư vấn viên</th><th>Khách active</th><th>Giữ (SLA)</th><th>Owner</th><th>Cờ giám sát</th></tr></thead><tbody>
+        <tr><td><b>Quỳnh Trang</b></td><td>Trần Thu Hà (1/1)</td><td>14p</td><td>12</td><td><span class="tag done">Bình thường</span></td></tr>
+        <tr><td><b>Thảo Nguyên</b></td><td>Khách walk-in (1/1)</td><td><span style="color:var(--rose);font-weight:600">26p ⚠</span></td><td>9</td><td><span class="tag" style="background:#fbeccb;color:#9a6a1e">Giữ khách quá lâu</span></td></tr>
+        <tr><td><b>Mỹ Ngọc</b></td><td>— (0/1)</td><td>—</td><td>7</td><td><span class="tag done">Bình thường</span></td></tr>
+        <tr><td><b>Hồng Ánh</b></td><td>— (0/1)</td><td>—</td><td>4</td><td><span class="tag done">Bình thường</span></td></tr>
+      </tbody></table>
+      <div class="alert" style="margin-top:12px;background:#fdf3f0;border:1px solid #f0d0c9;color:#a64b4b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><div><b>Cờ CAO:</b> cặp <b>TVV Quỳnh Trang + KTV Thanh Mai</b> trùng nhau ở 6/7 khách chi tiêu cao tuần này — vượt ngưỡng ngẫu nhiên. Hệ đã chuyển sang auto-gán KTV để cắt liên kết.</div></div>
+      <div style="font-size:11.5px;color:var(--ink-soft);margin-top:10px;line-height:1.6">Cơ chế: TVV chỉ tiếp <b>1 khách/lần</b> (xong mới nhận mới) · ẩn giá trị khách khi nhận · KTV do hệ điều phối tự gán (TVV không chọn) · log toàn bộ + so khớp mẫu cặp NV–khách.</div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Danh sách khách<small>Theo dõi khách chờ & khách đã tư vấn trong ngày</small></div><div class="pill-tabs" id="cwt"><button class="on" onclick="cwtab('wait')">Khách chờ (5)</button><button onclick="cwtab('done')">Đã tư vấn (14)</button></div></div>
+      <div id="cwBody"></div>
+    </div>
+`;
+const CW={
+  wait:`<table><thead><tr><th>STT</th><th>Khách</th><th>Nhu cầu</th><th>Nguồn</th><th>Chờ</th><th>Phân cho</th></tr></thead><tbody>
+        <tr><td class="num-strong">06</td><td>Khách walk-in</td><td>Tư vấn triệt lông</td><td><span class="tag new">Walk-in</span></td><td>9p</td><td>Thảo Nguyên</td></tr>
+        <tr><td class="num-strong">08</td><td>Khách walk-in</td><td>Hỏi giá dịch vụ</td><td><span class="tag new">Walk-in</span></td><td>16p</td><td><span style="color:var(--rose)">Chưa phân</span></td></tr>
+        <tr class="clickable" onclick="location.href='consultant-survey.html'"><td class="num-strong">10</td><td>Phạm Thu</td><td>Tư vấn gói da</td><td><span class="tag">Booking</span></td><td>3p</td><td><button class="btn btn-teal" style="padding:4px 11px;font-size:11.5px">Phân Mỹ Ngọc</button></td></tr>
+      </tbody></table>`,
+  done:`<table><thead><tr><th>Giờ</th><th>Khách</th><th>Nội dung tư vấn</th><th>TVV</th><th>Kết quả</th><th>Giá trị</th></tr></thead><tbody>
+        <tr class="clickable" onclick="location.href='consultant-survey.html'"><td>09:10</td><td>Trần Thu Hà</td><td>Gói giảm béo RF 10 buổi</td><td>Quỳnh Trang</td><td><span class="tag done">Đã chốt</span></td><td class="num-strong">18.000.000đ</td></tr>
+        <tr class="clickable" onclick="location.href='consultant-survey.html'"><td>09:25</td><td>Lê Minh</td><td>Triệt lông + chăm sóc da</td><td>Quỳnh Trang</td><td><span class="tag done">Đã chốt</span></td><td class="num-strong">3.200.000đ</td></tr>
+        <tr class="clickable" onclick="location.href='consultant-survey.html'"><td>09:40</td><td>Ngô Khánh</td><td>Tư vấn HIFU nâng cơ</td><td>Thảo Nguyên</td><td><span class="tag wait">Cân nhắc</span></td><td>—</td></tr>
+        <tr class="clickable" onclick="location.href='consultant-survey.html'"><td>10:05</td><td>Phạm Yến</td><td>Gói phục hồi tóc</td><td>Mỹ Ngọc</td><td><span class="tag done">Đã chốt</span></td><td class="num-strong">9.600.000đ</td></tr>
+        <tr class="clickable" onclick="location.href='consultant-survey.html'"><td>10:20</td><td>Đỗ Lan</td><td>Tư vấn giảm béo</td><td>Hồng Ánh</td><td><span class="tag prog">Hẹn lại</span></td><td>—</td></tr>
+      </tbody></table>
+      <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Danh sách đã tư vấn trong ngày: theo dõi kết quả (đã chốt / cân nhắc / hẹn lại) để chăm sóc tiếp & tính KPI. Click mở chi tiết phiên tư vấn.</div></div>`,
+};
+function cwtab(k){document.querySelectorAll('#cwt button').forEach((b,i)=>b.classList.toggle('on',['wait','done'][i]===k));document.getElementById('cwBody').innerHTML=CW[k];wireUI();}
+cwtab('wait');
+wireUI();
+</script>
+</body></html>

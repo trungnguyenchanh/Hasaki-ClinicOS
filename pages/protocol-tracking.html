@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Theo dõi phác đồ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.proto-track{position:relative;padding:18px 0 6px}
+.ptline{display:flex;justify-content:space-between;position:relative;margin:0 16px}
+.ptline::before{content:"";position:absolute;top:13px;left:0;right:0;height:3px;background:var(--line);z-index:0}
+.ptstep{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;flex:1;text-align:center}
+.ptdot{width:28px;height:28px;border-radius:50%;background:#fff;border:3px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:600;color:var(--ink-soft)}
+.ptstep.done .ptdot{background:var(--teal);border-color:var(--teal);color:#fff}
+.ptstep.current .ptdot{border-color:var(--teal-deep);color:var(--teal-deep);box-shadow:0 0 0 4px var(--teal-soft)}
+.ptstep.late .ptdot{border-color:var(--rose);color:var(--rose);box-shadow:0 0 0 4px #f9e6e6}
+.ptstep .ptl{font-size:11.5px;margin-top:8px;max-width:110px}
+.ptstep .ptl b{display:block;font-size:12px}.ptstep .ptl span{color:var(--ink-soft)}
+.bigprog{height:10px;border-radius:8px;background:var(--bg);overflow:hidden;margin:10px 0 4px}
+.bigprog i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--teal),var(--teal-deep))}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('reports');
+document.getElementById('main').innerHTML = topbar('Phác đồ điều trị','Theo dõi phác đồ của khách',{who:'OP',branch:'CN Quận 1'}) + `
+  <div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">86</div><div class="kpi-lbl">Khách đang theo phác đồ</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div></div><div class="kpi-val">78%</div><div class="kpi-lbl">Tuân thủ trung bình</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg></div></div><div class="kpi-val">8</div><div class="kpi-lbl">Khách trễ buổi / lệch phác đồ</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div></div><div class="kpi-val">23</div><div class="kpi-lbl">Hoàn thành tháng này</div></div>
+  </div>
+
+  <div class="panel" style="margin-bottom:18px"><div class="panel-h"><div class="panel-title">Trần Thu Hà · Trị nám chuyên sâu<small>Bắt đầu 10/06 · BS. Bích Hằng phụ trách</small></div><span class="tag prog">Đang ở giai đoạn 2</span></div>
+    <div class="proto-track"><div class="ptline">
+      <div class="ptstep done"><div class="ptdot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6"/></svg></div><div class="ptl"><b>GĐ1 Khám</b><span>Tuần 0 ✓</span></div></div>
+      <div class="ptstep current"><div class="ptdot">2</div><div class="ptl"><b>GĐ2 Điều trị</b><span>Buổi 1/4 · đang theo</span></div></div>
+      <div class="ptstep"><div class="ptdot">3</div><div class="ptl"><b>GĐ3 Tái khám</b><span>Tuần 9</span></div></div>
+      <div class="ptstep"><div class="ptdot">4</div><div class="ptl"><b>GĐ4 Duy trì</b><span>Tuần 10–12</span></div></div>
+    </div></div>
+    <div style="display:flex;align-items:center;gap:16px;margin-top:14px">
+      <div style="flex:1"><div style="font-size:12px;color:var(--ink-soft);display:flex;justify-content:space-between"><span>Tiến độ tổng thể</span><span>2/8 buổi</span></div><div class="bigprog"><i style="width:25%"></i></div></div>
+      <a class="btn btn-ghost" href="customer-treatment-record.html">Hồ sơ điều trị</a>
+      <button class="btn btn-teal">Đặt buổi kế tiếp</button>
+    </div>
+    <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Buổi laser kế tiếp dự kiến: <b>15/07</b> (cách buổi trước 2 tuần theo phác đồ).</div></div>
+  </div>
+
+  <div class="panel"><div class="panel-h"><div class="panel-title">Khách đang theo phác đồ<small>Theo dõi tiến độ & tuân thủ</small></div><div class="pill-tabs"><button class="on">Tất cả</button><button>Trễ buổi</button><button>Sắp xong</button></div></div>
+    <table><thead><tr><th>Khách</th><th>Phác đồ</th><th>Giai đoạn</th><th>Tiến độ</th><th></th><th>Tuân thủ</th><th>Trạng thái</th></tr></thead><tbody>
+      <tr class="clickable" onclick="location.href='customer-treatment-record.html'"><td><div class="staff-cell"><div class="q-av av-teal">TH</div><b>Trần Thu Hà</b></div></td><td>Trị nám chuyên sâu</td><td>GĐ2</td><td>2/8</td><td style="width:130px"><div class="kpi-bar"><i style="width:25%"></i></div></td><td><span class="num-strong">100%</span></td><td><span class="tag done">Đúng tiến độ</span></td></tr>
+      <tr class="clickable"><td><div class="staff-cell"><div class="q-av av-blush">LM</div><b>Lê Minh</b></div></td><td>Triệt lông trọn gói</td><td>GĐ2</td><td>5/8</td><td><div class="kpi-bar"><i style="width:62%"></i></div></td><td><span class="num-strong">88%</span></td><td><span class="tag done">Đúng tiến độ</span></td></tr>
+      <tr class="clickable"><td><div class="staff-cell"><div class="q-av av-gold">PY</div><b>Phạm Yến</b></div></td><td>Phục hồi tóc & da đầu</td><td>GĐ3</td><td>5/6</td><td><div class="kpi-bar"><i style="width:83%"></i></div></td><td><span class="num-strong">95%</span></td><td><span class="tag prog">Sắp xong</span></td></tr>
+      <tr class="clickable"><td><div class="staff-cell"><div class="q-av av-indigo">ĐL</div><b>Đỗ Lan</b></div></td><td>Giảm béo định hình</td><td>GĐ2</td><td>3/7</td><td><div class="kpi-bar"><i style="width:43%;background:var(--rose)"></i></div></td><td><span class="num-strong" style="color:var(--rose)">61%</span></td><td><span class="tag" style="background:#f9e6e6;color:#a64b4b">Trễ 2 buổi</span></td></tr>
+    </tbody></table>
+    <div class="alert al-rose" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Đỗ Lan</b> trễ 2 buổi so phác đồ giảm béo → CSKH cần liên hệ nhắc lịch, tránh giảm hiệu quả điều trị.</div></div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

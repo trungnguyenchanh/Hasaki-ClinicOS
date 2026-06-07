@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Phiếu dịch vụ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.tk-doc{max-width:900px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;animation:rise .5s both}
+.tk-head{background:linear-gradient(140deg,#3d7a5f,#2f6b56);color:#fff;padding:22px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.tk-head h2{font-family:'Fraunces',serif;font-size:21px;font-weight:600}
+.tk-head .sub{opacity:.9;font-size:12.5px;margin-top:3px}
+.tk-body{padding:22px 28px}
+.tk-sec{margin-bottom:20px}
+.tk-sec-h{display:flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--teal-deep);font-weight:600;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+.tk-sec-h .sec-ic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;flex:none}
+.tk-sec-h .sec-ic svg{width:14px;height:14px}
+.tk-line{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;padding:9px 0;font-size:13.5px;border-bottom:1px solid var(--bg-2)}
+.tk-line:last-child{border:none}
+.tk-line .tl-name b{font-weight:600}
+.tk-line .tl-name span{font-size:11.5px;color:var(--ink-soft);display:block}
+.tk-line .tl-qty{font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+.tk-line .tl-price{font-family:'Fraunces',serif;font-weight:600;white-space:nowrap;text-align:right}
+.tk-line .tl-price.free{color:var(--teal-deep)}
+.tag-lqty{font-size:10.5px;padding:2px 7px;border-radius:20px;background:var(--bg);color:var(--ink-soft);font-weight:600}
+.tk-sum{background:var(--bg-2);border-radius:12px;padding:16px 18px}
+.tk-sumline{display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;color:var(--ink-soft)}
+.tk-sumline.grand{border-top:1px dashed var(--line);margin-top:8px;padding-top:12px;font-size:22px;color:var(--ink);font-weight:600;font-family:'Fraunces',serif}
+.tk-foot{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;border-top:1px solid var(--line);background:var(--bg-2);flex-wrap:wrap;gap:10px}
+.pay-badge{font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px}
+.pay-badge.paid{background:var(--teal-soft);color:var(--teal-deep)}
+.actions-top{max-width:900px;margin:0 auto 16px;display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('cashier');
+document.getElementById('main').innerHTML = topbar('Cashier › Phiếu dịch vụ','Phiếu dịch vụ tổng hợp',{who:'PT',branch:'CN Quận 1'}) + `
+  <div class="actions-top">
+    <a class="btn btn-ghost" href="cashier.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Về Cashier</a>
+    <button class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>In phiếu</button>
+    <a class="btn btn-teal" href="service-record.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Chuyển thực hiện dịch vụ</a>
+  </div>
+  <div class="tk-doc">
+    <div class="tk-head"><div><h2>Phiếu dịch vụ tổng hợp</h2><div class="sub">Hasaki Clinic · CN Quận 1 · Receipt <b>RC-0825</b> · Hôm nay 09:35</div><div class="sub" style="margin-top:3px;font-family:Consolas,monospace;font-size:11px;opacity:.85">Luồng: BK-0825 → TV-0825 → KH-0825 → <b>RC-0825</b> → DV-0825</div></div>
+      <div style="text-align:right"><div style="font-weight:600">Trần Thu Hà · C-1042</div><div class="sub">TVV Quỳnh Trang · BS Bích Hằng</div></div></div>
+    <div class="tk-body">
+
+      <div class="tk-sec"><div class="tk-sec-h"><div class="sec-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg></div>Mua gói liệu trình</div>
+        <div class="tk-line"><div class="tl-name"><b>Gói giảm béo RF bụng · 10 buổi</b><span>Trừ dần theo buổi · HSD 6 tháng</span></div><div class="tl-qty"><span class="tag-lqty">×1</span></div><div class="tl-price">18.000.000đ</div></div>
+        <div class="tk-line"><div class="tl-name"><b>Gói chăm sóc da phục hồi · 3 buổi</b><span>HSD 3 tháng</span></div><div class="tl-qty"><span class="tag-lqty">×1</span></div><div class="tl-price">2.400.000đ</div></div>
+      </div>
+
+      <div class="tk-sec"><div class="tk-sec-h"><div class="sec-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div>Dịch vụ lẻ</div>
+        <div class="tk-line"><div class="tl-name"><b>Triệt lông Diode · 1 vùng (nách)</b><span>Buổi lẻ · thực hiện hôm nay</span></div><div class="tl-qty"><span class="tag-lqty">×1</span></div><div class="tl-price">600.000đ</div></div>
+      </div>
+
+      <div class="tk-sec"><div class="tk-sec-h"><div class="sec-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12l-1 7H7zM7 9v11a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V9"/></svg></div>Sản phẩm bán lẻ</div>
+        <div class="tk-line"><div class="tl-name"><b>Serum dưỡng phục hồi</b><span>KM -15%</span></div><div class="tl-qty"><span class="tag-lqty">×1</span></div><div class="tl-price">680.000đ</div></div>
+      </div>
+
+      <div class="tk-sec"><div class="tk-sec-h"><div class="sec-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/></svg></div>Thuốc theo toa (QG-7741A)</div>
+        <div class="tk-line"><div class="tl-name"><b>Kem phục hồi da (panthenol)</b><span>MED-PAN-CR · dược sĩ đã soạn</span></div><div class="tl-qty"><span class="tag-lqty">×1</span></div><div class="tl-price">120.000đ</div></div>
+        <div class="tk-line"><div class="tl-name"><b>Vitamin C + E</b><span>MED-VITCE · dược sĩ đã soạn</span></div><div class="tl-qty"><span class="tag-lqty">×30</span></div><div class="tl-price">285.000đ</div></div>
+      </div>
+
+      <div class="tk-sec"><div class="tk-sec-h"><div class="sec-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>Dịch vụ bảo hành (miễn phí)</div>
+        <div class="tk-line"><div class="tl-name"><b>Triệt lông Diode · làm lại vùng nách</b><span>Phiếu BH-1042 · còn hạn 8 tháng</span></div><div class="tl-qty"><span class="tag-lqty">×1</span></div><div class="tl-price free">Miễn phí</div></div>
+      </div>
+
+      <div class="tk-sum">
+        <div class="tk-sumline"><span>Gói liệu trình</span><span>20.400.000đ</span></div>
+        <div class="tk-sumline"><span>Dịch vụ lẻ</span><span>600.000đ</span></div>
+        <div class="tk-sumline"><span>Sản phẩm</span><span>680.000đ</span></div>
+        <div class="tk-sumline"><span>Thuốc theo toa</span><span>405.000đ</span></div>
+        <div class="tk-sumline"><span>Dịch vụ bảo hành</span><span style="color:var(--teal-deep)">0đ</span></div>
+        <div class="tk-sumline"><span>Khuyến mãi sinh nhật −5% (dịch vụ)</span><span style="color:var(--rose)">−1.050.000đ</span></div>
+        <div class="tk-sumline grand"><span>TỔNG PHẢI THU</span><span>21.035.000đ</span></div>
+      </div>
+    </div>
+    <div class="tk-foot">
+      <div style="font-size:12.5px;color:var(--ink-soft)">Thanh toán: <span class="pay-badge paid">✓ Đã thu trước (thẻ)</span> · thuốc & sản phẩm giao khi thực hiện xong</div>
+      <div style="font-size:12.5px;color:var(--ink-soft)">Thu ngân: <b style="color:var(--ink)">Phương Thảo</b></div>
+    </div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

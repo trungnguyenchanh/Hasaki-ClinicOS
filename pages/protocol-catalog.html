@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Danh mục phác đồ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.phase{display:flex;gap:14px;align-items:flex-start}
+.phase .pn{width:30px;height:30px;border-radius:9px;background:var(--indigo-soft);color:var(--indigo);display:grid;place-items:center;font-weight:600;font-size:13px;flex:none}
+.phase-col{display:flex;flex-direction:column;align-items:center}
+.phase .pl{width:2px;flex:1;background:var(--line);margin:4px 0;min-height:16px}
+.phase:last-child .pl{display:none}
+.phase-body{flex:1;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:13px}
+.phase-body b{font-size:14px}.phase-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('protocol-catalog');
+const right=`<button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo phác đồ</button>`;
+document.getElementById('main').innerHTML = topbar('Phác đồ điều trị','Danh mục phác đồ chuẩn',{who:'AD',branch:'Tất cả CN',right}) + `
+  <div class="kpi-grid">
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div></div><div class="kpi-val">14</div><div class="kpi-lbl">Phác đồ chuẩn</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">86</div><div class="kpi-lbl">Khách đang theo phác đồ</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div></div><div class="kpi-val">78%</div><div class="kpi-lbl">Tuân thủ trung bình</div></div>
+    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div></div><div class="kpi-val">12 tuần</div><div class="kpi-lbl">Thời lượng TB phác đồ</div></div>
+  </div>
+  <div class="row r-2e">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Danh mục phác đồ chuẩn<small>Do bác sĩ thiết kế · gồm nhiều giai đoạn theo thời gian</small></div></div>
+      <table><thead><tr><th>Phác đồ</th><th>Nhóm</th><th>Giai đoạn</th><th>Thời lượng</th><th>Đang dùng</th></tr></thead><tbody>
+        <tr class="clickable"><td><b>Trị nám chuyên sâu</b></td><td>Chăm sóc da</td><td>4 giai đoạn</td><td>12 tuần</td><td>28 khách</td></tr>
+        <tr class="clickable"><td><b>Giảm béo định hình toàn diện</b></td><td>Giảm béo</td><td>3 giai đoạn</td><td>10 tuần</td><td>22 khách</td></tr>
+        <tr class="clickable"><td><b>Triệt lông trọn gói</b></td><td>Triệt lông</td><td>2 giai đoạn</td><td>8 tháng</td><td>19 khách</td></tr>
+        <tr class="clickable"><td><b>Phục hồi tóc & da đầu</b></td><td>Derma & Hair</td><td>3 giai đoạn</td><td>6 tuần</td><td>17 khách</td></tr>
+      </tbody></table>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Chi tiết: Trị nám chuyên sâu<small>4 giai đoạn · 12 tuần</small></div></div>
+      <div class="phase">
+        <div class="phase-col"><div class="pn">1</div><div class="pl"></div></div>
+        <div class="phase-body"><b>Giai đoạn khám & đánh giá</b><div style="font-size:12.5px;color:var(--ink-soft)">Tuần 0 · khám bác sĩ, soi da, kê toa</div><div class="phase-tags"><span class="role-chip">Bác sĩ</span><span class="tag new">1 buổi</span></div></div>
+      </div>
+      <div class="phase">
+        <div class="phase-col"><div class="pn">2</div><div class="pl"></div></div>
+        <div class="phase-body"><b>Giai đoạn điều trị tích cực</b><div style="font-size:12.5px;color:var(--ink-soft)">Tuần 1–8 · 4 buổi laser cách 2 tuần</div><div class="phase-tags"><span class="role-chip">KTV Laser</span><span class="tag new">4 buổi</span></div></div>
+      </div>
+      <div class="phase">
+        <div class="phase-col"><div class="pn">3</div><div class="pl"></div></div>
+        <div class="phase-body"><b>Giai đoạn tái khám</b><div style="font-size:12.5px;color:var(--ink-soft)">Tuần 9 · đánh giá kết quả, điều chỉnh</div><div class="phase-tags"><span class="role-chip">Bác sĩ</span><span class="tag new">1 buổi</span></div></div>
+      </div>
+      <div class="phase">
+        <div class="phase-col"><div class="pn">4</div></div>
+        <div class="phase-body"><b>Giai đoạn duy trì</b><div style="font-size:12.5px;color:var(--ink-soft)">Tuần 10–12 · chăm sóc da định kỳ</div><div class="phase-tags"><span class="role-chip">ĐD/KTV</span><span class="tag new">2 buổi</span></div></div>
+      </div>
+    </div>
+  </div>`;
+wireUI();
+</script>
+</body></html>

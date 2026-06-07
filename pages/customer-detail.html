@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Chi tiết khách</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.profile-head{display:flex;gap:20px;align-items:center;background:linear-gradient(140deg,#fff,var(--teal-soft));border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow);margin-bottom:18px;animation:rise .5s both;flex-wrap:wrap}
+.profile-head .q-av{width:74px;height:74px;border-radius:22px;font-size:26px}
+.ph-name{font-family:'Fraunces',serif;font-size:27px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ph-meta{color:var(--ink-soft);font-size:13.5px;margin-top:4px}
+.ph-stats{margin-left:auto;display:flex;gap:24px;text-align:center}
+.ph-stats .s b{font-family:'Fraunces',serif;font-size:21px;display:block}
+.ph-stats .s span{font-size:12px;color:var(--ink-soft)}
+.dtabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.today-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:18px}
+.today-status{background:linear-gradient(140deg,var(--teal-deep),var(--teal));color:#fff;border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow)}
+.today-status.absent{background:linear-gradient(140deg,#7a8a86,#6b7a76)}
+.ts-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ts-top .ts-dot{width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.25);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.ts-top b{font-size:15px}
+.ts-flow{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.ts-node{font-size:10.5px;padding:4px 9px;border-radius:8px;background:rgba(255,255,255,.15);font-weight:500}
+.ts-node.done{background:rgba(255,255,255,.3)}
+.ts-node.cur{background:#fff;color:var(--teal-deep);font-weight:600}
+.ts-next{background:rgba(255,255,255,.15);border-radius:11px;padding:11px 14px;display:flex;align-items:center;gap:11px}
+.ts-next .nb-ic{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.2);display:grid;place-items:center;flex:none}
+.ts-next .nb-ic svg{width:18px;height:18px}
+.ts-next b{font-size:13.5px;display:block}.ts-next span{font-size:11.5px;opacity:.9}
+.remind{border:1px solid var(--line);border-radius:13px;padding:13px;margin-bottom:10px;display:flex;gap:11px;align-items:flex-start}
+.remind .r-ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none}
+.remind .r-ic svg{width:17px;height:17px}
+.remind b{font-size:13px;display:block}.remind span{font-size:12px;color:var(--ink-soft)}
+.remind.late{border-color:#e9b3b3;background:#fdf4f4}
+@media(max-width:900px){.today-grid{grid-template-columns:1fr}}
+.dtabs button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer;color:var(--ink-soft)}
+.dtabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tl{position:relative;padding-left:26px}
+.tl::before{content:"";position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding-bottom:18px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-26px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+.tl-item.warn .tl-dot{border-color:var(--amber)}.tl-item.blush .tl-dot{border-color:var(--blush-deep)}
+.tl-time{font-size:12px;color:var(--ink-soft)}.tl-item b{font-size:14px;display:block;margin:2px 0}.tl-item span{font-size:12.5px;color:var(--ink-soft)}
+.note-row{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
+.note-row:last-child{border:none}.note-row .q-av{width:30px;height:30px;font-size:11px}
+.cflag-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cflag{border:1px solid var(--line);border-radius:13px;padding:14px}
+.cflag b{font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:8px}
+.chip{display:inline-block;font-size:12px;padding:4px 11px;border-radius:20px;margin:0 5px 5px 0;font-weight:500}
+.chip.warn{background:#fdf3e3;color:#9a6a1e}.chip.rose{background:#f9e6e6;color:#a64b4b}.chip.teal{background:var(--teal-soft);color:var(--teal-deep)}.chip.grey{background:var(--bg);color:var(--ink-soft)}
+.stars{color:var(--gold);font-size:14px}
+.vou{display:flex;align-items:center;gap:13px;padding:13px;border:1px dashed var(--blush-deep);border-radius:13px;margin-bottom:10px;background:#fdf6f3}
+.vou .vc{font-family:'Fraunces',serif;font-weight:600;font-size:14px;background:var(--blush-deep);color:#fff;padding:6px 11px;border-radius:9px;flex:none}
+.vou .vi{flex:1}.vou .vi b{font-size:13.5px;display:block}.vou .vi span{font-size:12px;color:var(--ink-soft)}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/data.js"></script>
+<script>
+renderLayout('customers');
+const right=`<a class="btn btn-ghost" href="${linkFor('flow-tracking.html')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Hành trình hôm nay</a><a class="btn btn-ghost" href="${linkFor('customer-treatment-record.html')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>Hồ sơ điều trị</a><a class="btn btn-ghost" href="warranty.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Bảo hành</a><button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 2v4M8 2v4M3 10h18"/><rect x="3" y="4" width="18" height="18" rx="2"/></svg>Đặt lịch</button>`;
+const C = getCustomer();
+document.getElementById('main').innerHTML = topbar('Khách hàng › Chi tiết','Hồ sơ khách hàng',{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `
+  <div class="profile-head">
+    <div class="q-av ${C.avatarClass}">${C.initials}</div>
+    <div>
+      <div class="ph-name">${C.name} <span class="tag vip">${C.tier}</span> <span class="tag new" style="background:var(--indigo-soft);color:var(--indigo)">${C.rank}</span> <span class="chip teal" style="margin:0">${C.persona}</span></div>
+      <div class="ph-meta">Mã KH <b>${C.id}</b> · ${C.gender} · ${C.age} tuổi · ${maskPhone(C.phone)} · Khách từ ${C.sinceLabel} · Nguồn: ${C.source}</div>
+      <div class="ph-meta" style="color:var(--rose);margin-top:6px">⚠ Dị ứng: ${C.allergy} · ${C.dislike}</div>
+    </div>
+    <div class="ph-stats">
+      <div class="s"><b>${C.spendLabel}</b><span>Tổng chi tiêu</span></div>
+      <div class="s"><b>${C.sessions}</b><span>Buổi đã làm</span></div>
+      <div class="s"><b>${C.walletLabel}</b><span>Số dư ví</span></div>
+      <div class="s"><b>${C.consultantInit}</b><span>TVV phụ trách</span></div>
+    </div>
+  </div>
+
+  <div class="today-grid">
+    <div class="today-status">
+      <div class="ts-top"><span class="ts-dot"></span><b>Hôm nay khách CÓ đến</b><span style="margin-left:auto;font-size:12px;opacity:.9">Theo booking 10:00 · check-in 09:55</span></div>
+      <div style="font-size:12px;opacity:.85;margin-bottom:7px">Đang trong quy trình tiếp khách — bước hiện tại:</div>
+      <div class="ts-flow">
+        <span class="ts-node done">Booking ✓</span><span class="ts-node done">Lấy số ✓</span><span class="ts-node done">Tư vấn ✓</span><span class="ts-node done">Bác sĩ ✓</span><span class="ts-node done">Cashier ✓</span><span class="ts-node cur">● Thực hiện DV</span><span class="ts-node">Thu tiền</span><span class="ts-node">Đánh giá</span>
+      </div>
+      <div class="ts-next"><div class="nb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <div style="flex:1"><span>Hướng dẫn khách bước tiếp theo</span><b>Vào phòng Slim 1 — Giảm béo RF buổi 1/10 (KTV Hồng Trang)</b></div>
+        <a href="flow-tracking.html" style="color:#fff;font-size:12px;text-decoration:underline;white-space:nowrap">Xem flow</a></div>
+    </div>
+    <div class="panel" style="margin:0"><div class="panel-h" style="padding-bottom:10px"><div class="panel-title" style="font-size:15px">Nhắc & lịch hẹn</div></div>
+      <div class="remind late"><div class="r-ic" style="background:#f9e6e6;color:#a64b4b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg></div><div><b style="color:#a64b4b">Trễ hẹn phác đồ trị nám</b><span>Buổi laser GĐ2 lẽ ra 28/06 — đã trễ 6 ngày, cần nhắc đặt lại.</span></div></div>
+      <div class="remind"><div class="r-ic ic-gold" style="background:#f7eed3;color:#9a7b1e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg></div><div><b>Liệu trình tiếp theo</b><span>Triệt lông Diode buổi 5/8 — gợi ý đặt trong tuần này.</span></div></div>
+      <div class="remind"><div class="r-ic ic-teal" style="background:var(--teal-soft);color:var(--teal-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div><b>Lịch hẹn sắp tới</b><span>15/07 10:00 — RF buổi 2/10 (đã đặt) · 22/07 — tái khám da.</span></div></div>
+      <div class="remind"><div class="r-ic ic-blush" style="background:#fbe7e0;color:var(--blush-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b>Gói sắp hết hạn</b><span>Gói triệt lông còn 2 buổi · HSD 21 ngày — nhắc khách dùng.</span></div></div>
+    </div>
+  </div>
+
+  <div class="dtabs" id="dt">
+    <button class="on" onclick="dtab('overview')">Tổng quan & lưu ý</button>
+    <button onclick="dtab('purchase')">Phiếu mua hàng</button>
+    <button onclick="dtab('sessions')">Liệu trình theo ngày</button>
+    <button onclick="dtab('voucher')">Voucher & gói</button>
+    <button onclick="dtab('feedback')">Feedback</button>
+  </div>
+  <div id="dv"></div>`;
+
+const DV=document.getElementById('dv');
+const TABS={
+overview:`
+  <div class="row r-2e">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Phân loại & lưu ý đặc biệt<small>Hỗ trợ nhân viên phục vụ đúng cách</small></div></div>
+      <div class="cflag-grid">
+        <div class="cflag"><b>Tính cách khách</b><div><span class="chip teal">Dễ tính</span><span class="chip grey">Đúng giờ</span><span class="chip grey">Quyết định nhanh</span></div></div>
+        <div class="cflag"><b>Dị ứng thành phần</b><div><span class="chip rose">Lidocaine</span><span class="chip rose">Paraben</span><span class="chip rose">Cồn khô</span></div></div>
+        <div class="cflag"><b>Không thích / yêu cầu</b><div><span class="chip warn">Không KTV nam</span><span class="chip warn">Phòng yên tĩnh</span><span class="chip teal">Thích KTV Thanh Mai</span></div></div>
+        <div class="cflag"><b>Lưu ý y tế</b><div><span class="chip warn">Da nhạy cảm vùng mặt</span><span class="chip grey">Huyết áp ổn</span></div></div>
+      </div>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Thêm lưu ý</button>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Ghi chú nội bộ (theo thời gian)</div></div>
+      <div class="note-row"><div class="q-av av-blush">QT</div><div><b style="font-size:13px">Quỳnh Trang (TVV)</b> · 28/06<br><span>Khách hài lòng, quan tâm thêm derma hair. Ưu tiên chăm sóc.</span></div></div>
+      <div class="note-row"><div class="q-av av-teal">TM</div><div><b style="font-size:13px">Thanh Mai (KTV)</b> · 15/06<br><span>Da vùng bụng phản ứng nhẹ với gel, đã đổi loại dịu hơn.</span></div></div>
+      <div class="note-row"><div class="q-av av-gold">CS</div><div><b style="font-size:13px">CSKH</b> · 16/06<br><span>Đã nhắc lịch triệt lông qua Zalo, khách xác nhận.</span></div></div>
+      <textarea class="txta" style="width:100%;min-height:60px;font-family:inherit;font-size:13px;padding:11px;border:1px solid var(--line);border-radius:12px;outline:none;margin-top:12px" placeholder="Thêm ghi chú mới…"></textarea>
+    </div>
+  </div>`,
+
+purchase:`<div class="panel"><div class="panel-h"><div class="panel-title">Lịch sử phiếu mua hàng<small>Hóa đơn · gói · sản phẩm · nạp ví</small></div><div class="pill-tabs"><button class="on">Tất cả</button><button>Gói</button><button>Sản phẩm</button><button>Nạp ví</button></div></div>
+    <table><thead><tr><th>Ngày</th><th>Phiếu</th><th>Nội dung</th><th>Loại</th><th>Khuyến mãi</th><th>Phương thức</th><th>Số tiền</th></tr></thead><tbody>
+      <tr class="clickable"><td>Hôm nay</td><td class="num-strong">INV-20825</td><td>Gói giảm béo RF + chăm sóc da + serum</td><td><span class="tag new">Gói+SP</span></td><td>Sinh nhật −5%</td><td>Thẻ</td><td class="num-strong">20.026.000đ</td></tr>
+      <tr class="clickable"><td>15/06</td><td class="num-strong">INV-20510</td><td>Nạp ví trả trước</td><td><span class="tag" style="background:var(--teal-soft);color:var(--teal-deep)">Nạp ví</span></td><td>—</td><td>Chuyển khoản</td><td class="num-strong">5.000.000đ</td></tr>
+      <tr class="clickable"><td>02/05</td><td class="num-strong">INV-19880</td><td>Gói triệt lông Diode 8 buổi</td><td><span class="tag new">Gói</span></td><td>Combo −10%</td><td>Thẻ</td><td class="num-strong">9.900.000đ</td></tr>
+      <tr class="clickable"><td>10/03</td><td class="num-strong">INV-18221</td><td>Serum + kem chống nắng</td><td><span class="tag prog">Sản phẩm</span></td><td>—</td><td>Tiền mặt</td><td class="num-strong">1.100.000đ</td></tr>
+    </tbody></table>
+    <div class="sumline total" style="max-width:340px;margin-left:auto"><span>Tổng chi tiêu tích lũy</span><span>38.426.000đ</span></div></div>`,
+
+sessions:`<div class="panel"><div class="panel-h"><div class="panel-title">Lịch sử liệu trình đã làm — theo ngày<small>Mỗi buổi: KTV/ĐD · phòng · NVL · đánh giá</small></div><div class="pill-tabs"><button class="on">Tất cả</button><button>Đang theo</button><button>Đã xong</button></div></div>
+    <div class="tl">
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">Hôm nay · 10:00</div><b>Giảm béo RF bụng · buổi 1/10</b><span>KTV Hồng Trang · phòng Slim 1 · máy RF · NVL đúng định biên · <span class="stars">★★★★★</span></span></div>
+      <div class="tl-item blush"><div class="tl-dot"></div><div class="tl-time">28/06 · 09:30</div><b>Chăm sóc da phục hồi · buổi 2/3</b><span>ĐD Ngọc Linh · phòng Da 1 · đánh giá <span class="stars">★★★★★</span></span></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">15/06 · 14:00</div><b>Triệt lông Diode · buổi 4/8</b><span>KTV Thanh Mai · phòng Laser 2 · Laser Diode XL · <span class="stars">★★★★☆</span></span></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">01/06 · 14:00</div><b>Triệt lông Diode · buổi 3/8</b><span>KTV Thanh Mai · phòng Laser 2</span></div>
+      <div class="tl-item warn"><div class="tl-dot"></div><div class="tl-time">10/06 · 11:00</div><b>Khám với BS. Bích Hằng</b><span>Chỉ định liệu trình giảm béo · kê toa QG-7741A</span></div>
+    </div></div>`,
+
+voucher:`<div class="row r-2e">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Voucher khả dụng</div></div>
+      <div class="vou"><div class="vc">−15%</div><div class="vi"><b>Ưu đãi sinh nhật</b><span>HSD 30/07 · áp toàn đơn dịch vụ</span></div><span class="tag done">Còn hạn</span></div>
+      <div class="vou"><div class="vc">500K</div><div class="vi"><b>Voucher giới thiệu bạn</b><span>HSD 15/08 · đơn từ 5tr</span></div><span class="tag done">Còn hạn</span></div>
+      <div class="vou" style="opacity:.55"><div class="vc">−10%</div><div class="vi"><b>Combo derma hair</b><span>Đã dùng 02/05</span></div><span class="tag wait">Đã dùng</span></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Gói & Ví hiện có</div></div>
+      <div class="wpill"><div class="q-av av-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><div class="wi"><b>Ví trả trước</b><span>Trừ dần dịch vụ</span></div><div class="wv">4.500.000đ</div></div>
+      <div class="wpill"><div class="q-av av-gold">10</div><div class="wi"><b>Gói giảm béo RF</b><span>HSD 6 tháng</span></div><div class="wv">10 buổi</div></div>
+      <div class="wpill"><div class="q-av av-blush">2</div><div class="wi"><b>Gói triệt lông Diode</b><span>⚠ Sắp hết hạn (21 ngày)</span></div><div class="wv">2 buổi</div></div>
+    </div></div>`,
+
+feedback:`<div class="panel"><div class="panel-h"><div class="panel-title">Feedback & góp ý của khách<small>Sau mỗi buổi dịch vụ · khảo sát CSKH</small></div></div>
+    <table><thead><tr><th>Ngày</th><th>Dịch vụ</th><th>Đánh giá</th><th>Nội dung góp ý</th><th>Xử lý</th></tr></thead><tbody>
+      <tr><td>Hôm nay</td><td>Giảm béo RF</td><td class="stars">★★★★★</td><td>Rất hài lòng, KTV nhẹ nhàng.</td><td><span class="tag done">—</span></td></tr>
+      <tr><td>15/06</td><td>Triệt lông</td><td class="stars">★★★★☆</td><td>Hơi rát nhẹ, mong điều chỉnh cường độ.</td><td><span class="tag done">Đã ghi nhận</span></td></tr>
+      <tr><td>28/05</td><td>Chăm sóc da</td><td class="stars">★★★☆☆</td><td>Chờ hơi lâu ở lễ tân.</td><td><span class="tag prog">CSKH đã gọi xin lỗi</span></td></tr>
+    </tbody></table>
+    <div class="alert al-info" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Điểm hài lòng trung bình: <b>4.5★</b> · xu hướng tăng. Góp ý "chờ lâu" đã được xử lý.</div></div></div>`,
+};
+function dtab(k){document.querySelectorAll('#dt button').forEach(b=>b.classList.remove('on'));event&&event.target&&event.target.classList.add('on');DV.innerHTML=TABS[k];wireUI();}
+dtab('overview');
+</script>
+</body></html>

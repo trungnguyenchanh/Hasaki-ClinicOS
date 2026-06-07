@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki Clinic · Điều phối bác sĩ CN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css"></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('doctor');
+const right = `<a class="btn btn-ghost" href="doctor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Bàn của tôi</a>`;
+document.getElementById('main').innerHTML = topbar('Nghiệp vụ Bác sĩ','Điều phối bác sĩ — Toàn CN Quận 1',{who:'BH',branch:'CN Quận 1',right}) + `
+  <div class="cn-tabs">
+    <a class="cn-link on" href="doctor-cn.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>Toàn CN (điều phối bác sĩ)</a>
+    <a class="cn-link" href="doctor.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Của tôi (BS. Bích Hằng)</a>
+  </div>
+    <div class="kpi-grid">
+      <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg></div></div><div class="kpi-val">3 BS</div><div class="kpi-lbl">Bác sĩ trực hôm nay</div></div>
+      <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div></div><div class="kpi-val">41</div><div class="kpi-lbl">Tổng đã khám hôm nay</div></div>
+      <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">7</div><div class="kpi-lbl">Đang chờ khám (toàn CN)</div></div>
+      <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg></div></div><div class="kpi-val">1</div><div class="kpi-lbl">BS đang vướng thủ thuật</div></div>
+    </div>
+    <div class="panel" style="margin-bottom:18px"><div class="panel-h"><div class="panel-title">Tình trạng từng bác sĩ<small>Đang khám ai · đang chờ bao nhiêu · có vướng dịch vụ/thủ thuật không → điều phối</small></div></div>
+      <div class="staff-board">
+        <div class="staff-card busy"><div class="sc-head"><div class="q-av av-indigo">BH</div><div><b>BS. Bích Hằng</b><div class="sc-role">Da liễu · giảm béo</div></div><span class="sc-state st-busy">Đang khám</span></div>
+          <div class="sc-now"><div class="scn-lbl">Đang khám</div><b>Trần Thu Hà</b> · từ 09:02 (~10p)</div>
+          <div class="sc-stats"><div class="ss"><b>18</b><span>Đã khám</span></div><div class="ss"><b>4</b><span>Đang chờ</span></div><div class="ss"><b>~12p</b><span>Chờ TB</span></div></div></div>
+        <div class="staff-card" style="border-color:#e9b3b3;background:#fdf4f4"><div class="sc-head"><div class="q-av av-teal">MQ</div><div><b>BS. Minh Quân</b><div class="sc-role">Da liễu · laser · thủ thuật</div></div><span class="sc-state st-svc">Đang thủ thuật</span></div>
+          <div class="sc-now"><div class="scn-lbl">Đang làm thủ thuật</div><b>Vũ Phương · tiểu phẫu nốt ruồi</b><div class="sc-prog"><i style="width:90%;background:var(--rose)"></i></div><div style="font-size:11px;color:var(--rose);margin-top:4px">Quá giờ +3p · sắp xong → sẵn sàng nhận khách</div></div>
+          <div class="sc-stats"><div class="ss"><b>15</b><span>Đã khám</span></div><div class="ss"><b>3</b><span>Đang chờ</span></div><div class="ss"><b>~18p</b><span>Chờ TB</span></div></div></div>
+        <div class="staff-card free"><div class="sc-head"><div class="q-av av-gold">TL</div><div><b>BS. Tuấn Lâm</b><div class="sc-role">Da liễu tổng quát</div></div><span class="sc-state st-free">Rảnh</span></div>
+          <div class="sc-now"><div class="scn-lbl">Hiện tại</div><b>Đang rảnh — có thể nhận khách ngay</b></div>
+          <div class="sc-stats"><div class="ss"><b>8</b><span>Đã khám</span></div><div class="ss"><b>0</b><span>Đang chờ</span></div><div class="ss"><b>—</b><span>Chờ TB</span></div></div></div>
+      </div>
+      <div class="alert al-warn" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Điều phối:</b> BS. Minh Quân đang vướng thủ thuật (3 khách chờ ~18p) trong khi <b>BS. Tuấn Lâm đang rảnh</b> → chuyển bớt 1–2 khách phù hợp sang BS. Tuấn Lâm.</div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Hàng chờ khám toàn CN<small>Chưa phân / chờ theo từng bác sĩ</small></div><button class="btn btn-ghost">Điều phối lại</button></div>
+      <table><thead><tr><th>STT</th><th>Khách</th><th>Lý do</th><th>Chờ</th><th>Phân cho</th><th></th></tr></thead><tbody>
+        <tr><td class="num-strong">02</td><td>Lê Minh</td><td>Tái khám triệt lông</td><td>8p</td><td>BS. Bích Hằng</td><td><span class="tag done">Sẵn sàng</span></td></tr>
+        <tr><td class="num-strong">03</td><td>Ngô Khánh</td><td>Khám da liễu</td><td>15p</td><td>BS. Minh Quân</td><td><span class="tag wait">Chờ (BS bận)</span></td></tr>
+        <tr class="clickable"><td class="num-strong">09</td><td>Khách walk-in</td><td>Khám nốt ruồi</td><td>4p</td><td><span style="color:var(--rose)">Chưa phân</span></td><td><button class="btn btn-teal" style="padding:4px 11px;font-size:11.5px">Phân BS. Tuấn Lâm</button></td></tr>
+      </tbody></table>
+    </div>`;
+wireUI();
+</script>
+</body></html>
