@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki Clinic · Điều phối tua</title>
+<title>Hasaki Clinic · Nhân sự trong ca</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/theme.css">
@@ -104,99 +104,75 @@
 .anom .ai svg{width:16px;height:16px}
 .anom .ax{flex:1;min-width:0}
 .anom .ai,.anom .sev{align-self:flex-start}
+
+/* ==== trang nhân sự phân cấp ==== */
+.region-block{margin-bottom:26px}
+.region-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.region-head .rg-ic{width:34px;height:34px;border-radius:10px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.region-head h3{font-family:'Fraunces',serif;font-size:18px;margin:0}
+.region-head .rg-sum{margin-left:auto;font-size:12px;color:var(--ink-soft)}
+.cn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.cn-card{border:1px solid var(--line);border-radius:15px;padding:16px;cursor:pointer;transition:.16s;background:#fff}
+.cn-card:hover{border-color:var(--teal);box-shadow:var(--shadow);transform:translateY(-2px)}
+.cn-card .cn-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.cn-card .cn-name{font-weight:600;font-size:15px}
+.cn-card .cn-addr{font-size:11.5px;color:var(--ink-soft)}
+.cn-card .cn-arrow{margin-left:auto;color:var(--teal-deep)}
+.cn-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.cn-st{background:var(--bg-2);border-radius:9px;padding:8px 4px;text-align:center}
+.cn-st b{font-family:'Fraunces',serif;font-size:17px;display:block;line-height:1}
+.cn-st span{font-size:9.5px;color:var(--ink-soft)}
+.cn-st.avail b{color:#2f9e6f}.cn-st.busy b{color:#9a6a1e}.cn-st.off b{color:var(--ink-soft)}
+.cn-load{margin-top:11px;font-size:11.5px;color:var(--ink-soft);display:flex;align-items:center;gap:6px}
+.cn-bar{flex:1;height:6px;border-radius:4px;background:var(--bg-2);overflow:hidden}
+.cn-bar i{display:block;height:100%;background:var(--teal)}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
-<script src="../assets/data.js"></script>
-<script src="../assets/dispatch-data.js"></script>
 <script>
 renderLayout('dispatch');
-const right=`<div class="pill-tabs">
-  <a class="btn btn-ghost" href="dispatch-staff.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none">Nhân sự trong ca</a>
-  <a class="btn btn-ghost" href="dispatch-rule-region.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none">Rule theo khu vực</a>
-  <a class="btn btn-ghost" href="dispatch-rule-pay.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none">Rule tính công</a>
-</div>`;
-document.getElementById('main').innerHTML = topbar('Vận hành','Điều phối tua · CN Quận 1',{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `<div id="view"></div>`;
-const VIEW=document.getElementById('view');
 
-// Dữ liệu QUEUE / STAFF / peak / wqAgg / staffStatus / scoreFor / fmtMin nằm trong dispatch-data.js (dùng chung với dispatch-assign.html)
-let manualMode = false;
-let autoMode = 'full';
+/* ===== DỮ LIỆU: nhân sự trong ca — phạm vi 1 chi nhánh (CN hiện tại) ===== */
+const BRANCH = { name:'CN Quận 1', addr:'123 Nguyễn Hu\u1ec7, Q1', region:'TP. H\u1ed3 Ch\u00ed Minh', staff:[
+  { nm:'H\u1ed3ng Trang', sub:'KTV \u00b7 Senior', av:'av-gold', shift:'08\u201317', status:'avail', checkedIn:'07:58', tua:1, tuaMax:6, cong:'1,2tr' },
+  { nm:'Thanh Mai',  sub:'KTV \u00b7 Senior', av:'av-teal', shift:'08\u201317', status:'busy',  checkedIn:'07:50', tua:3, tuaMax:6, cong:'1,9tr', busyUntil:'10:20' },
+  { nm:'Ng\u1ecdc Linh',  sub:'\u0110i\u1ec1u d\u01b0\u1ee1ng', av:'av-blush', shift:'08\u201317', status:'break', checkedIn:'07:55', tua:1, tuaMax:4, cong:'1,1tr', breakBack:'10:05' },
+  { nm:'BS. B\u00edch H\u1eb1ng', sub:'B\u00e1c s\u0129 da li\u1ec5u', av:'av-indigo', shift:'08\u201316', status:'avail', checkedIn:'08:02', tua:2, tuaMax:8, cong:'\u2014' },
+  { nm:'Mai Linh', sub:'Stylist t\u00f3c', av:'av-sage', shift:'09\u201318', status:'avail', checkedIn:'08:48', tua:0, tuaMax:5, cong:'0,6tr' },
+  { nm:'Ph\u01b0\u01a1ng Anh', sub:'KTV \u00b7 H\u1ecdc vi\u1ec7c', av:'av-blush', shift:'08\u201317', status:'off', checkedIn:null, tua:0, tuaMax:5, cong:'0\u0111' },
+]};
 
-/* ============================================================
-   TAB 1 — BÀN ĐIỀU PHỐI
-   ============================================================ */
+function statusInfo(s){
+  const map={avail:['st-avail','sp-avail','S\u1eb5n s\u00e0ng'],busy:['st-busy','sp-busy','\u0110ang l\u00e0m'+(s.busyUntil?` \u00b7 t\u1edbi ${s.busyUntil}`:'')],break:['st-break','sp-break','Gi\u1eefa gi\u1edd'+(s.breakBack?` \u00b7 v\u1ec1 ${s.breakBack}`:'')],off:['st-off','sp-off','Ch\u01b0a check-in']};
+  return map[s.status];
+}
+function agg(st){
+  const c={avail:0,busy:0,break:0,off:0}; st.forEach(s=>c[s.status]++);
+  const loadSum=st.reduce((a,s)=>a+s.tua,0), capSum=st.reduce((a,s)=>a+s.tuaMax,0);
+  return { total:st.length, ...c, load: capSum?Math.round(loadSum/capSum*100):0 };
+}
 
-function renderBoard(){
-  VIEW.innerHTML=`
-  <div class="auto-bar">
-    <span class="led"></span>
-    <div style="flex:1"><b>Tự động điều phối: ${autoMode==='full'?'BẬT HOÀN TOÀN':'BÁN TỰ ĐỘNG'}</b> — hệ tự gán theo điểm khi khách check-in, NV chỉ Nhận/Từ chối trên app. Chọn 1 khách bên dưới để xem/can thiệp.</div>
-    <a href="dispatch-claim.html" target="_blank" style="color:#9fe6cf;text-decoration:underline;font-size:12px;white-space:nowrap">↗ App nhận tua của NV</a>
+const ag = agg(BRANCH.staff);
+const back = `<a class="btn btn-ghost" href="dispatch.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>V\u1ec1 b\u00e0n \u0111i\u1ec1u ph\u1ed1i</a>`;
+document.getElementById('main').innerHTML = topbar('V\u1eadn h\u00e0nh', `Nh\u00e2n s\u1ef1 trong ca \u00b7 ${BRANCH.name}`, {who:CURRENT_USER.initials, branch:BRANCH.region, right:back}) + `
+  <div class="cn-stats" style="grid-template-columns:repeat(5,1fr);margin-bottom:18px">
+    <div class="cn-st"><b>${ag.total}</b><span>T\u1ed4NG NV</span></div>
+    <div class="cn-st avail"><b>${ag.avail}</b><span>S\u1eaeN S\u00c0NG</span></div>
+    <div class="cn-st busy"><b>${ag.busy}</b><span>\u0110ANG L\u00c0M</span></div>
+    <div class="cn-st"><b>${ag.break}</b><span>GI\u1eeeA GI\u1edc</span></div>
+    <div class="cn-st off"><b>${ag.off}</b><span>CH\u01afA IN</span></div>
   </div>
-  <div class="peak-bar ${peak.hot?'hot':'calm'}">
-    ${peak.hot?'<span class="pulse"></span>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>'}
-    <div style="flex:1">${peak.hot
-      ? `<b>GIỜ CAO ĐIỂM</b> — ${peak.waiting} khách đang chờ, lâu nhất ${peak.longest} phút. Rule tối ưu thời gian chờ đang BẬT: NV vừa trống sẽ được gợi ý cho khách chờ lâu / sắp quá giờ trước.`
-      : `Lưu lượng bình thường — ${peak.waiting} khách chờ.`}</div>
-  </div>
-
-  <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Khách đang chờ làm dịch vụ<small>Bấm vào 1 khách để mở bảng điều phối cho khách đó · phiếu · SKU · nhóm · máy · thời gian · tay nghề</small></div></div>
-      <div id="queue"></div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Van xả khi bất khả kháng<small>Không ai nhận / sự cố — hệ tự nâng bậc, hạn chế tay người</small></div></div>
-      <div class="esc-step"><div class="esc-num">1</div><div class="et"><b>Mở rộng bán kính & nới giờ chờ</b><span>Tự offer lại cho nhóm NV đủ skill kế cận, giãn thời gian bắt đầu.</span></div></div>
-      <div class="esc-step"><div class="esc-num">2</div><div class="et"><b>Nới cấp skill (có cờ)</b><span>Cho phép Mid thay Senior nếu vẫn an toàn; ghi cờ "hạ cấp" để rà sau. Major (bác sĩ/tóc) KHÔNG nới.</span></div></div>
-      <div class="esc-step"><div class="esc-num">3</div><div class="et"><b>Ghép tách step / đổi phòng-máy</b><span>Tách liệu trình cho 2 NV làm song song để rút thời gian chờ.</span></div></div>
-      <div class="esc-step danger"><div class="esc-num">4</div><div class="et"><b>Đẩy lên quản lý (bắt buộc lý do)</b><span>Chỉ khi 3 bậc trên thất bại. Override tay phải nhập lý do + ghi audit + bị đếm.</span></div></div>
-      <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Mục tiêu: tối thiểu can thiệp người. Mọi can thiệp tay đều để lại dấu vết.</div></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Phát hiện bất thường (chống cấu kết / ghim khách)<small>Hệ tự soi — bảo vệ công bằng</small></div></div>
-      <div class="anom flag"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <div class="ax"><b>Khách tiềm năng cao bị treo bất thường</b><span>Một khách giá trị lớn chờ 14 phút dù có 2 NV đủ skill đang rảnh — nghi có người "để dành". Hệ đã tự gán ép.</span></div><span class="sev sev-hi">CAO</span></div>
-      <div class="anom warn"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M2 21v-2a5 5 0 0 1 9-3"/></svg></div>
-        <div class="ax"><b>Cặp TVV–KTV lặp lại với khách sộp</b><span>TVV Quỳnh Trang + KTV Thanh Mai trùng nhau ở 6/7 khách chi tiêu cao tuần này — vượt ngưỡng ngẫu nhiên.</span></div><span class="sev sev-md">THEO DÕI</span></div>
-      <div class="anom warn"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
-        <div class="ax"><b>Tỉ lệ "bỏ qua tua" cao bất thường</b><span>1 KTV bỏ qua 5 tua thường nhưng nhận ngay tua giá trị cao — đang bị trừ điểm ưu tiên & gắn cờ.</span></div><span class="sev sev-md">THEO DÕI</span></div>
-      <div style="font-size:11.5px;color:var(--ink-soft);margin-top:10px;line-height:1.6">Cơ chế chống ghim: ẩn danh tính/giá trị khách trên app NV · auto-gán tức thì · log toàn bộ thao tác tay · so khớp mẫu cặp NV–khách.</div>
-    </div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">${BRANCH.region} \u00b7 ${BRANCH.name}<small>${BRANCH.addr} \u00b7 l\u1ecbch ca \u00b7 check-in/out \u00b7 tr\u1ea1ng th\u00e1i realtime \u00b7 t\u1ea3i tua & c\u00f4ng</small></div></div>
+    <div id="staff"></div>
   </div>`;
-  renderQueue();
-}
-function setAuto(m){ autoMode=m; renderBoard(); }
-
-function renderQueue(){
-  document.getElementById('queue').innerHTML = QUEUE.map(q=>{
-    const a=wqAgg(q); const over=q.wait>15 && !q.peakSafe;
-    return `<div class="wq" onclick="goAssign('${q.id}')">
-      <div class="wq-top"><div class="q-av ${q.av}">${q.name.split(' ').slice(-1)[0].slice(0,2)}</div>
-        <div class="nm">${q.name} ${q.vip?'<span class="tag vip">VIP</span>':''} ${q.reqStaff?`<span class="req-by">★ Yêu cầu ${q.reqStaff}</span>`:''}</div>
-        <div class="wt ${over?'over':''}"><b>${q.wait}p</b><span>${over?'⚠ quá giờ chờ':(q.peakSafe?'chấp nhận chờ':'đang chờ')}</span></div>
-      </div>
-      <div class="wq-stats">
-        <div class="wq-stat"><b>${a.tickets}</b><span>PHIẾU DV</span></div>
-        <div class="wq-stat"><b>${a.skus}</b><span>SKU</span></div>
-        <div class="wq-stat"><b>${a.groups}</b><span>NHÓM DV</span></div>
-        <div class="wq-stat mach"><b>${a.machines.length||'—'}</b><span>MÁY</span></div>
-        <div class="wq-stat"><b>${fmtMin(a.mins)}</b><span>DỰ KIẾN</span></div>
-      </div>
-      <div class="wq-sku">
-        ${q.skus.map(s=>`<div class="sl"><span class="sn">${s.n} <span style="color:var(--ink-soft)">· ${s.group} · ${s.mins}p</span></span>
-          <span class="req">${s.machine?`<span class="tag-mach">⚙ ${s.machine}</span>`:''}${s.major?`<span class="tag-major">${s.major} (cố định)</span>`:''}${s.skill?`<span class="tag-skill">${s.skill}</span>`:''}</span></div>`).join('')}
-      </div>
-    </div>`;
-  }).join('');
-}
-/* ---- click 1 khách → mở TRANG RIÊNG điều phối cho khách đó ---- */
-function goAssign(id){ location.href = 'dispatch-assign.html?id=' + encodeURIComponent(id); }
-
-/* ---- khởi động ---- */
-renderBoard();
+document.getElementById('staff').innerHTML = BRANCH.staff.map(s=>{
+  const [dot,pill,label]=statusInfo(s);
+  return `<div class="stf">
+    <span class="st-dot ${dot}"></span>
+    <div class="q-av ${s.av}" style="width:36px;height:36px">${s.nm.split(' ').slice(-1)[0].slice(0,2)}</div>
+    <div class="info"><b>${s.nm}</b><span>${s.sub} \u00b7 tua ${s.tua}/${s.tuaMax} \u00b7 c\u00f4ng ${s.cong}</span></div>
+    <div style="text-align:right"><span class="st-pill ${pill}">${label}</span><div class="shift" style="margin-top:3px">ca ${s.shift}${s.checkedIn?` \u00b7 in ${s.checkedIn}`:''}</div></div>
+  </div>`;
+}).join('');
 </script>
 </body></html>

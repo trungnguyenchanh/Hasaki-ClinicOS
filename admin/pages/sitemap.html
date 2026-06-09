@@ -26,7 +26,6 @@
 .sm-subs a{font-size:12px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:6px;padding:3px 7px;border-radius:7px;transition:.12s}
 .sm-subs a:hover{background:var(--teal-soft);color:var(--teal-deep)}
 .sm-subs a code{font-family:Consolas,monospace;font-size:10.5px;color:var(--ink-soft);margin-left:auto}
-.sm-subs a:hover code{color:var(--teal-deep)}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
@@ -34,9 +33,9 @@
 renderLayout('sitemap');
 document.getElementById('main').innerHTML = topbar('Tổng quan','Sơ đồ trang & tính năng (Site map)',{who:'AD',branch:'Toàn hệ thống'}) + `
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-    <div class="card"><div class="kpi-val">41</div><div class="kpi-lbl">Tổng số trang</div></div>
+    <div class="card"><div class="kpi-val">25</div><div class="kpi-lbl">Tổng số trang</div></div>
     <div class="card"><div class="kpi-val">6</div><div class="kpi-lbl">Nhóm chức năng</div></div>
-    <div class="card"><div class="kpi-val">3</div><div class="kpi-lbl">Cấp báo cáo (Ops/Sales/KPI)</div></div>
+    <div class="card"><div class="kpi-val">3</div><div class="kpi-lbl">Nghiệp vụ đặc thù</div></div>
     <div class="card"><div class="kpi-val">100%</div><div class="kpi-lbl">Trang có lối vào</div></div>
   </div>
   <div id="map"></div>`;
@@ -46,6 +45,7 @@ const MAP=[
   {ic:'ic-teal',svg:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>',t:"Dashboard",f:"index.html",href:"../index.html",d:"Tổng quan vận hành: KPI doanh thu/buổi/khách, biểu đồ nhóm dịch vụ, hàng đợi điều phối, cảnh báo hệ thống, hiệu quả nhân sự.",a:["Xem KPI","Mở hàng đợi","Cảnh báo→trang liên quan"],l:[["Điều phối","dispatch.html"],["Chi tiết thực hiện","service-record.html"],["Bảo hành","warranty.html"]]},
   {ic:'ic-blush',svg:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',t:"Lịch & Booking",f:"booking.html",d:"Form đặt lịch chi tiết, bản đồ nhiệt khung giờ (quá tải), nhân sự rảnh theo khung, lịch máy cao cấp.",a:["Đặt lịch","Kiểm tra slot trống","Xem tải nhân sự/máy"],l:[["Hồ sơ khách","customer-detail.html"]]},
   {ic:'ic-gold',svg:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',t:"Khách hàng",f:"customers.html",d:"Danh sách khách toàn chuỗi, lọc VIP/có gói/mới, đồng bộ CRM.",a:["Tìm khách","Lọc nhóm","Mở hồ sơ"],l:[["Chi tiết khách","customer-detail.html"]]},
+  {ic:'ic-indigo',svg:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>',t:"Sơ đồ trang",f:"sitemap.html",d:"Trang bạn đang xem — bản đồ toàn bộ tính năng & liên kết.",a:["Điều hướng nhanh"],l:[]},
  ]},
  {group:"Nghiệp vụ",items:[
   {ic:'ic-teal',svg:'<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/>',t:"Bác sĩ · Khám",f:"doctor.html",d:"Hàng chờ khám theo số thứ tự, spotlight đang khám/kế tiếp, phân tải giữa nhiều bác sĩ.",a:["Gọi vào khám","Phân tải BS"],l:[["Kê toa","doctor-prescription.html"],["Hồ sơ khách","customer-detail.html"]]},
@@ -55,7 +55,7 @@ const MAP=[
   {ic:'ic-blush',svg:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5"/>',t:"Khảo sát tư vấn",f:"consultant-survey.html",d:"Phiếu khảo sát theo flow câu hỏi có nhánh điều kiện (yếu tố y tế → chuyển bác sĩ), đề xuất tự động.",a:["Trả lời câu hỏi","Rẽ nhánh","Tạo đề xuất"],l:[]},
   {ic:'ic-gold',svg:'<rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/>',t:"Cashier · Thu ngân",f:"cashier.html",d:"POS: chọn dịch vụ/gói (icon theo nhóm), chặn mua trùng, ghi chú HĐ, lưu ý khách, layout chống nhầm số tiền.",a:["Chọn dịch vụ","Áp dụng KM","Thu tiền","Xuất HĐ"],l:[]},
   {ic:'ic-teal',svg:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5"/>',t:"Liệu trình",f:"treatment.html",d:"Danh mục liệu trình, định biên NVL (BOM), tiến độ khách đang theo.",a:["Tạo liệu trình","Xem BOM"],l:[["Chi tiết thực hiện","service-record.html"]]},
-  {ic:'ic-indigo',svg:'<path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/>',t:"Điều phối tua",f:"dispatch.html",d:"Bàn điều phối phạm vi 1 CN: danh sách khách chờ, van xả khi bất khả kháng, phát hiện bất thường. Click khách → trang phân công riêng.",a:["Phân công","Xem nhân sự ca","Khai báo rule"],l:[],sub:[["Điều phối cho 1 khách","dispatch-assign.html?id=C-1042"],["Nhân sự trong ca (1 CN)","dispatch-staff.html"],["Tình hình chi nhánh","dispatch-branch.html?cn=q1"],["Rule theo khu vực","dispatch-rule-region.html"],["Rule tính công","dispatch-rule-pay.html"],["App nhận tua (mobile)","dispatch-claim.html"]]},
+  {ic:'ic-indigo',svg:'<path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/>',t:"Điều phối tua",f:"dispatch.html",d:"Bàn điều phối phạm vi 1 CN: khách chờ, van xả, phát hiện bất thường. Click khách → trang phân công riêng.",a:["Phân công","Xem nhân sự ca","Khai báo rule"],l:[],sub:[["Điều phối cho 1 khách","dispatch-assign.html?id=C-1042"],["Nhân sự trong ca (1 CN)","dispatch-staff.html"],["Tình hình chi nhánh","dispatch-branch.html?cn=q1"],["Rule theo khu vực","dispatch-rule-region.html"],["Rule tính công","dispatch-rule-pay.html"],["App nhận tua (mobile)","dispatch-claim.html"]]},
   {ic:'ic-blush',svg:'<path d="M3 3h18v4H3zM5 7v14h14V7"/>',t:"Kho & Pha chế",f:"inventory.html",d:"Tồn kho 2 loại (NVL/bán), phiếu pha chế gắn buổi, cảnh báo dưới định mức & hết hạn.",a:["Xuất NVL","Duyệt pha chế"],l:[]},
   {ic:'ic-teal',svg:'<rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/>',t:"Đơn thuốc · GPP",f:"pharmacy.html",d:"Dược sĩ đối chiếu mã đơn quốc gia trước khi bán, audit xuất-nhập-tồn chuẩn GPP.",a:["Đối chiếu QG","Bán & xuất kho"],l:[]},
  ]},
@@ -80,7 +80,7 @@ const MAP=[
   {ic:'ic-teal',svg:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',t:"Bảo hành dịch vụ",f:"warranty.html",d:"Chính sách BH theo dịch vụ, phiếu yêu cầu BH, làm lại miễn phí trong hạn.",a:["Tạo phiếu BH","Duyệt","Đặt lịch làm lại"],l:[]},
  ]},
  {group:"Quản trị",items:[
-  {ic:'ic-teal',svg:'<path d="M18 20V10M12 20V4M6 20v-6"/>',t:"Báo cáo & KPI",f:"reports.html",d:"Trung tâm báo cáo cho quản lý cấp cao: menu dẫn vào 3 nhóm — Vận hành (realtime), Sales (kinh doanh), KPI (hiệu suất).",a:["Chọn nhóm BC","Xuất Excel"],l:[],sub:[["Report Vận hành (realtime)","report-ops.html"],["Report Sales (kinh doanh)","report-sales.html"],["Report KPI (hiệu suất)","report-kpi.html"],["Tổng quan 1 chi nhánh","report-branch.html?cn=q1"]]},
+  {ic:'ic-teal',svg:'<path d="M18 20V10M12 20V4M6 20v-6"/>',t:"Báo cáo & KPI",f:"reports.html",d:"Trung tâm báo cáo cấp cao: menu dẫn 3 nhóm — Vận hành (realtime), Sales (kinh doanh), KPI (hiệu suất).",a:["Chọn nhóm BC","Xuất Excel"],l:[],sub:[["Report Vận hành (realtime)","report-ops.html"],["Report Sales (kinh doanh)","report-sales.html"],["Report KPI (hiệu suất)","report-kpi.html"],["Tổng quan 1 chi nhánh","report-branch.html?cn=q1"]]},
   {ic:'ic-gold',svg:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>',t:"Nhân sự & Học việc",f:"staff.html",d:"Nhân sự theo loại hình (full/part-time/học việc), scope độc lập, mentor, lộ trình nâng tay nghề.",a:["Xem scope","Đánh giá nâng cấp"],l:[]},
  ]},
 ];
@@ -93,7 +93,7 @@ document.getElementById('map').innerHTML = MAP.map(g=>`
           <div><h4>${it.t}</h4><div class="file">${it.f}</div></div></div>
         <div class="sm-desc">${it.d}</div>
         <div class="sm-actions">${it.a.map(a=>`<span class="sm-act">${a}</span>`).join('')}</div>
-        ${it.l&&it.l.length?`<div class="sm-link">Liên kết: ${it.l.map(x=>`<b>${x[0]}</b>`).join(' · ')}</div>`:''}
+        ${it.l.length?`<div class="sm-link">Liên kết: ${it.l.map(x=>`<b>${x[0]}</b>`).join(' · ')}</div>`:''}
         ${it.sub&&it.sub.length?`<div class="sm-subs"><div class="sub-h">Trang con (${it.sub.length})</div>${it.sub.map(x=>`<a href="${x[1]}" onclick="event.stopPropagation()">${x[0]} <code>${x[1]}</code></a>`).join('')}</div>`:''}
       </a>`).join('')}</div>
   </div>`).join('');

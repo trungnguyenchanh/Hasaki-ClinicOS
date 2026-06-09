@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki Clinic · Điều phối tua</title>
+<title>Hasaki Clinic · Điều phối cho khách</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/theme.css">
@@ -105,98 +105,120 @@
 .anom .ax{flex:1;min-width:0}
 .anom .ai,.anom .sev{align-self:flex-start}
 </style></head>
-<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<body>
+<div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
-<script src="../assets/data.js"></script>
 <script src="../assets/dispatch-data.js"></script>
 <script>
 renderLayout('dispatch');
-const right=`<div class="pill-tabs">
-  <a class="btn btn-ghost" href="dispatch-staff.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none">Nhân sự trong ca</a>
-  <a class="btn btn-ghost" href="dispatch-rule-region.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none">Rule theo khu vực</a>
-  <a class="btn btn-ghost" href="dispatch-rule-pay.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none">Rule tính công</a>
-</div>`;
-document.getElementById('main').innerHTML = topbar('Vận hành','Điều phối tua · CN Quận 1',{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `<div id="view"></div>`;
-const VIEW=document.getElementById('view');
-
-// Dữ liệu QUEUE / STAFF / peak / wqAgg / staffStatus / scoreFor / fmtMin nằm trong dispatch-data.js (dùng chung với dispatch-assign.html)
 let manualMode = false;
 let autoMode = 'full';
 
-/* ============================================================
-   TAB 1 — BÀN ĐIỀU PHỐI
-   ============================================================ */
+const selId = (typeof getParam==='function') ? getParam('id') : null;
+const cust = QUEUE.find(q=>q.id===selId) || null;
 
-function renderBoard(){
-  VIEW.innerHTML=`
+const backBtn = `<a class="btn btn-ghost" href="dispatch.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Về bàn điều phối</a>`;
+
+document.getElementById('main').innerHTML = topbar('Vận hành','Điều phối cho khách',{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right:backBtn}) + `<div id="view"></div>`;
+const VIEW = document.getElementById('view');
+
+function render(){
+  if(!cust){
+    VIEW.innerHTML = `<div class="row"><div class="panel" style="text-align:center;padding:40px">
+      <div style="font-size:15px;color:var(--ink-soft);margin-bottom:14px">Không tìm thấy khách (thiếu hoặc sai mã <code>?id=</code>).</div>
+      <a class="btn btn-teal" href="dispatch.html">← Về bàn điều phối</a></div></div>`;
+    return;
+  }
+  const a = wqAgg(cust);
+  const ranked = STAFF.map(s=>({s, ...scoreFor(s,cust)})).sort((x,y)=>y.score-x.score);
+  const best = ranked[0];
+  VIEW.innerHTML = `
   <div class="auto-bar">
     <span class="led"></span>
-    <div style="flex:1"><b>Tự động điều phối: ${autoMode==='full'?'BẬT HOÀN TOÀN':'BÁN TỰ ĐỘNG'}</b> — hệ tự gán theo điểm khi khách check-in, NV chỉ Nhận/Từ chối trên app. Chọn 1 khách bên dưới để xem/can thiệp.</div>
-    <a href="dispatch-claim.html" target="_blank" style="color:#9fe6cf;text-decoration:underline;font-size:12px;white-space:nowrap">↗ App nhận tua của NV</a>
-  </div>
-  <div class="peak-bar ${peak.hot?'hot':'calm'}">
-    ${peak.hot?'<span class="pulse"></span>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>'}
-    <div style="flex:1">${peak.hot
-      ? `<b>GIỜ CAO ĐIỂM</b> — ${peak.waiting} khách đang chờ, lâu nhất ${peak.longest} phút. Rule tối ưu thời gian chờ đang BẬT: NV vừa trống sẽ được gợi ý cho khách chờ lâu / sắp quá giờ trước.`
-      : `Lưu lượng bình thường — ${peak.waiting} khách chờ.`}</div>
-  </div>
-
-  <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Khách đang chờ làm dịch vụ<small>Bấm vào 1 khách để mở bảng điều phối cho khách đó · phiếu · SKU · nhóm · máy · thời gian · tay nghề</small></div></div>
-      <div id="queue"></div>
+    <div style="flex:1"><b>${autoMode==='full'?'TỰ ĐỘNG HOÀN TOÀN':'BÁN TỰ ĐỘNG'}</b> — ${autoMode==='full'?'hệ tự chốt NV điểm cao nhất; quản lý chỉ giám sát & xử ngoại lệ.':'hệ đề xuất, quản lý duyệt/chỉnh trước khi chốt.'}</div>
+    <div class="mode">
+      <button class="auto-pill ${autoMode==='full'?'on':''}" onclick="setAuto('full')">Tự động hoàn toàn</button>
+      <button class="auto-pill ${autoMode==='semi'?'on':''}" onclick="setAuto('semi')">Bán tự động</button>
     </div>
   </div>
 
   <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Van xả khi bất khả kháng<small>Không ai nhận / sự cố — hệ tự nâng bậc, hạn chế tay người</small></div></div>
-      <div class="esc-step"><div class="esc-num">1</div><div class="et"><b>Mở rộng bán kính & nới giờ chờ</b><span>Tự offer lại cho nhóm NV đủ skill kế cận, giãn thời gian bắt đầu.</span></div></div>
-      <div class="esc-step"><div class="esc-num">2</div><div class="et"><b>Nới cấp skill (có cờ)</b><span>Cho phép Mid thay Senior nếu vẫn an toàn; ghi cờ "hạ cấp" để rà sau. Major (bác sĩ/tóc) KHÔNG nới.</span></div></div>
-      <div class="esc-step"><div class="esc-num">3</div><div class="et"><b>Ghép tách step / đổi phòng-máy</b><span>Tách liệu trình cho 2 NV làm song song để rút thời gian chờ.</span></div></div>
-      <div class="esc-step danger"><div class="esc-num">4</div><div class="et"><b>Đẩy lên quản lý (bắt buộc lý do)</b><span>Chỉ khi 3 bậc trên thất bại. Override tay phải nhập lý do + ghi audit + bị đếm.</span></div></div>
-      <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Mục tiêu: tối thiểu can thiệp người. Mọi can thiệp tay đều để lại dấu vết.</div></div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Khách: ${cust.name}${cust.vip?' <span class="tag vip">VIP</span>':''}<small>${cust.id} · ${a.tickets} phiếu DV · ${a.skus} SKU · ${a.groups} nhóm · ~${fmtMin(a.mins)} · chờ ${cust.wait}p${cust.reqStaff?' · chỉ định '+cust.reqStaff:''}</small></div></div>
+      <div class="wq-sku">
+        ${cust.skus.map(s=>`<div style="display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 0">
+          <span style="flex:1">${s.n} <span style="color:var(--ink-soft)">· ${s.group} · ${fmtMin(s.mins)}${s.machine?' · ⚙ '+s.machine:''}</span></span>
+          ${s.major?`<span class="sc miss">major: ${s.major}</span>`:''}${s.skill?`<span class="sc">${s.skill}</span>`:''}</div>`).join('')}
+      </div>
     </div>
   </div>
+
+  ${cust.reqStaff?`<div class="alert al-info" style="margin-bottom:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 17l-6.5 5 2-7L2 9h7z"/></svg><div>Khách <b>chỉ định ${cust.reqStaff}</b> qua booking và <b>chấp nhận chờ</b> — không tính cảnh báo trễ cho khách này.</div></div>`:''}
+  ${(peak.hot && cust.wait>15 && !cust.peakSafe)?`<div class="alert" style="margin-bottom:16px;background:#fdeee3;border:1px solid #f0c9a8;color:#9a5a1e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Cao điểm + chờ quá lâu:</b> ưu tiên gán NV trống gần nhất để giảm thời gian chờ, kể cả điểm chưa tối ưu nhất.</div></div>`:''}
+
   <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Phát hiện bất thường (chống cấu kết / ghim khách)<small>Hệ tự soi — bảo vệ công bằng</small></div></div>
-      <div class="anom flag"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <div class="ax"><b>Khách tiềm năng cao bị treo bất thường</b><span>Một khách giá trị lớn chờ 14 phút dù có 2 NV đủ skill đang rảnh — nghi có người "để dành". Hệ đã tự gán ép.</span></div><span class="sev sev-hi">CAO</span></div>
-      <div class="anom warn"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M2 21v-2a5 5 0 0 1 9-3"/></svg></div>
-        <div class="ax"><b>Cặp TVV–KTV lặp lại với khách sộp</b><span>TVV Quỳnh Trang + KTV Thanh Mai trùng nhau ở 6/7 khách chi tiêu cao tuần này — vượt ngưỡng ngẫu nhiên.</span></div><span class="sev sev-md">THEO DÕI</span></div>
-      <div class="anom warn"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
-        <div class="ax"><b>Tỉ lệ "bỏ qua tua" cao bất thường</b><span>1 KTV bỏ qua 5 tua thường nhưng nhận ngay tua giá trị cao — đang bị trừ điểm ưu tiên & gắn cờ.</span></div><span class="sev sev-md">THEO DÕI</span></div>
-      <div style="font-size:11.5px;color:var(--ink-soft);margin-top:10px;line-height:1.6">Cơ chế chống ghim: ẩn danh tính/giá trị khách trên app NV · auto-gán tức thì · log toàn bộ thao tác tay · so khớp mẫu cặp NV–khách.</div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Điều phối — chọn nhân viên<small>${manualMode?'Chế độ chỉnh tay — vẫn phải đủ major & skill':'Hệ tự đề xuất theo điểm · bấm Chỉnh tay để override'}</small></div>
+      <button class="btn ${manualMode?'btn-teal':'btn-ghost'}" style="padding:7px 14px;font-size:12.5px" onclick="toggleManual()">${manualMode?'⟲ Về tự động':'✎ Chỉnh tay (override)'}</button></div>
+
+      <div class="panel-title" style="font-size:13.5px;margin:4px 0 8px">Bảng so sánh nhân viên<small>Đối chiếu thông số để chọn — đã xếp theo điểm</small></div>
+      <table style="margin-bottom:16px"><thead><tr><th>Nhân viên</th><th>Điểm</th><th>Tua/CS</th><th>Công ca</th><th>Major</th><th>Khớp skill</th><th>Liên tục</th></tr></thead><tbody>
+        ${ranked.map(r=>{const s=r.s; const mm=r.needMajors.length&&!r.hasAllMajor; return `<tr${mm?' style="opacity:.5"':''}>
+          <td><b>${s.nm}</b> <span style="color:var(--ink-soft);font-size:11px">· ${s.sub}</span></td>
+          <td><b style="color:var(--teal-deep)">${r.score.toFixed(2)}</b></td>
+          <td>${s.tua}/${s.tuaMax}</td><td>${s.cong}</td>
+          <td>${mm?'<span style="color:var(--rose)">✕ thiếu</span>':'<span style="color:var(--teal-deep)">✓</span>'}</td>
+          <td>${Math.round(r.skillMatch*100)}%</td>
+          <td>${r.continuity?'★ chỉ định':'—'}</td></tr>`;}).join('')}
+      </tbody></table>
+
+      <div id="cands"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Cách tính điểm điều phối</div></div>
+      <div class="formula"><span class="k">score</span> = <span class="n">0.35</span>·skillMatch + <span class="n">0.25</span>·(1 − loadRatio) + <span class="n">0.15</span>·(1 − payBalance) + <span class="n">0.15</span>·continuity + <span class="n">0.10</span>·vipPriority</div>
+      <div style="font-size:12.5px;color:var(--ink-soft);margin-top:14px;line-height:1.7">
+      • <b>skillMatch</b>: khớp kỹ năng & cấp độ; <b>major (bác sĩ/tóc…) bắt buộc</b>, thiếu là loại.<br>
+      • <b>loadRatio</b>: số tua đang gánh / công suất ca.<br>
+      • <b>payBalance</b>: tổng tiền công trong ca so với nhóm.<br>
+      • <b>continuity</b>: đã từng / được khách chỉ định.<br>
+      • <b>vipPriority</b>: ưu tiên KTV senior cho khách VIP.</div>
     </div>
   </div>`;
-  renderQueue();
+  renderCands(ranked, best, cust);
 }
-function setAuto(m){ autoMode=m; renderBoard(); }
-
-function renderQueue(){
-  document.getElementById('queue').innerHTML = QUEUE.map(q=>{
-    const a=wqAgg(q); const over=q.wait>15 && !q.peakSafe;
-    return `<div class="wq" onclick="goAssign('${q.id}')">
-      <div class="wq-top"><div class="q-av ${q.av}">${q.name.split(' ').slice(-1)[0].slice(0,2)}</div>
-        <div class="nm">${q.name} ${q.vip?'<span class="tag vip">VIP</span>':''} ${q.reqStaff?`<span class="req-by">★ Yêu cầu ${q.reqStaff}</span>`:''}</div>
-        <div class="wt ${over?'over':''}"><b>${q.wait}p</b><span>${over?'⚠ quá giờ chờ':(q.peakSafe?'chấp nhận chờ':'đang chờ')}</span></div>
+function renderCands(ranked, best, cust){
+  document.getElementById('cands').innerHTML = ranked.map((r)=>{
+    const s=r.s; const isBest = r===best && !manualMode;
+    const dim = s.status==='off';
+    const majorMiss = r.needMajors.length && !r.hasAllMajor;
+    return `<div class="cand ${isBest?'best':''}" style="${dim?'opacity:.5':''}">
+      <div class="cand-top"><div class="q-av ${s.av}">${s.nm.split(' ').slice(-1)[0].slice(0,2)}</div>
+        <div><div class="nm">${s.nm}
+          ${isBest?'<span class="tag done">Đề xuất tốt nhất</span>':''}
+          ${r.continuity?'<span class="tag new">Khách chỉ định</span>':''}
+          ${s.status==='off'?'<span class="tag" style="background:var(--bg-2);color:var(--ink-soft)">Chưa check-in</span>':''}</div>
+          <div class="sub">${s.sub} · ca ${s.shift}</div></div>
+        <div class="score"><b>${r.score.toFixed(2)}</b><span>ĐIỂM</span></div></div>
+      <div class="metrics">
+        <div class="metric ${r.loadRatio<=0.4?'good':''}"><b>${s.tua}/${s.tuaMax}</b><span>Tua đang làm</span></div>
+        <div class="metric"><b>${s.cong}</b><span>Tổng công ca</span></div>
+        <div class="metric ${majorMiss?'warn':'good'}"><b>${majorMiss?'✕':'✓'}</b><span>${r.needMajors.length?r.needMajors.join('/'):'Không cần major'}</span></div>
+        <div class="metric ${r.skillMatch>=0.6?'good':(r.skillMatch>0?'':'warn')}"><b>${Math.round(r.skillMatch*100)}%</b><span>Khớp skill</span></div>
       </div>
-      <div class="wq-stats">
-        <div class="wq-stat"><b>${a.tickets}</b><span>PHIẾU DV</span></div>
-        <div class="wq-stat"><b>${a.skus}</b><span>SKU</span></div>
-        <div class="wq-stat"><b>${a.groups}</b><span>NHÓM DV</span></div>
-        <div class="wq-stat mach"><b>${a.machines.length||'—'}</b><span>MÁY</span></div>
-        <div class="wq-stat"><b>${fmtMin(a.mins)}</b><span>DỰ KIẾN</span></div>
-      </div>
-      <div class="wq-sku">
-        ${q.skus.map(s=>`<div class="sl"><span class="sn">${s.n} <span style="color:var(--ink-soft)">· ${s.group} · ${s.mins}p</span></span>
-          <span class="req">${s.machine?`<span class="tag-mach">⚙ ${s.machine}</span>`:''}${s.major?`<span class="tag-major">${s.major} (cố định)</span>`:''}${s.skill?`<span class="tag-skill">${s.skill}</span>`:''}</span></div>`).join('')}
+      <div class="skill-chips">${s.skills.map(k=>`<span class="sc">${k}</span>`).join('')}
+        <span style="margin-left:auto">${
+          majorMiss ? `<button class="btn btn-ghost" style="padding:6px 14px;font-size:12px" disabled>Thiếu major bắt buộc</button>`
+          : (r.eligible ? `<button class="btn ${isBest?'btn-teal':'btn-ghost'}" style="padding:6px 14px;font-size:12px" onclick="assign('${s.nm}',${manualMode})">${manualMode?'Override gán':'Phân công'}</button>`
+            : `<button class="btn btn-ghost" style="padding:6px 14px;font-size:12px" disabled>Không đủ skill</button>`)
+        }</span>
       </div>
     </div>`;
   }).join('');
 }
-/* ---- click 1 khách → mở TRANG RIÊNG điều phối cho khách đó ---- */
-function goAssign(id){ location.href = 'dispatch-assign.html?id=' + encodeURIComponent(id); }
-
-/* ---- khởi động ---- */
-renderBoard();
+function setAuto(m){ autoMode=m; render(); }
+function toggleManual(){ manualMode=!manualMode; render(); }
+function assign(n, manual){ alert((manual?'[CHỈNH TAY] ':'')+'Đã phân công cho '+n+' cho khách '+cust.name+'. Ghi nhận audit điều phối'+(manual?' (override rule).':'.')); }
+render();
 </script>
 </body></html>

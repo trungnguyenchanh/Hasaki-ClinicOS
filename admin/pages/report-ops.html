@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki ClinicOS · Report Vận hành</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.snap{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
+.snap .sb{border:1px solid var(--line);border-radius:14px;padding:15px 17px;background:#fff}
+.snap .sb .sv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.snap .sb .sl{font-size:11.5px;color:var(--ink-soft)}
+.snap .sb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.snap .sb.warn .sv{color:#9a5a1e}
+.snap .sb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.snap .sb.good .sv{color:var(--teal-deep)}
+.ops-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ops-card{border:1px solid var(--line);border-radius:15px;padding:16px;background:#fff}
+.ops-card .oc-h{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.ops-card .oc-ic{width:32px;height:32px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.ops-card .oc-ic svg{width:17px;height:17px}
+.ops-card .oc-t{font-weight:600;font-size:14px}
+.ops-card .oc-big{font-family:'Fraunces',serif;font-size:32px;line-height:1;margin:2px 0}
+.ops-card .oc-sub{font-size:11.5px;color:var(--ink-soft)}
+.ops-card .oc-rows{margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
+.ops-card .ocr{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0}
+.ops-card .ocr b{font-family:'Fraunces',serif}
+.ops-card .oc-link{margin-top:11px;font-size:12px;font-weight:600;color:var(--teal-deep);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.ops-card.warn{border-color:#f0c9a8;background:linear-gradient(140deg,#fff,#fdeee3)}
+.load-cell{display:flex;align-items:center;gap:8px;min-width:110px}
+.load-bar{flex:1;height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden}.load-bar i{display:block;height:100%}
+.badge{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.badge.ok{background:var(--teal-soft);color:var(--teal-deep)}.badge.busy{background:#fbeccb;color:#9a6a1e}.badge.over{background:#f4d3cb;color:#9a3b2c}
+.subtab{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.subtab button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--ink-soft)}
+.subtab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
+.kpi-bar{height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden;min-width:90px}.kpi-bar i{display:block;height:100%;background:var(--teal)}
+.num-strong{font-family:'Fraunces',serif;font-weight:600}
+.role-chip{font-size:11.5px;padding:3px 11px;border-radius:20px;background:var(--bg-2);font-weight:500}
+.kpi-big{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
+.kpi-big .kb{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
+.kpi-big .kb .kv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.kpi-big .kb .kl{font-size:11.5px;color:var(--ink-soft)}
+.kpi-big .kb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.kpi-big .kb.warn .kv{color:#9a5a1e}
+.kpi-big .kb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.kpi-big .kb.good .kv{color:var(--teal-deep)}
+.region-block{margin-bottom:22px}
+.region-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.region-head .rg-ic{width:30px;height:30px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.region-head h3{font-family:'Fraunces',serif;font-size:16px;margin:0}
+.region-head .rg-sum{margin-left:auto;font-size:11.5px;color:var(--ink-soft)}
+.ov-table{width:100%;border-collapse:collapse;font-size:13px}
+.ov-table th{text-align:left;font-size:11px;color:var(--ink-soft);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+.ov-table td{padding:10px;border-bottom:1px solid var(--line)}
+.ov-table tr.clickable{cursor:pointer;transition:.12s}.ov-table tr.clickable:hover td{background:var(--teal-soft)}
+.ov-cn{font-weight:600}.ov-cn small{display:block;font-weight:400;color:var(--ink-soft);font-size:11px}
+.donut-box{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.donut{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;flex:none}
+.donut-c{width:80px;height:80px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.donut-c b{font-family:'Fraunces',serif;font-size:17px;display:block}.donut-c span{font-size:10px;color:var(--ink-soft)}
+.leg-list{display:flex;flex-direction:column;gap:7px}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:12.5px}.leg-row .dot{width:11px;height:11px;border-radius:3px;flex:none}.leg-row b{margin-left:auto;font-family:'Fraunces',serif}
+@media(max-width:900px){.snap,.ops-grid,.kpi-big{grid-template-columns:repeat(2,1fr)}}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('reports');
+const back=`<a class="btn btn-ghost" href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Trung tâm báo cáo</a>`;
+document.getElementById('main').innerHTML = topbar('Quản trị','Report Vận hành · Realtime',{who:'HQ',branch:'Tất cả CN',right:back}) + `
+  <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:16px">Ảnh chụp tình hình đang diễn ra hôm nay, toàn hệ thống — realtime. Bấm từng khối để mở trang nghiệp vụ.</div>
+  <div class="snap">
+    <div class="sb"><div class="sl">Khách trong hệ thống</div><div class="sv">63</div><div class="sl">đang ở các CN</div></div>
+    <div class="sb"><div class="sl">Đang phục vụ / chờ</div><div class="sv">16 / 14</div><div class="sl">toàn chuỗi</div></div>
+    <div class="sb warn"><div class="sl">Quá giờ chờ</div><div class="sv">3</div><div class="sl">cần ưu tiên</div></div>
+    <div class="sb good"><div class="sl">NV sẵn sàng</div><div class="sv">10</div><div class="sl">/ 21 trong ca</div></div>
+  </div>
+  <div class="ops-grid">
+    <div class="ops-card"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg></div><div class="oc-t">Khách chờ lấy số / tiếp nhận</div></div><div class="oc-big">14</div><div class="oc-sub">đang chờ tới lượt tiếp nhận</div><div class="oc-rows"><div class="ocr">Booking đã đến <b>9</b></div><div class="ocr">Walk-in <b>5</b></div><div class="ocr">Chờ lâu nhất <b>16p</b></div></div><a class="oc-link" href="reception.html">Mở trang tiếp nhận →</a></div>
+    <div class="ops-card"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="oc-t">Tư vấn</div></div><div class="oc-big">8</div><div class="oc-sub">khách đang được tư vấn</div><div class="oc-rows"><div class="ocr">TVV đang bận <b>6</b></div><div class="ocr">Hàng đợi tư vấn <b>4</b></div><div class="ocr">Giữ khách > 20p <b style="color:var(--rose)">1</b></div></div><a class="oc-link" href="consultant-cn.html">Mở điều phối tư vấn →</a></div>
+    <div class="ops-card"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div class="oc-t">Booking hôm nay</div></div><div class="oc-big">142</div><div class="oc-sub">lịch hẹn trong ngày</div><div class="oc-rows"><div class="ocr">Đã đến <b>96</b></div><div class="ocr">Sắp tới (2h) <b>23</b></div><div class="ocr">No-show <b style="color:var(--rose)">7</b></div></div><a class="oc-link" href="booking.html">Mở lịch & booking →</a></div>
+    <div class="ops-card"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></svg></div><div class="oc-t">Khám bệnh</div></div><div class="oc-big">5</div><div class="oc-sub">đang khám / chờ bác sĩ</div><div class="oc-rows"><div class="ocr">Đang khám <b>3</b></div><div class="ocr">Chờ bác sĩ <b>2</b></div><div class="ocr">Toa chờ duyệt <b>4</b></div></div><a class="oc-link" href="doctor-cn.html">Mở phòng khám →</a></div>
+    <div class="ops-card"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.3 21a8 8 0 0 1 13.4 0"/></svg></div><div class="oc-t">Điều phối bác sĩ</div></div><div class="oc-big">4/6</div><div class="oc-sub">bác sĩ đang trong ca</div><div class="oc-rows"><div class="ocr">Đang khám <b>3</b></div><div class="ocr">Sẵn sàng <b>1</b></div><div class="ocr">Tải TB <b>72%</b></div></div><a class="oc-link" href="doctor-cn.html">Mở điều phối bác sĩ →</a></div>
+    <div class="ops-card warn"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0 0M22 21v-2a4 4 0 0 0-3-3.9"/></svg></div><div class="oc-t">Điều phối nhân viên (tua)</div></div><div class="oc-big">14</div><div class="oc-sub">khách chờ phân tua</div><div class="oc-rows"><div class="ocr">Tải tua TB <b>63%</b></div><div class="ocr">Quá giờ chờ <b style="color:var(--rose)">3</b></div><div class="ocr">Cờ bất thường <b>3</b></div></div><a class="oc-link" href="dispatch.html">Mở bàn điều phối →</a></div>
+  </div>
+  <div id="dispatchTotal" style="margin-top:8px"></div>`;
+
+/* ===== ĐIỀU PHỐI TỔNG THEO KHU VỰC ===== */
+const REGIONS = [
+  { id:'hcm', name:'TP. Hồ Chí Minh', branches:[
+    { cn:'q1', name:'CN Quận 1', addr:'123 Nguyễn Huệ, Q1', nv:6, avail:3, waiting:3, serving:5, over:1, load:78, slaAvg:11 },
+    { cn:'q7', name:'CN Quận 7', addr:'45 Nguyễn Thị Thập, Q7', nv:4, avail:1, waiting:5, serving:4, over:2, load:92, slaAvg:18 },
+    { cn:'td', name:'CN Thủ Đức', addr:'12 Võ Văn Ngân, Thủ Đức', nv:3, avail:2, waiting:1, serving:2, over:0, load:41, slaAvg:5 },
+  ]},
+  { id:'hn', name:'Hà Nội', branches:[
+    { cn:'cg', name:'CN Cầu Giấy', addr:'88 Trần Thái Tông, Cầu Giấy', nv:3, avail:2, waiting:2, serving:2, over:0, load:55, slaAvg:8 },
+    { cn:'hbt', name:'CN Hai Bà Trưng', addr:'9 Phố Huế, HBT', nv:2, avail:1, waiting:1, serving:1, over:0, load:48, slaAvg:6 },
+  ]},
+  { id:'dn', name:'Đà Nẵng', branches:[
+    { cn:'hc', name:'CN Hải Châu', addr:'56 Lê Duẩn, Hải Châu', nv:3, avail:1, waiting:2, serving:2, over:0, load:63, slaAvg:9 },
+  ]},
+];
+function cnStatus(b){ if(b.over>0||b.load>=90) return ['over','Quá tải']; if(b.load>=70) return ['busy','Đông']; return ['ok','Ổn định']; }
+function loadColor(l){ return l>=90?'#d9694f':(l>=70?'#d9a441':'var(--teal)'); }
+let T={cn:0,waiting:0,serving:0,over:0,loadSum:0,overCN:0,avail:0};
+REGIONS.forEach(r=>r.branches.forEach(b=>{T.cn++;T.waiting+=b.waiting;T.serving+=b.serving;T.over+=b.over;T.loadSum+=b.load;T.avail+=b.avail; if(b.over>0||b.load>=90)T.overCN++;}));
+const loadAvg=Math.round(T.loadSum/T.cn);
+let dt = `<div class="panel-h" style="margin-bottom:14px"><div class="panel-title">Điều phối tổng theo khu vực<small>Toàn hệ thống · ${T.cn} CN · ${REGIONS.length} khu vực · bấm 1 CN để xem nội bộ</small></div></div>
+  <div class="kpi-big">
+    <div class="kb"><div class="kl">Khách chờ phân tua</div><div class="kv">${T.waiting}</div><div class="kl">đang phục vụ ${T.serving}</div></div>
+    <div class="kb ${T.over>0?'warn':'good'}"><div class="kl">Khách quá giờ chờ</div><div class="kv">${T.over}</div><div class="kl">${T.overCN} CN cần chú ý</div></div>
+    <div class="kb ${loadAvg>=80?'warn':'good'}"><div class="kl">Tải tua trung bình</div><div class="kv">${loadAvg}%</div><div class="kl">${T.avail} NV sẵn sàng</div></div>
+    <div class="kb"><div class="kl">Chi nhánh hoạt động</div><div class="kv">${T.cn}</div><div class="kl">${REGIONS.length} khu vực</div></div>
+  </div>`;
+REGIONS.forEach(r=>{
+  const rWait=r.branches.reduce((a,b)=>a+b.waiting,0), rOver=r.branches.reduce((a,b)=>a+b.over,0);
+  dt += `<div class="region-block"><div class="region-head"><div class="rg-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg></div><h3>${r.name}</h3><div class="rg-sum">${r.branches.length} CN · ${rWait} khách chờ${rOver?` · <span style="color:var(--rose)">${rOver} quá giờ</span>`:''}</div></div>
+    <div class="panel" style="padding:6px 4px"><table class="ov-table"><thead><tr><th>Chi nhánh</th><th>Nhân sự</th><th>Khách chờ</th><th>Đang phục vụ</th><th>Quá giờ</th><th>SLA chờ TB</th><th>Tải tua</th><th>Tình trạng</th></tr></thead><tbody>
+      ${r.branches.map(b=>{const [bs,bl]=cnStatus(b); return `<tr class="clickable" onclick="location.href='report-branch.html?cn=${b.cn}'"><td><div class="ov-cn">${b.name}<small>${b.addr}</small></div></td><td>${b.avail}/${b.nv} <span style="color:var(--ink-soft);font-size:11px">sẵn sàng</span></td><td><b>${b.waiting}</b></td><td>${b.serving}</td><td>${b.over>0?`<b style="color:var(--rose)">${b.over}</b>`:'0'}</td><td>${b.slaAvg}p</td><td><div class="load-cell"><span class="load-bar"><i style="width:${b.load}%;background:${loadColor(b.load)}"></i></span><b>${b.load}%</b></div></td><td><span class="badge ${bs}">${bl}</span></td></tr>`;}).join('')}
+    </tbody></table></div></div>`;
+});
+document.getElementById('dispatchTotal').innerHTML = dt;
+</script>
+</body></html>

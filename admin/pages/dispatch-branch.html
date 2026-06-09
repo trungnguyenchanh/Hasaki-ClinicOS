@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki ClinicOS · Tình hình chi nhánh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.snap{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
+.snap .sb{border:1px solid var(--line);border-radius:14px;padding:15px 17px;background:#fff}
+.snap .sb .sv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.snap .sb .sl{font-size:11.5px;color:var(--ink-soft)}
+.snap .sb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.snap .sb.warn .sv{color:#9a5a1e}
+.snap .sb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.snap .sb.good .sv{color:var(--teal-deep)}
+.ops-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ops-card{border:1px solid var(--line);border-radius:15px;padding:16px;background:#fff}
+.ops-card .oc-h{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.ops-card .oc-ic{width:32px;height:32px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.ops-card .oc-ic svg{width:17px;height:17px}
+.ops-card .oc-t{font-weight:600;font-size:14px}
+.ops-card .oc-big{font-family:'Fraunces',serif;font-size:32px;line-height:1;margin:2px 0}
+.ops-card .oc-sub{font-size:11.5px;color:var(--ink-soft)}
+.ops-card .oc-rows{margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
+.ops-card .ocr{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0}
+.ops-card .ocr b{font-family:'Fraunces',serif}
+.ops-card .oc-link{margin-top:11px;font-size:12px;font-weight:600;color:var(--teal-deep);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.ops-card.warn{border-color:#f0c9a8;background:linear-gradient(140deg,#fff,#fdeee3)}
+.load-cell{display:flex;align-items:center;gap:8px;min-width:110px}
+.load-bar{flex:1;height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden}.load-bar i{display:block;height:100%}
+.badge{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.badge.ok{background:var(--teal-soft);color:var(--teal-deep)}.badge.busy{background:#fbeccb;color:#9a6a1e}.badge.over{background:#f4d3cb;color:#9a3b2c}
+.subtab{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.subtab button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--ink-soft)}
+.subtab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
+.kpi-bar{height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden;min-width:90px}.kpi-bar i{display:block;height:100%;background:var(--teal)}
+.num-strong{font-family:'Fraunces',serif;font-weight:600}
+.role-chip{font-size:11.5px;padding:3px 11px;border-radius:20px;background:var(--bg-2);font-weight:500}
+.kpi-big{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
+.kpi-big .kb{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
+.kpi-big .kb .kv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.kpi-big .kb .kl{font-size:11.5px;color:var(--ink-soft)}
+.kpi-big .kb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.kpi-big .kb.warn .kv{color:#9a5a1e}
+.kpi-big .kb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.kpi-big .kb.good .kv{color:var(--teal-deep)}
+.region-block{margin-bottom:22px}
+.region-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.region-head .rg-ic{width:30px;height:30px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.region-head h3{font-family:'Fraunces',serif;font-size:16px;margin:0}
+.region-head .rg-sum{margin-left:auto;font-size:11.5px;color:var(--ink-soft)}
+.ov-table{width:100%;border-collapse:collapse;font-size:13px}
+.ov-table th{text-align:left;font-size:11px;color:var(--ink-soft);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+.ov-table td{padding:10px;border-bottom:1px solid var(--line)}
+.ov-table tr.clickable{cursor:pointer;transition:.12s}.ov-table tr.clickable:hover td{background:var(--teal-soft)}
+.ov-cn{font-weight:600}.ov-cn small{display:block;font-weight:400;color:var(--ink-soft);font-size:11px}
+.donut-box{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.donut{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;flex:none}
+.donut-c{width:80px;height:80px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.donut-c b{font-family:'Fraunces',serif;font-size:17px;display:block}.donut-c span{font-size:10px;color:var(--ink-soft)}
+.leg-list{display:flex;flex-direction:column;gap:7px}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:12.5px}.leg-row .dot{width:11px;height:11px;border-radius:3px;flex:none}.leg-row b{margin-left:auto;font-family:'Fraunces',serif}
+@media(max-width:900px){.snap,.ops-grid,.kpi-big{grid-template-columns:repeat(2,1fr)}}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('dispatch');
+const BRANCHES = {
+  q1:{ region:'TP. Hồ Chí Minh', name:'CN Quận 1', nv:6, avail:3, busy:2, brk:1, load:78, slaAvg:11,
+    queue:[{nm:'Trần Thu Hà',vip:true,svc:'Giảm béo RF · 3 SKU',wait:6,over:false},{nm:'Lê Minh',svc:'Khám da liễu + triệt lông',wait:16,over:true},{nm:'Ngô Khánh',svc:'Phục hồi tóc & uốn',wait:9,over:false,req:'Hồng Trang'}],
+    staff:[{nm:'Hồng Trang',sub:'KTV·Senior',av:'av-gold',st:'avail',tua:1,max:6},{nm:'Thanh Mai',sub:'KTV·Senior',av:'av-teal',st:'busy',tua:3,max:6},{nm:'Ngọc Linh',sub:'Điều dưỡng',av:'av-blush',st:'break',tua:1,max:4},{nm:'BS. Bích Hằng',sub:'Bác sĩ da liễu',av:'av-indigo',st:'avail',tua:2,max:8},{nm:'Mai Linh',sub:'Stylist tóc',av:'av-sage',st:'avail',tua:0,max:5},{nm:'Phương Anh',sub:'KTV·Học việc',av:'av-blush',st:'off',tua:0,max:5}] },
+  q7:{ region:'TP. Hồ Chí Minh', name:'CN Quận 7', nv:4, avail:1, busy:2, brk:1, load:92, slaAvg:18,
+    queue:[{nm:'Khách #A',svc:'Triệt lông toàn thân',wait:22,over:true},{nm:'Khách #B',vip:true,svc:'Trẻ hóa da công nghệ cao',wait:19,over:true},{nm:'Khách #C',svc:'Chăm sóc da cơ bản',wait:12,over:false},{nm:'Khách #D',svc:'Tư vấn gói',wait:8,over:false},{nm:'Khách #E',svc:'Massage trị liệu',wait:5,over:false}],
+    staff:[{nm:'Kim Ngân',sub:'KTV·Senior',av:'av-teal',st:'avail',tua:2,max:6},{nm:'Tuấn Khang',sub:'KTV·Mid',av:'av-indigo',st:'busy',tua:4,max:7},{nm:'Lệ Thu',sub:'Điều dưỡng',av:'av-blush',st:'busy',tua:3,max:4},{nm:'BS. Đức Anh',sub:'Bác sĩ da liễu',av:'av-gold',st:'break',tua:1,max:8}] },
+  cg:{ region:'Hà Nội', name:'CN Cầu Giấy', nv:3, avail:2, busy:1, brk:0, load:55, slaAvg:8,
+    queue:[{nm:'Khách #A',svc:'Triệt lông',wait:8,over:false},{nm:'Khách #B',svc:'RF nâng cơ',wait:6,over:false}],
+    staff:[{nm:'Minh Châu',sub:'KTV·Senior',av:'av-gold',st:'avail',tua:2,max:6},{nm:'Hoàng Long',sub:'KTV·Mid',av:'av-teal',st:'busy',tua:3,max:6},{nm:'BS. Thu Hà',sub:'Bác sĩ da liễu',av:'av-indigo',st:'avail',tua:1,max:8}] },
+  td:{ region:'TP. Hồ Chí Minh', name:'CN Thủ Đức', nv:3, avail:2, busy:1, brk:0, load:41, slaAvg:5,
+    queue:[{nm:'Khách #A',svc:'Chăm sóc da',wait:5,over:false}],
+    staff:[{nm:'Hải Yến',sub:'KTV·Mid',av:'av-sage',st:'avail',tua:1,max:6},{nm:'Quốc Bảo',sub:'KTV·Junior',av:'av-teal',st:'off',tua:0,max:5},{nm:'Thuý Vy',sub:'Stylist tóc',av:'av-blush',st:'busy',tua:2,max:5}] },
+  hbt:{ region:'Hà Nội', name:'CN Hai Bà Trưng', nv:2, avail:1, busy:0, brk:1, load:48, slaAvg:6,
+    queue:[{nm:'Khách #A',svc:'Chăm sóc da',wait:6,over:false}],
+    staff:[{nm:'Phương Thảo',sub:'KTV·Senior',av:'av-blush',st:'avail',tua:1,max:6},{nm:'Đăng Khoa',sub:'KTV·Junior',av:'av-sage',st:'break',tua:0,max:5}] },
+  hc:{ region:'Đà Nẵng', name:'CN Hải Châu', nv:3, avail:1, busy:1, brk:0, load:63, slaAvg:9,
+    queue:[{nm:'Khách #A',svc:'Triệt lông',wait:9,over:false},{nm:'Khách #B',svc:'Gội dưỡng sinh',wait:4,over:false}],
+    staff:[{nm:'Bảo Trân',sub:'KTV·Mid',av:'av-teal',st:'avail',tua:1,max:6},{nm:'Gia Hân',sub:'Điều dưỡng',av:'av-gold',st:'busy',tua:2,max:4},{nm:'Nhật Minh',sub:'KTV·Học việc',av:'av-blush',st:'off',tua:0,max:5}] },
+};
+const stMap={avail:['st-avail','sp-avail','Sẵn sàng'],busy:['st-busy','sp-busy','Đang làm'],break:['st-break','sp-break','Giữa giờ'],off:['st-off','sp-off','Chưa in']};
+const cn=(typeof getParam==='function')?getParam('cn'):null;
+const b=cn?BRANCHES[cn]:null;
+if(!b){
+  document.getElementById('main').innerHTML = topbar('Vận hành','Tình hình chi nhánh',{who:CURRENT_USER.initials,branch:'—',right:''}) +
+    `<div class="row"><div class="panel" style="text-align:center;padding:40px"><div style="color:var(--ink-soft);margin-bottom:14px">Không tìm thấy chi nhánh (thiếu/sai mã <code>?cn=</code>).</div><a class="btn btn-teal" href="report-ops.html">← Về report vận hành</a></div></div>`;
+} else {
+  const back=`<div class="pill-tabs"><a class="btn btn-ghost" href="report-ops.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Report vận hành</a><a class="btn btn-teal" href="dispatch.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none">Mở bàn điều phối</a></div>`;
+  const overCnt=b.queue.filter(q=>q.over).length;
+  let html = topbar('Vận hành',`Tình hình chi nhánh · ${b.name}`,{who:CURRENT_USER.initials,branch:b.region,right:back}) + `
+    <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:16px">Góc nhìn quản lý chi nhánh — theo dõi nội bộ ${b.name} để hỗ trợ kịp thời.</div>
+    <div class="kpi-big" style="grid-template-columns:repeat(5,1fr)">
+      <div class="kb"><div class="kl">Khách đang chờ</div><div class="kv">${b.queue.length}</div><div class="kl">trong hàng đợi</div></div>
+      <div class="kb ${overCnt?'warn':'good'}"><div class="kl">Quá giờ chờ</div><div class="kv">${overCnt}</div><div class="kl">cần ưu tiên</div></div>
+      <div class="kb"><div class="kl">NV sẵn sàng</div><div class="kv">${b.avail}<span style="font-size:15px;color:var(--ink-soft)">/${b.nv}</span></div><div class="kl">${b.busy} làm · ${b.brk} nghỉ</div></div>
+      <div class="kb ${b.load>=90?'warn':(b.load>=70?'':'good')}"><div class="kl">Tải tua</div><div class="kv">${b.load}%</div><div class="kl">công suất ca</div></div>
+      <div class="kb ${b.slaAvg>=15?'warn':'good'}"><div class="kl">SLA chờ TB</div><div class="kv">${b.slaAvg}p</div><div class="kl">thời gian chờ</div></div>
+    </div>`;
+  if(overCnt>0||b.load>=90){
+    html += `<div class="alert" style="margin-bottom:20px;background:#fdeee3;border:1px solid #f0c9a8;color:#9a5a1e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Chi nhánh đang căng:</b> ${overCnt?`${overCnt} khách quá giờ chờ. `:''}${b.load>=90?'Tải tua cao (≥90%). ':''}Cân nhắc mở bàn điều phối ưu tiên khách chờ lâu, hoặc xin hỗ trợ NV từ CN gần.</div></div>`;
+  }
+  html += `<div class="row r-2">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Khách đang chờ tại ${b.name}<small>Bấm "Mở bàn điều phối" để phân tua</small></div></div>
+      ${b.queue.map(q=>`<div class="qrow" style="display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)">
+        <div class="q-av av-teal" style="width:34px;height:34px">${q.nm.split(' ').slice(-1)[0].slice(0,2)}</div>
+        <div style="flex:1;font-size:13.5px"><b>${q.nm}</b> ${q.vip?'<span class="tag vip">VIP</span>':''} ${q.req?`<span class="req-by">★ Yêu cầu ${q.req}</span>`:''}<span style="color:var(--ink-soft);font-size:11.5px;display:block">${q.svc}</span></div>
+        <div style="text-align:right;white-space:nowrap"><b style="font-family:'Fraunces',serif;font-size:15px;${q.over?'color:var(--rose)':''}">${q.wait}p</b><span style="font-size:10.5px;color:var(--ink-soft);display:block">${q.over?'⚠ quá giờ':'đang chờ'}</span></div>
+      </div>`).join('')}
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Nhân sự trong ca<small>${b.nv} người · realtime</small></div></div>
+      ${b.staff.map(s=>{const [dot,pill,label]=stMap[s.st]; return `<div class="qrow" style="display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)">
+        <span class="st-dot ${dot}"></span>
+        <div class="q-av ${s.av}" style="width:34px;height:34px">${s.nm.split(' ').slice(-1)[0].slice(0,2)}</div>
+        <div style="flex:1;font-size:13.5px"><b>${s.nm}</b><span style="color:var(--ink-soft);font-size:11.5px;display:block">${s.sub} · tua ${s.tua}/${s.max}</span></div>
+        <div style="text-align:right"><span class="st-pill ${pill}">${label}</span></div>
+      </div>`;}).join('')}
+    </div>
+  </div>`;
+  document.getElementById('main').innerHTML = html;
+}
+</script>
+</body></html>

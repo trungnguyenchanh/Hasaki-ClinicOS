@@ -1,9 +1,8 @@
-/* ===== Hasaki ClinicOS — store dữ liệu khách (đọc từ JSON) =====
+/* ===== Hasaki ClinicOS — store dữ liệu khách (demo, đọc từ JSON) =====
    Dữ liệu thật: admin/data/customers.json
    data.js nạp JSON đó, giữ NGUYÊN API getCustomer / linkFor để các trang không phải sửa.
-   Mở qua http(s):// → đọc customers.json. Mở file:// bị chặn → tự dùng FALLBACK inline.
+   Mở qua http(s):// → đọc file JSON. Mở file:// bị chặn → tự dùng FALLBACK inline.
    Nối API thật: trỏ DATA_URL sang endpoint trả JSON cùng cấu trúc.
-   Khoá theo "đuôi số" trùng hệ thống mã phiếu BK/TV/KH/RC/DV.
 */
 const DATA_URL = '../data/customers.json';
 
@@ -25,12 +24,10 @@ let CUSTOMERS;
   if (!CUSTOMERS || !CUSTOMERS['C-1042']) CUSTOMERS = CUSTOMERS_FALLBACK;
 })();
 
-// Tra khách theo ?id= (mặc định Trần Thu Hà nếu thiếu/không khớp → giữ tương thích trang cũ)
 function getCustomer(){
   const id = (typeof getParam==='function') ? getParam('id') : null;
   return (id && CUSTOMERS[id]) ? CUSTOMERS[id] : CUSTOMERS['C-1042'];
 }
-// Sinh href gắn ?id= để các trang "đi xuyên" theo cùng 1 khách
 function linkFor(page, cust){
   const c = cust || getCustomer();
   return page + '?id=' + encodeURIComponent(c.id);
