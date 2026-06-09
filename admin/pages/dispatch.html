@@ -95,15 +95,6 @@
 .anom .ax{flex:1}.anom .ax b{font-size:13px}.anom .ax span{font-size:12px;color:var(--ink-soft);display:block;margin-top:2px}
 .anom .sev{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;white-space:nowrap}
 .sev-hi{background:#f4c9c0;color:#9a3b2c}.sev-md{background:#f6e1b8;color:#8a6a14}
-/* full width — mọi box xếp dọc 100% */
-#view .row{grid-template-columns:1fr !important}
-#view .panel{position:static !important}
-/* fix card anomaly không bị ép chiều cao */
-.anom{height:auto !important;width:100%;box-sizing:border-box}
-.anom .ai{display:inline-flex;align-items:center;justify-content:center}
-.anom .ai svg{width:16px;height:16px}
-.anom .ax{flex:1;min-width:0}
-.anom .ai,.anom .sev{align-self:flex-start}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
@@ -165,7 +156,6 @@ const STAFF = [
 const peak = { hot:true, waiting:QUEUE.length, longest:Math.max(...QUEUE.map(q=>q.wait)) };
 let selCust = QUEUE[0].id;
 let manualMode = false;
-let autoMode = 'full';
 
 /* ============================================================
    TAB 1 — BÀN ĐIỀU PHỐI
@@ -176,15 +166,6 @@ function staffStatus(s){
 }
 function renderBoard(){
   VIEW.innerHTML=`
-  <div class="auto-bar">
-    <span class="led"></span>
-    <div><b>Tự động điều phối: ${autoMode==='full'?'BẬT HOÀN TOÀN':'BÁN TỰ ĐỘNG'}</b> — hệ tự gán theo điểm khi khách check-in, nhân viên chỉ Nhận/Từ chối trên app. ${autoMode==='full'?'Quản lý chỉ giám sát & xử ngoại lệ.':'Quản lý duyệt trước khi chốt.'}
-      <a href="dispatch-claim.html" target="_blank" style="color:#9fe6cf;text-decoration:underline;font-size:12px">↗ Xem app nhận tua của NV</a></div>
-    <div class="mode">
-      <button class="auto-pill ${autoMode==='full'?'on':''}" onclick="setAuto('full')">Tự động hoàn toàn</button>
-      <button class="auto-pill ${autoMode==='semi'?'on':''}" onclick="setAuto('semi')">Bán tự động</button>
-    </div>
-  </div>
   <div class="peak-bar ${peak.hot?'hot':'calm'}">
     ${peak.hot?'<span class="pulse"></span>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>'}
     <div style="flex:1">${peak.hot
@@ -192,42 +173,20 @@ function renderBoard(){
       : `Lưu lượng bình thường — ${peak.waiting} khách chờ.`}</div>
   </div>
 
-  <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Khách đang chờ làm dịch vụ<small>Hệ tự gán · click để xem/can thiệp · phiếu · SKU · nhóm · máy · thời gian · tay nghề</small></div></div>
+  <div class="row" style="grid-template-columns:1.15fr 1fr;gap:18px;align-items:start">
+    <!-- HÀNG CHỜ KHÁCH -->
+    <div class="panel"><div class="panel-h"><div class="panel-title">Khách đang chờ làm dịch vụ<small>Chọn 1 khách để điều phối · phiếu · SKU · nhóm · máy · thời gian · yêu cầu tay nghề</small></div></div>
       <div id="queue"></div>
     </div>
-  </div>
-  <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Nhân sự trong ca<small>Lịch ca · check-in/out · trạng thái realtime</small></div></div>
+    <!-- NHÂN SỰ -->
+    <div class="panel" style="position:sticky;top:18px"><div class="panel-h"><div class="panel-title">Nhân sự trong ca<small>Lịch ca · check-in/out · trạng thái realtime</small></div></div>
       <div id="staff"></div>
     </div>
   </div>
 
-  <div id="dispatchPanel" style="margin-top:18px"></div>
-
-  <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Van xả khi bất khả kháng<small>Không ai nhận / sự cố — hệ tự nâng bậc, hạn chế tay người</small></div></div>
-      <div class="esc-step"><div class="esc-num">1</div><div class="et"><b>Mở rộng bán kính & nới giờ chờ</b><span>Tự offer lại cho nhóm NV đủ skill kế cận, giãn thời gian bắt đầu.</span></div></div>
-      <div class="esc-step"><div class="esc-num">2</div><div class="et"><b>Nới cấp skill (có cờ)</b><span>Cho phép Mid thay Senior nếu vẫn an toàn; ghi cờ "hạ cấp" để rà sau. Major (bác sĩ/tóc) KHÔNG nới.</span></div></div>
-      <div class="esc-step"><div class="esc-num">3</div><div class="et"><b>Ghép tách step / đổi phòng-máy</b><span>Tách liệu trình cho 2 NV làm song song để rút thời gian chờ.</span></div></div>
-      <div class="esc-step danger"><div class="esc-num">4</div><div class="et"><b>Đẩy lên quản lý (bắt buộc lý do)</b><span>Chỉ khi 3 bậc trên thất bại. Override tay phải nhập lý do + ghi audit + bị đếm.</span></div></div>
-      <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Mục tiêu: tối thiểu can thiệp người. Mọi can thiệp tay đều để lại dấu vết.</div></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Phát hiện bất thường (chống cấu kết / ghim khách)<small>Hệ tự soi — bảo vệ công bằng</small></div></div>
-      <div class="anom flag"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <div class="ax"><b>Khách tiềm năng cao bị treo bất thường</b><span>Một khách giá trị lớn chờ 14 phút dù có 2 NV đủ skill đang rảnh — nghi có người "để dành". Hệ đã tự gán ép.</span></div><span class="sev sev-hi">CAO</span></div>
-      <div class="anom warn"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M2 21v-2a5 5 0 0 1 9-3"/></svg></div>
-        <div class="ax"><b>Cặp TVV–KTV lặp lại với khách sộp</b><span>TVV Quỳnh Trang + KTV Thanh Mai trùng nhau ở 6/7 khách chi tiêu cao tuần này — vượt ngưỡng ngẫu nhiên.</span></div><span class="sev sev-md">THEO DÕI</span></div>
-      <div class="anom warn"><div class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
-        <div class="ax"><b>Tỉ lệ "bỏ qua tua" cao bất thường</b><span>1 KTV bỏ qua 5 tua thường nhưng nhận ngay tua giá trị cao — đang bị trừ điểm ưu tiên & gắn cờ.</span></div><span class="sev sev-md">THEO DÕI</span></div>
-      <div style="font-size:11.5px;color:var(--ink-soft);margin-top:10px;line-height:1.6">Cơ chế chống ghim: ẩn danh tính/giá trị khách trên app NV · auto-gán tức thì · log toàn bộ thao tác tay · so khớp mẫu cặp NV–khách.</div>
-    </div>
-  </div>`;
+  <div id="dispatchPanel" style="margin-top:18px"></div>`;
   renderQueue(); renderStaff(); renderDispatch();
 }
-function setAuto(m){ autoMode=m; renderBoard(); }
 function renderQueue(){
   document.getElementById('queue').innerHTML = QUEUE.map(q=>{
     const a=wqAgg(q); const over=q.wait>15 && !q.peakSafe;

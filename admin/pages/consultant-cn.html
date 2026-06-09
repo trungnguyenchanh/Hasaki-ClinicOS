@@ -6,11 +6,10 @@
 <link rel="stylesheet" href="../assets/theme.css"></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
-<script src="../assets/data.js"></script>
 <script>
 renderLayout('consultant');
 const right = `<a class="btn btn-ghost" href="consultant.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Bàn của tôi</a>`;
-document.getElementById('main').innerHTML = topbar('Nghiệp vụ Tư vấn viên','Điều phối tư vấn — Toàn CN Quận 1',{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `
+document.getElementById('main').innerHTML = topbar('Nghiệp vụ Tư vấn viên','Điều phối tư vấn — Toàn CN Quận 1',{who:'QT',branch:'CN Quận 1',right}) + `
   <div class="cn-tabs">
     <a class="cn-link on" href="consultant-cn.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>Toàn CN (điều phối tư vấn)</a>
     <a class="cn-link" href="consultant.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Của tôi (Quỳnh Trang)</a>
@@ -37,17 +36,6 @@ document.getElementById('main').innerHTML = topbar('Nghiệp vụ Tư vấn viê
           <div class="sc-stats"><div class="ss"><b>5</b><span>Tư vấn</span></div><div class="ss"><b>2</b><span>Chốt</span></div><div class="ss"><b>0</b><span>Đang chờ</span></div></div></div>
       </div>
       <div class="alert al-warn" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Điều phối:</b> Thảo Nguyên đang có 3 khách chờ trong khi <b>Mỹ Ngọc & Hồng Ánh đang rảnh</b> → chuyển bớt khách sang để giảm thời gian chờ.</div></div>
-    </div>
-
-    <div class="panel" style="margin-bottom:18px"><div class="panel-h"><div class="panel-title">Giám sát chống ghim khách<small>Mỗi TVV chỉ 1 khách active · soi giữ khách lâu & mẫu lặp TVV–KTV</small></div></div>
-      <table><thead><tr><th>Tư vấn viên</th><th>Khách active</th><th>Giữ (SLA)</th><th>Owner</th><th>Cờ giám sát</th></tr></thead><tbody>
-        <tr><td><b>Quỳnh Trang</b></td><td>Trần Thu Hà (1/1)</td><td>14p</td><td>12</td><td><span class="tag done">Bình thường</span></td></tr>
-        <tr><td><b>Thảo Nguyên</b></td><td>Khách walk-in (1/1)</td><td><span style="color:var(--rose);font-weight:600">26p ⚠</span></td><td>9</td><td><span class="tag" style="background:#fbeccb;color:#9a6a1e">Giữ khách quá lâu</span></td></tr>
-        <tr><td><b>Mỹ Ngọc</b></td><td>— (0/1)</td><td>—</td><td>7</td><td><span class="tag done">Bình thường</span></td></tr>
-        <tr><td><b>Hồng Ánh</b></td><td>— (0/1)</td><td>—</td><td>4</td><td><span class="tag done">Bình thường</span></td></tr>
-      </tbody></table>
-      <div class="alert" style="margin-top:12px;background:#fdf3f0;border:1px solid #f0d0c9;color:#a64b4b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><div><b>Cờ CAO:</b> cặp <b>TVV Quỳnh Trang + KTV Thanh Mai</b> trùng nhau ở 6/7 khách chi tiêu cao tuần này — vượt ngưỡng ngẫu nhiên. Hệ đã chuyển sang auto-gán KTV để cắt liên kết.</div></div>
-      <div style="font-size:11.5px;color:var(--ink-soft);margin-top:10px;line-height:1.6">Cơ chế: TVV chỉ tiếp <b>1 khách/lần</b> (xong mới nhận mới) · ẩn giá trị khách khi nhận · KTV do hệ điều phối tự gán (TVV không chọn) · log toàn bộ + so khớp mẫu cặp NV–khách.</div>
     </div>
     <div class="panel"><div class="panel-h"><div class="panel-title">Danh sách khách<small>Theo dõi khách chờ & khách đã tư vấn trong ngày</small></div><div class="pill-tabs" id="cwt"><button class="on" onclick="cwtab('wait')">Khách chờ (5)</button><button onclick="cwtab('done')">Đã tư vấn (14)</button></div></div>
       <div id="cwBody"></div>

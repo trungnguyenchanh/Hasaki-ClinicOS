@@ -29,7 +29,6 @@ const NAV = [
     { id:"dashboard", label:"Dashboard", href:"../index.html", icon:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>' },
     { id:"booking", label:"Lịch & Booking", href:"booking.html", badge:"14", icon:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>' },
     { id:"customers", label:"Khách hàng", href:"customers.html", icon:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>' },
-    { id:"sitemap", label:"Sơ đồ trang", href:"sitemap.html", icon:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>' },
   ]},
   { group: "Nghiệp vụ", items: [
     { id:"doctor", label:"Bác sĩ · Khám", href:"doctor-cn.html", badge:"6", icon:'<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/><circle cx="9" cy="10" r="1.5"/><path d="M13 9h4M13 12h4"/>' },
@@ -55,6 +54,7 @@ const NAV = [
   { group: "Quản trị", items: [
     { id:"reports", label:"Báo cáo & KPI", href:"reports.html", icon:'<path d="M18 20V10M12 20V4M6 20v-6"/>' },
     { id:"staff", label:"Nhân sự & Học việc", href:"staff.html", icon:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/>' },
+    { id:"sitemap", label:"Sơ đồ trang (Sitemap)", href:"sitemap.html", icon:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>' },
   ]},
 ];
 
