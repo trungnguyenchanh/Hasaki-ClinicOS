@@ -36,6 +36,8 @@
 @media(max-width:900px){.today-grid{grid-template-columns:1fr}}
 .dtabs button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer;color:var(--ink-soft)}
 .dtabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dtabs .lnk-sub{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer;color:var(--teal-deep);text-decoration:none;display:inline-flex;align-items:center}
+.dtabs .lnk-sub:hover{background:var(--teal-soft);border-color:var(--teal)}
 .tl{position:relative;padding-left:26px}
 .tl::before{content:"";position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--line)}
 .tl-item{position:relative;padding-bottom:18px}
@@ -60,7 +62,7 @@
 <script src="../assets/data.js"></script>
 <script>
 renderLayout('customers');
-const right=`<a class="btn btn-ghost" href="${linkFor('flow-tracking.html')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Hành trình hôm nay</a><a class="btn btn-ghost" href="${linkFor('customer-treatment-record.html')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>Hồ sơ điều trị</a><a class="btn btn-ghost" href="warranty.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Bảo hành</a><button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 2v4M8 2v4M3 10h18"/><rect x="3" y="4" width="18" height="18" rx="2"/></svg>Đặt lịch</button>`;
+const right=`<a class="btn btn-ghost" href="${linkFor('flow-timeline.html')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Hành trình hôm nay</a><a class="btn btn-ghost" href="${linkFor('customer-treatment-record.html')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>Hồ sơ điều trị</a><a class="btn btn-ghost" href="warranty.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Bảo hành</a><button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 2v4M8 2v4M3 10h18"/><rect x="3" y="4" width="18" height="18" rx="2"/></svg>Đặt lịch</button>`;
 const C = getCustomer();
 document.getElementById('main').innerHTML = topbar('Khách hàng › Chi tiết','Hồ sơ khách hàng',{who:CURRENT_USER.initials,branch:CURRENT_USER.branch,right}) + `
   <div class="profile-head">
@@ -87,7 +89,7 @@ document.getElementById('main').innerHTML = topbar('Khách hàng › Chi tiết'
       </div>
       <div class="ts-next"><div class="nb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
         <div style="flex:1"><span>Hướng dẫn khách bước tiếp theo</span><b>Vào phòng Slim 1 — Giảm béo RF buổi 1/10 (KTV Hồng Trang)</b></div>
-        <a href="flow-tracking.html" style="color:#fff;font-size:12px;text-decoration:underline;white-space:nowrap">Xem flow</a></div>
+        <a href="flow-timeline.html" style="color:#fff;font-size:12px;text-decoration:underline;white-space:nowrap">Xem flow</a></div>
     </div>
     <div class="panel" style="margin:0"><div class="panel-h" style="padding-bottom:10px"><div class="panel-title" style="font-size:15px">Nhắc & lịch hẹn</div></div>
       <div class="remind late"><div class="r-ic" style="background:#f9e6e6;color:#a64b4b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg></div><div><b style="color:#a64b4b">Trễ hẹn phác đồ trị nám</b><span>Buổi laser GĐ2 lẽ ra 28/06 — đã trễ 6 ngày, cần nhắc đặt lại.</span></div></div>
@@ -101,7 +103,10 @@ document.getElementById('main').innerHTML = topbar('Khách hàng › Chi tiết'
     <button class="on" onclick="dtab('overview')">Tổng quan & lưu ý</button>
     <button onclick="dtab('purchase')">Phiếu mua hàng</button>
     <button onclick="dtab('sessions')">Liệu trình theo ngày</button>
-    <button onclick="dtab('voucher')">Voucher & gói</button>
+    <button onclick="dtab('warranty')">Phiếu bảo hành</button>
+    <a class="lnk-sub" href="customer-voucher.html">Voucher</a>
+    <a class="lnk-sub" href="customer-packages.html">Gói liệu trình</a>
+    <a class="lnk-sub" href="customer-wallet.html">Tài khoản</a>
     <button onclick="dtab('feedback')">Feedback</button>
   </div>
   <div id="dv"></div>`;
@@ -157,6 +162,13 @@ voucher:`<div class="row r-2e">
       <div class="wpill"><div class="q-av av-blush">2</div><div class="wi"><b>Gói triệt lông Diode</b><span>⚠ Sắp hết hạn (21 ngày)</span></div><div class="wv">2 buổi</div></div>
     </div></div>`,
 
+warranty:`<div class="panel"><div class="panel-h"><div class="panel-title">Phiếu bảo hành của khách<small>tạo từ gói/SKU đã mua · link về phiếu mua gốc</small></div><a class="btn btn-teal" href="warranty.html" style="padding:7px 13px;font-size:12.5px">Tạo phiếu BH</a></div>
+    <table><thead><tr><th>Phiếu BH</th><th>SKU bảo hành</th><th>Nguồn (gói/SKU · phiếu mua)</th><th>Còn hạn</th><th>Vấn đề</th><th>Trạng thái</th></tr></thead><tbody>
+      <tr class="clickable" onclick="location.href='warranty.html'"><td class="num-strong">BH-1042</td><td>Triệt lông Diode toàn thân</td><td>Gói PKG-LASER-8 · <a href="cashier-payment.html" style="color:var(--teal-deep)">RC-0825</a></td><td>còn 4 năm 8 tháng</td><td>Lông mọc lại vùng nách</td><td><span class="tag prog">Chờ duyệt</span></td></tr>
+      <tr class="clickable" onclick="location.href='warranty.html'"><td class="num-strong">BH-1028</td><td>Điều trị mụn cốc</td><td>SKU lẻ · <a href="cashier-payment.html" style="color:var(--teal-deep)">RC-0812</a></td><td><span style="color:var(--rose)">hết hạn 3 ngày trước</span></td><td>Mụn tái phát</td><td><span class="tag">Quá hạn</span></td></tr>
+    </tbody></table>
+    <div class="alert al-info" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Mỗi phiếu BH gắn về <b>SKU/combo của phiếu mua</b> tương ứng. Thời hạn tính theo chính sách BH của SKU/group. Bấm phiếu mua để xem chi tiết hóa đơn gốc.</div></div></div>`,
+
 feedback:`<div class="panel"><div class="panel-h"><div class="panel-title">Feedback & góp ý của khách<small>Sau mỗi buổi dịch vụ · khảo sát CSKH</small></div></div>
     <table><thead><tr><th>Ngày</th><th>Dịch vụ</th><th>Đánh giá</th><th>Nội dung góp ý</th><th>Xử lý</th></tr></thead><tbody>
       <tr><td>Hôm nay</td><td>Giảm béo RF</td><td class="stars">★★★★★</td><td>Rất hài lòng, KTV nhẹ nhàng.</td><td><span class="tag done">—</span></td></tr>
@@ -167,5 +179,7 @@ feedback:`<div class="panel"><div class="panel-h"><div class="panel-title">Feedb
 };
 function dtab(k){document.querySelectorAll('#dt button').forEach(b=>b.classList.remove('on'));event&&event.target&&event.target.classList.add('on');DV.innerHTML=TABS[k];wireUI();}
 dtab('overview');
+// gắn ?id= cho 3 link sub (voucher/gói/tài khoản) để giữ đúng khách
+document.querySelectorAll('.dtabs .lnk-sub').forEach(a=>{const base=a.getAttribute('href'); a.href=base+'?id='+encodeURIComponent(C.id);});
 </script>
 </body></html>

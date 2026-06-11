@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki ClinicOS · Đơn thuốc · GPP — Tổng quan chi nhánh</title>
+<title>Hasaki ClinicOS · Điều phối tổng theo khu vực</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/theme.css">
@@ -62,21 +62,45 @@
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
 <script>
-renderLayout('pharmacy');
-const right=`<div class="pill-tabs"><button class="on" onclick="location.href='pharmacy.html'">Tổng quan CN</button><button onclick="location.href='pharmacy-orders.html'">Đơn liên thông</button><button onclick="location.href='pharmacy-national.html'">Cổng quốc gia</button><button onclick="location.href='pharmacy-gpp.html'">GPP liên kết</button></div>`;
-document.getElementById('main').innerHTML = topbar('Nghiệp vụ Dược sĩ','Đơn thuốc · GPP — Tổng quan chi nhánh',{who:'DS',branch:'CN Quận 1',right}) + `
-  <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:16px">Tình hình nhà thuốc tại CN Quận 1: đơn chờ liên thông, đã bán, mức liên thông cổng quốc gia, khớp xuất-nhập-tồn GPP.</div>
-<div class="snap">
-  <div class="sb warn"><div class="sl">Đơn chờ liên thông</div><div class="sv">3</div><div class="sl">chờ đối chiếu QG</div></div>
-  <div class="sb good"><div class="sl">Đơn bán hôm nay</div><div class="sv">42</div><div class="sl">đã liên thông</div></div>
-  <div class="sb"><div class="sl">Liên thông đơn QG</div><div class="sv">100%</div><div class="sl">đạt chuẩn</div></div>
-  <div class="sb"><div class="sl">Khớp xuất-nhập-tồn</div><div class="sv">96%</div><div class="sl">chuẩn GPP</div></div></div>
-  <div class="ops-grid">
-    <a class="ops-card" href="pharmacy-orders.html" style="text-decoration:none;color:inherit;cursor:pointer"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div><div class="oc-t">Danh sách đơn liên thông</div></div><div class="oc-big">3</div><div class="oc-sub">chờ đối chiếu / chưa liên thông</div><span class="oc-link" style="margin-top:10px">Mở danh sách đơn →</span></a>
-    <a class="ops-card" href="pharmacy-national.html" style="text-decoration:none;color:inherit;cursor:pointer"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="oc-t">Toa kê — cổng quốc gia</div></div><div class="oc-big">128</div><div class="oc-sub">toa đã liên kết QG tháng này</div><span class="oc-link" style="margin-top:10px">Mở cổng quốc gia →</span></a>
-    <a class="ops-card" href="pharmacy-gpp.html" style="text-decoration:none;color:inherit;cursor:pointer"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM5 7v14h14V7"/></svg></div><div class="oc-t">GPP liên kết</div></div><div class="oc-big">96%</div><div class="oc-sub">khớp xuất-nhập-tồn</div><span class="oc-link" style="margin-top:10px">Mở GPP →</span></a>
-  </div>
-  <div class="alert al-info" style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Mỗi giao dịch thuốc ghi <b>audit bất biến</b>. Chỉ bán khi đơn hợp lệ trên cổng đơn thuốc quốc gia.</div></div>`;
-if(typeof wireUI==="function")wireUI();
+renderLayout('reports');
+const back=`<a class="btn btn-ghost" href="report-ops.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Report vận hành</a>`;
+document.getElementById('main').innerHTML = topbar('Quản trị','Điều phối tổng theo khu vực',{who:'HQ',branch:'Tất cả CN',right:back}) + `
+  <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:16px">Điều phối tua toàn hệ thống nhóm theo khu vực → chi nhánh. Bấm 1 CN để xem tổng quan nội bộ.</div>
+  <div id="dispatchTotal"></div>`;
+/* ===== ĐIỀU PHỐI TỔNG THEO KHU VỰC ===== */
+const REGIONS = [
+  { id:'hcm', name:'TP. Hồ Chí Minh', branches:[
+    { cn:'q1', name:'CN Quận 1', addr:'123 Nguyễn Huệ, Q1', nv:6, avail:3, waiting:3, serving:5, over:1, load:78, slaAvg:11 },
+    { cn:'q7', name:'CN Quận 7', addr:'45 Nguyễn Thị Thập, Q7', nv:4, avail:1, waiting:5, serving:4, over:2, load:92, slaAvg:18 },
+    { cn:'td', name:'CN Thủ Đức', addr:'12 Võ Văn Ngân, Thủ Đức', nv:3, avail:2, waiting:1, serving:2, over:0, load:41, slaAvg:5 },
+  ]},
+  { id:'hn', name:'Hà Nội', branches:[
+    { cn:'cg', name:'CN Cầu Giấy', addr:'88 Trần Thái Tông, Cầu Giấy', nv:3, avail:2, waiting:2, serving:2, over:0, load:55, slaAvg:8 },
+    { cn:'hbt', name:'CN Hai Bà Trưng', addr:'9 Phố Huế, HBT', nv:2, avail:1, waiting:1, serving:1, over:0, load:48, slaAvg:6 },
+  ]},
+  { id:'dn', name:'Đà Nẵng', branches:[
+    { cn:'hc', name:'CN Hải Châu', addr:'56 Lê Duẩn, Hải Châu', nv:3, avail:1, waiting:2, serving:2, over:0, load:63, slaAvg:9 },
+  ]},
+];
+function cnStatus(b){ if(b.over>0||b.load>=90) return ['over','Quá tải']; if(b.load>=70) return ['busy','Đông']; return ['ok','Ổn định']; }
+function loadColor(l){ return l>=90?'#d9694f':(l>=70?'#d9a441':'var(--teal)'); }
+let T={cn:0,waiting:0,serving:0,over:0,loadSum:0,overCN:0,avail:0};
+REGIONS.forEach(r=>r.branches.forEach(b=>{T.cn++;T.waiting+=b.waiting;T.serving+=b.serving;T.over+=b.over;T.loadSum+=b.load;T.avail+=b.avail; if(b.over>0||b.load>=90)T.overCN++;}));
+const loadAvg=Math.round(T.loadSum/T.cn);
+let dt = `<div class="panel-h" style="margin-bottom:14px"><div class="panel-title">Điều phối tổng theo khu vực<small>Toàn hệ thống · ${T.cn} CN · ${REGIONS.length} khu vực · bấm 1 CN để xem nội bộ</small></div></div>
+  <div class="kpi-big">
+    <div class="kb"><div class="kl">Khách chờ phân tua</div><div class="kv">${T.waiting}</div><div class="kl">đang phục vụ ${T.serving}</div></div>
+    <div class="kb ${T.over>0?'warn':'good'}"><div class="kl">Khách quá giờ chờ</div><div class="kv">${T.over}</div><div class="kl">${T.overCN} CN cần chú ý</div></div>
+    <div class="kb ${loadAvg>=80?'warn':'good'}"><div class="kl">Tải tua trung bình</div><div class="kv">${loadAvg}%</div><div class="kl">${T.avail} NV sẵn sàng</div></div>
+    <div class="kb"><div class="kl">Chi nhánh hoạt động</div><div class="kv">${T.cn}</div><div class="kl">${REGIONS.length} khu vực</div></div>
+  </div>`;
+REGIONS.forEach(r=>{
+  const rWait=r.branches.reduce((a,b)=>a+b.waiting,0), rOver=r.branches.reduce((a,b)=>a+b.over,0);
+  dt += `<div class="region-block"><div class="region-head"><div class="rg-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg></div><h3>${r.name}</h3><div class="rg-sum">${r.branches.length} CN · ${rWait} khách chờ${rOver?` · <span style="color:var(--rose)">${rOver} quá giờ</span>`:''}</div></div>
+    <div class="panel" style="padding:6px 4px"><table class="ov-table"><thead><tr><th>Chi nhánh</th><th>Nhân sự</th><th>Khách chờ</th><th>Đang phục vụ</th><th>Quá giờ</th><th>SLA chờ TB</th><th>Tải tua</th><th>Tình trạng</th></tr></thead><tbody>
+      ${r.branches.map(b=>{const [bs,bl]=cnStatus(b); return `<tr class="clickable" onclick="location.href='report-branch.html?cn=${b.cn}'"><td><div class="ov-cn">${b.name}<small>${b.addr}</small></div></td><td>${b.avail}/${b.nv} <span style="color:var(--ink-soft);font-size:11px">sẵn sàng</span></td><td><b>${b.waiting}</b></td><td>${b.serving}</td><td>${b.over>0?`<b style="color:var(--rose)">${b.over}</b>`:'0'}</td><td>${b.slaAvg}p</td><td><div class="load-cell"><span class="load-bar"><i style="width:${b.load}%;background:${loadColor(b.load)}"></i></span><b>${b.load}%</b></div></td><td><span class="badge ${bs}">${bl}</span></td></tr>`;}).join('')}
+    </tbody></table></div></div>`;
+});
+document.getElementById('dispatchTotal').innerHTML = dt;
 </script>
 </body></html>

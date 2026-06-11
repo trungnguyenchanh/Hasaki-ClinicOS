@@ -2,53 +2,134 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki Clinic · Dashboard</title>
+<title>Hasaki ClinicOS · Dashboard vận hành</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/theme.css">
+<style>
+.ops-snap{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+.ops-snap .sb{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
+.ops-snap .sv{font-family:'Fraunces',serif;font-size:25px;line-height:1;margin:5px 0 2px}
+.ops-snap .sl{font-size:11px;color:var(--ink-soft)}
+.ops-snap .sb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.ops-snap .sb.warn .sv{color:#9a5a1e}
+.ops-snap .sb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.ops-snap .sb.good .sv{color:var(--teal-deep)}
+.ops-snap .sb.rose{background:linear-gradient(140deg,#fff,#f7dcd5);border-color:#e8b3a8}.ops-snap .sb.rose .sv{color:#9a3b2c}
+.flow-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px}
+.lcard{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}
+.lcard-h{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.lcard-h .lh-ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;background:var(--teal-soft);color:var(--teal-deep)}
+.lcard-h .lh-ic svg{width:16px;height:16px}
+.lcard-h b{font-size:14px}
+.lcard-h .lh-cnt{margin-left:auto;font-family:'Fraunces',serif;font-size:18px;font-weight:600}
+.lcard-h .lh-link{font-size:11.5px;color:var(--teal-deep);text-decoration:none;font-weight:600}
+.lrow{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--line);font-size:13px}
+.lrow:last-child{border:none}
+.lrow .num{width:26px;height:26px;border-radius:7px;background:var(--bg-2);display:grid;place-items:center;font-weight:600;font-size:12px;flex:none}
+.lrow .nm{flex:1;min-width:0}.lrow .nm b{font-weight:600}.lrow .nm span{display:block;font-size:11px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lrow .rt{text-align:right;white-space:nowrap;font-size:11.5px}
+.mini-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.mb-wait{background:var(--bg-2);color:var(--ink-soft)}.mb-go{background:var(--teal-soft);color:var(--teal-deep)}.mb-warn{background:#fbeccb;color:#9a6a1e}.mb-over{background:#f4d3cb;color:#9a3b2c}
+.alert-card{border:1px solid #f0c9a8;border-radius:16px;background:linear-gradient(160deg,#fff,#fdf2ea);overflow:hidden}
+.alert-card .ac-h{padding:14px 16px;border-bottom:1px solid #f0d6bf;display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px;color:#9a5a1e}
+.arow{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-bottom:1px solid #f3e2d3;font-size:12.5px}
+.arow:last-child{border:none}
+.arow .ai{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex:none}
+.ai.red{background:#f4d3cb;color:#9a3b2c}.ai.amber{background:#fbeccb;color:#9a6a1e}
+.arow .at{flex:1}.arow .at b{font-weight:600}.arow .at span{display:block;font-size:11px;color:var(--ink-soft)}
+.arow .aa{font-size:11px;color:var(--teal-deep);font-weight:600;text-decoration:none;white-space:nowrap}
+@media(max-width:1000px){.ops-snap{grid-template-columns:repeat(2,1fr)}.flow-cols{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="assets/app.js"></script>
 <script>
 renderLayout('dashboard',{fromRoot:true});
-document.getElementById('main').innerHTML = topbar('Tổng quan vận hành','Chào buổi sáng, Mai Anh',{who:'MA'}) + `
-  <div class="kpi-grid">
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><span class="trend up">▲ 12.4%</span></div><div class="kpi-val">2,84 tỷ</div><div class="kpi-lbl">Doanh thu tháng (VND)</div></div>
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="trend up">▲ 8.1%</span></div><div class="kpi-val">486</div><div class="kpi-lbl">Buổi dịch vụ hoàn tất</div></div>
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><span class="trend up">▲ 5.6%</span></div><div class="kpi-val">128</div><div class="kpi-lbl">Khách mới trong tháng</div></div>
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><span class="trend down">▼ 2.3%</span></div><div class="kpi-val">3,2%</div><div class="kpi-lbl">Tỷ lệ no-show</div></div>
+const right=`<div class="tenant" style="background:var(--teal-soft);color:var(--teal-deep);border-color:transparent"><span style="width:8px;height:8px;border-radius:50%;background:var(--teal-deep);display:inline-block"></span> Realtime · cập nhật 30s</div>`;
+document.getElementById('main').innerHTML = topbar('Tổng quan vận hành','Bảng điều hành · CN Quận 1',{who:'MA',branch:'CN Quận 1',right}) + `
+  <div class="ops-snap">
+    <div class="sb"><div class="sl">Booking chờ tới lượt</div><div class="sv">9</div><div class="sl">đã lấy số</div></div>
+    <div class="sb"><div class="sl">Chờ / đang tư vấn · khám</div><div class="sv">7</div><div class="sl">2 chờ khám</div></div>
+    <div class="sb good"><div class="sl">Đang làm dịch vụ</div><div class="sv">5</div><div class="sl">2 sắp xong</div></div>
+    <div class="sb rose"><div class="sl">Phiếu tính tiền treo</div><div class="sv">3</div><div class="sl">còn nợ</div></div>
+    <div class="sb warn"><div class="sl">Cảnh báo bất thường</div><div class="sv">6</div><div class="sl">stock · date · máy</div></div>
   </div>
-  <div class="row r-2">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Doanh thu theo nhóm dịch vụ<small>Dịch vụ vs Sản phẩm · 7 ngày</small></div><div class="pill-tabs"><button class="on">Tuần</button><button>Tháng</button><button>Quý</button></div></div><div class="chart" id="chart"></div><div class="legend"><span><i class="dot" style="background:var(--teal)"></i>Dịch vụ</span><span><i class="dot" style="background:var(--blush-deep)"></i>Sản phẩm</span></div></div>
-    <div class="panel"><div class="panel-h"><div class="panel-title">Cơ cấu nhóm<small>Theo doanh thu</small></div></div><div class="donut-box"><div class="donut" style="background:conic-gradient(var(--teal) 0 38%,var(--blush-deep) 38% 62%,var(--gold) 62% 81%,#9fbfd6 81% 100%)"><div class="donut-c"><div><b>2,84T</b><span>tổng</span></div></div></div><div class="leg-list"><div class="leg-row"><i class="dot" style="background:var(--teal)"></i>Triệt lông <b>38%</b></div><div class="leg-row"><i class="dot" style="background:var(--blush-deep)"></i>Chăm sóc da <b>24%</b></div><div class="leg-row"><i class="dot" style="background:var(--gold)"></i>Giảm béo <b>19%</b></div><div class="leg-row"><i class="dot" style="background:#9fbfd6"></i>Derma & Hair <b>19%</b></div></div></div></div>
-  </div>
-  <div class="row r-2">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Hàng đợi điều phối · CN Quận 1<small>Phân tua tự động theo kỹ năng & lịch</small></div><a class="btn btn-ghost" href="pages/dispatch.html">Xem tất cả</a></div>
-      <div class="q-item" style="cursor:pointer" onclick="location.href='pages/service-record.html'"><div class="q-time">09:00</div><div class="q-av av-teal">TM</div><div class="q-main"><b>Triệt lông Diode · buổi 3/8</b><span>KTV Thanh Mai · phòng Laser 2 · click xem chi tiết thực hiện</span></div><span class="tag prog">Đang làm</span></div>
-      <div class="q-item"><div class="q-time">09:15</div><div class="q-av av-blush">NL</div><div class="q-main"><b>Chăm sóc da chuyên sâu</b><span>ĐD Ngọc Linh · KTV học việc kèm</span></div><span class="tag sup">Có giám sát</span></div>
-      <div class="q-item"><div class="q-time">09:30</div><div class="q-av av-gold">HT</div><div class="q-main"><b>Giảm béo RF · buổi 1/10</b><span>KTV Hồng Trang · phòng Slim 1</span></div><span class="tag done">Sẵn sàng</span></div>
-      <div class="q-item"><div class="q-time">09:45</div><div class="q-av av-slate">—</div><div class="q-main"><b>Derma & Hair · phục hồi tóc</b><span>Chờ KTV salon rảnh</span></div><span class="tag wait">Hàng đợi</span></div>
+
+  <div class="flow-cols">
+    <!-- 1. Booking chờ lấy số -->
+    <div class="lcard"><div class="lcard-h"><div class="lh-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><b>Booking · chờ tới lượt</b><span class="lh-cnt">9</span></div>
+      <div id="l1"></div>
+      <div style="padding:9px 16px;text-align:center"><a class="lh-link" href="pages/flow-queue.html">Xem hàng đợi đầy đủ →</a></div>
     </div>
-    <div class="panel"><div class="panel-h"><div class="panel-title">Cảnh báo hệ thống</div></div>
-      <div class="alert al-warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div><b>Tồn NVL dưới định mức</b> — Gel lạnh triệt lông còn 8% tại CN Quận 1.</div></div>
-      <div class="alert al-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg><div><b>Vi phạm giành khách</b> — TVV #07 cố tiếp khách đang được TVV #12 phụ trách. Đã chặn.</div></div>
-      <div class="alert al-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><b>Đơn thuốc quốc gia</b> — 3 đơn chờ dược sĩ đối chiếu mã đơn (GPP).</div></div>
-      <div class="alert al-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg><div><b>Học việc cần đánh giá</b> — 2 KTV học việc đủ số buổi để nâng scope.</div></div>
-      <a class="alert al-warn" href="pages/warranty.html" style="text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div><b>Bảo hành dịch vụ</b> — 5 yêu cầu bảo hành chờ xử lý, 7 ca sắp hết hạn. Bấm để mở.</div></a>
+    <!-- 2. Chờ/đang tư vấn - chờ/đang khám -->
+    <div class="lcard"><div class="lcard-h"><div class="lh-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><b>Tư vấn & khám</b><span class="lh-cnt">7</span></div>
+      <div id="l2"></div>
+      <div style="padding:9px 16px;text-align:center"><a class="lh-link" href="pages/flow-inservice.html">Xem chi tiết →</a></div>
+    </div>
+    <!-- 3. Đang làm dịch vụ - sắp xong -->
+    <div class="lcard"><div class="lcard-h"><div class="lh-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg></div><b>Đang làm dịch vụ</b><span class="lh-cnt">5</span></div>
+      <div id="l3"></div>
+      <div style="padding:9px 16px;text-align:center"><a class="lh-link" href="pages/flow-inservice.html">Xem đang phục vụ →</a></div>
+    </div>
+    <!-- 4. Phiếu tính tiền dở - treo nợ -->
+    <div class="lcard"><div class="lcard-h"><div class="lh-ic" style="background:#f7dcd5;color:#9a3b2c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><b>Phiếu tính tiền dở · treo nợ</b><span class="lh-cnt">3</span></div>
+      <div id="l4"></div>
+      <div style="padding:9px 16px;text-align:center"><a class="lh-link" href="pages/cashier.html">Mở thu ngân →</a></div>
     </div>
   </div>
-  <div class="panel"><div class="panel-h"><div class="panel-title">Hiệu quả nhân sự theo vai trò<small>KPI tháng này · so với mục tiêu</small></div><a class="btn btn-ghost" href="pages/reports.html">Báo cáo chi tiết</a></div>
-    <table><thead><tr><th>Nhân sự</th><th>Vai trò</th><th>Loại hình</th><th>Năng suất</th><th>KPI đạt</th><th>Chỉ số chính</th></tr></thead><tbody>
-      <tr><td><div class="staff-cell"><div class="q-av av-teal">TM</div><b>Thanh Mai</b></div></td><td><span class="role-chip">KTV</span></td><td>Full-time</td><td class="num-strong">94 buổi</td><td><div class="kpi-bar"><i style="width:92%"></i></div></td><td>Đánh giá khách <b>4.9★</b></td></tr>
-      <tr><td><div class="staff-cell"><div class="q-av av-indigo">BH</div><b>BS. Bích Hằng</b></div></td><td><span class="role-chip">Bác sĩ</span></td><td>Full-time</td><td class="num-strong">112 ca</td><td><div class="kpi-bar"><i style="width:88%"></i></div></td><td>Chốt liệu trình <b>71%</b></td></tr>
-      <tr><td><div class="staff-cell"><div class="q-av av-blush">QT</div><b>Quỳnh Trang</b></div></td><td><span class="role-chip">Tư vấn viên</span></td><td>Full-time</td><td class="num-strong">38 chốt</td><td><div class="kpi-bar"><i style="width:96%"></i></div></td><td>Gói TB <b>14,2tr</b> · 0 vi phạm</td></tr>
-      <tr><td><div class="staff-cell"><div class="q-av av-gold">NL</div><b>Ngọc Linh</b></div></td><td><span class="role-chip">Điều dưỡng</span></td><td>Part-time KN</td><td class="num-strong">61 buổi</td><td><div class="kpi-bar"><i style="width:80%"></i></div></td><td>Tuân thủ quy trình <b>98%</b></td></tr>
-      <tr><td><div class="staff-cell"><div class="q-av av-sage">PA</div><b>Phương Anh</b></div></td><td><span class="role-chip">KTV</span></td><td>Học việc</td><td class="num-strong">29 buổi</td><td><div class="kpi-bar"><i style="width:64%"></i></div></td><td>Tiến bộ tay nghề <b>+2 cấp</b></td></tr>
-    </tbody></table>
+
+  <!-- Cảnh báo bất thường -->
+  <div class="alert-card"><div class="ac-h"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg>Cảnh báo bất thường — cần xử lý</div>
+    <div id="alerts"></div>
   </div>`;
-drawBars(document.getElementById('chart'),[{d:'T2',svc:62,prod:20},{d:'T3',svc:74,prod:28},{d:'T4',svc:58,prod:18},{d:'T5',svc:88,prod:34},{d:'T6',svc:96,prod:40},{d:'T7',svc:120,prod:52},{d:'CN',svc:80,prod:30}]);
-wireUI();
+
+// ===== Dữ liệu danh sách rút gọn =====
+const L1=[ // booking chờ lấy số
+  {no:'A12', nm:'Trần Thu Hà', sv:'Giảm béo RF · hẹn 10:00', vip:true, st:['mb-go','Sắp gọi']},
+  {no:'A13', nm:'Lê Minh', sv:'Triệt lông · hẹn 10:15', st:['mb-wait','Chờ 8p']},
+  {no:'A14', nm:'Khách lẻ', sv:'Tư vấn gói · walk-in', st:['mb-wait','Chờ 12p']},
+  {no:'A15', nm:'Ngô Khánh', sv:'Phục hồi tóc · hẹn 10:30', st:['mb-wait','Chờ 16p']},
+];
+const L2=[ // chờ/đang tư vấn - khám
+  {no:'TV', nm:'Khách lẻ #A', sv:'Đang tư vấn · Quỳnh Trang', st:['mb-go','Đang TV']},
+  {no:'TV', nm:'Ngô Khánh', sv:'Chờ tư vấn · 9p', st:['mb-wait','Chờ TV']},
+  {no:'KH', nm:'Trần Thu Hà', sv:'Đang khám · BS. Bích Hằng', st:['mb-go','Đang khám']},
+  {no:'KH', nm:'Khách lẻ #B', sv:'Chờ bác sĩ · 14p', st:['mb-warn','Chờ khám']},
+];
+const L3=[ // đang làm dịch vụ - sắp xong
+  {no:'P1', nm:'Trần Thu Hà', sv:'RF bụng · Hồng Trang', st:['mb-warn','Sắp xong 5p']},
+  {no:'P2', nm:'Lê Minh', sv:'Triệt lông lưng · Thanh Mai', st:['mb-go','Còn 20p']},
+  {no:'P3', nm:'Khách lẻ #C', sv:'Chăm sóc da · Ngọc Linh', st:['mb-warn','Sắp xong 8p']},
+  {no:'P4', nm:'Khách lẻ #D', sv:'Massage · Mai Linh', st:['mb-go','Còn 25p']},
+];
+const L4=[ // phiếu tính tiền dở - treo nợ
+  {no:'RC', nm:'Trần Thu Hà', sv:'RC-0825 · đã trả 1 phần', amt:'còn 1,2tr', st:['mb-over','Treo nợ']},
+  {no:'RC', nm:'Lê Minh', sv:'RC-0830 · chờ thanh toán', amt:'2,9tr', st:['mb-warn','Chưa trả']},
+  {no:'RC', nm:'Khách lẻ #E', sv:'RC-0841 · giữ chờ ví', amt:'650k', st:['mb-warn','Tạm giữ']},
+];
+function fill(id,list,withAmt){
+  document.getElementById(id).innerHTML = list.map(r=>`<div class="lrow">
+    <span class="num">${r.no}</span>
+    <div class="nm"><b>${r.nm}</b> ${r.vip?'<span class="mini-badge mb-over" style="background:#fbeccb;color:#9a6a1e">VIP</span>':''}<span>${r.sv}</span></div>
+    <div class="rt">${withAmt?`<b style="font-family:'Fraunces',serif">${r.amt}</b><br>`:''}<span class="mini-badge ${r.st[0]}">${r.st[1]}</span></div>
+  </div>`).join('');
+}
+fill('l1',L1); fill('l2',L2); fill('l3',L3); fill('l4',L4,true);
+
+// ===== Cảnh báo bất thường: stock hết / cận date / máy bảo trì =====
+const ALERTS=[
+  {ic:'red', t:'Hết hàng: Tinh chất trị mụn (SP-ACN-20)', s:'Tồn 18 < định mức 40 · ảnh hưởng dịch vụ điều trị mụn', a:'Mở kho →', href:'pages/inventory-products.html'},
+  {ic:'red', t:'NVL gần hết: Serum vitamin C (NVL-VITC-30)', s:'Còn 5 lọ · 11 buổi hôm nay cần dùng', a:'Chuyển kho →', href:'pages/inventory-transfer.html'},
+  {ic:'amber', t:'Cận hạn dùng: Mặt nạ dưỡng ẩm', s:'HSD 03/2026 · tồn cao, đẩy bán gấp', a:'Xem SP →', href:'pages/inventory-products.html'},
+  {ic:'amber', t:'Cận hạn: Kem dưỡng ẩm ban đêm', s:'HSD 04/2026 · còn 22 tuýp', a:'Xem SP →', href:'pages/inventory-products.html'},
+  {ic:'red', t:'Máy HIFU đến hạn bảo trì', s:'Quá 180h hoạt động · cần kiểm định trước khi dùng tiếp', a:'Lịch bảo trì →', href:'pages/catalog-machine.html'},
+  {ic:'amber', t:'Máy RF Slim sắp đến hạn bảo hành', s:'Còn 12 ngày · liên hệ NCC gia hạn', a:'Xem máy →', href:'pages/catalog-machine.html'},
+];
+document.getElementById('alerts').innerHTML = ALERTS.map(al=>`<div class="arow">
+  <span class="ai ${al.ic}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">${al.ic==='red'?'<path d="M18 6 6 18M6 6l12 12"/>':'<path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/>'}</svg></span>
+  <div class="at"><b>${al.t}</b><span>${al.s}</span></div>
+  <a class="aa" href="${al.href}">${al.a}</a>
+</div>`).join('');
 </script>
 </body>
 </html>

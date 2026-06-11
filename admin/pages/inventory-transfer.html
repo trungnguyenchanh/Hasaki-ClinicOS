@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki ClinicOS · Kho & Pha chế</title>
+<title>Hasaki ClinicOS · Chuyển kho nội bộ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/theme.css">
@@ -79,60 +79,83 @@
 .mini-tab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
 .bar-mini{display:inline-block;width:54px;height:6px;border-radius:3px;background:var(--bg-2);overflow:hidden;vertical-align:middle;margin-right:6px}.bar-mini i{display:block;height:100%}
 @media(max-width:900px){.rep-menu{grid-template-columns:1fr}}
+
+/* ==== chuyển kho ==== */
+.qty-in{width:70px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:13px;text-align:right;outline:none}
+.qty-in:focus{border-color:var(--teal)}
+.flow-cell{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);white-space:nowrap}
+.flow-cell .ar{color:var(--teal-deep)}
+.src-chip{font-size:10.5px;padding:2px 8px;border-radius:6px;background:#fbeccb;color:#9a6a1e}
+.dst-chip{font-size:10.5px;padding:2px 8px;border-radius:6px;background:var(--teal-soft);color:var(--teal-deep)}
+.hint{font-size:11px;color:var(--ink-soft)}
+.hint b{color:var(--teal-deep)}
+.pill-st{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px}
+.pill-st.draft{background:var(--bg-2);color:var(--ink-soft)}
+.pill-st.wait{background:#fbeccb;color:#9a6a1e}
+.pill-st.done{background:var(--teal-soft);color:var(--teal-deep)}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
 <script>
 renderLayout('inventory');
-document.getElementById('main').innerHTML = topbar('Vận hành','Kho & Pha chế · Trung tâm',{who:'WH',branch:'CN Quận 1'}) + `
-  <div style="font-size:13px;color:var(--ink-soft);margin-bottom:18px">Quản lý 2 kho riêng + theo dõi xuất NVL theo từng buổi liệu trình. Chọn khu vực cần làm việc.</div>
+const back=`<a class="btn btn-ghost" href="inventory.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Trung tâm kho</a>`;
+document.getElementById('main').innerHTML = topbar('Vận hành','Chuyển kho nội bộ · Sản phẩm bán → NVL',{who:'WH',branch:'CN Quận 1',right:back}) + `
+  <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:16px">Với SKU <b>vừa bán nguyên vừa dùng làm NVL</b> trong liệu trình: chuyển từ <span class="src-chip">Kho bán</span> sang <span class="dst-chip">Kho NVL</span>. Hệ dự kiến định lượng cần chuyển đầu mỗi ngày theo booking + trung bình lịch sử để chuẩn bị trước hoạt động CN.</div>
   <div class="snap">
-    <div class="sb"><div class="sl">Phiếu xuất NVL hôm nay</div><div class="sv">21</div><div class="sl">toàn CN Quận 1</div></div>
-    <div class="sb warn"><div class="sl">SKU xuất lố</div><div class="sv">2</div><div class="sl">vượt định mức</div></div>
-    <div class="sb warn"><div class="sl">SKU chưa xuất</div><div class="sv">3</div><div class="sl">buổi đã làm, thiếu log</div></div>
-    <div class="sb"><div class="sl">SP sắp hết / hết hạn</div><div class="sv">5</div><div class="sl">cần nhập / xử lý</div></div>
+    <div class="sb"><div class="sl">Booking hôm nay</div><div class="sv">38</div><div class="sl">lịch hẹn CN Quận 1</div></div>
+    <div class="sb"><div class="sl">SKU cần chuyển</div><div class="sv">5</div><div class="sl">dùng cho liệu trình</div></div>
+    <div class="sb warn"><div class="sl">Chờ QL duyệt</div><div class="sv">1</div><div class="sl">phiếu chuyển</div></div>
+    <div class="sb good"><div class="sl">Đã chuyển hôm nay</div><div class="sv">3</div><div class="sl">phiếu hoàn tất</div></div>
   </div>
-
-  <div style="font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);font-weight:600;margin:6px 0 12px">Theo dõi xuất NVL theo SKU</div>
-  <div class="rep-menu" style="margin-bottom:26px">
-    <a class="rep-card" href="inventory-sku-out.html">
-      <div class="rc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 14l3-3 4 4 5-6"/></svg></div>
-      <h3>Tổng xuất theo đầu SKU</h3><p>Định mức (BOM) vs thực xuất theo từng SKU. Cảnh báo SKU xuất lố hoặc buổi đã làm nhưng chưa xuất.</p>
-      <div class="rc-go">Mở tổng SKU <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-    </a>
-    <a class="rep-card" href="inventory-log.html">
-      <div class="rc-ic indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div>
-      <h3>Log xuất chi tiết</h3><p>Nhật ký từng dòng xuất NVL theo từng step trong SKU / phiếu dịch vụ — để truy vết.</p>
-      <div class="rc-go">Mở log xuất <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-    </a>
-    <a class="rep-card" href="inventory-ticket.html?id=DV-0825">
-      <div class="rc-ic rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
-      <h3>Đối soát theo phiếu DV</h3><p>Chi tiết xuất NVL của 1 phiếu dịch vụ, đối chiếu định mức để duyệt / điều chỉnh.</p>
-      <div class="rc-go">Mở đối soát phiếu <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-    </a>
+  <div class="mini-tab" id="mt">
+    <button class="on" onclick="tab('plan')">Dự kiến chuyển đầu ngày</button>
+    <button onclick="tab('tickets')">Phiếu chuyển kho</button>
   </div>
+  <div id="tv"></div>`;
+const TV=document.getElementById('tv');
 
-  <div style="font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);font-weight:600;margin:6px 0 12px">Chuẩn bị & luân chuyển kho</div>
-  <div class="rep-menu" style="grid-template-columns:1fr;margin-bottom:26px">
-    <a class="rep-card" href="inventory-transfer.html" style="flex-direction:row;align-items:center;gap:18px">
-      <div class="rc-ic indigo" style="margin-bottom:0;flex:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M21 3l-7 7M8 21H3v-5M3 21l7-7"/></svg></div>
-      <div style="flex:1"><h3 style="margin-bottom:4px">Chuyển kho nội bộ · Sản phẩm bán → NVL</h3><p style="margin:0">SKU vừa bán vừa dùng liệu trình: dự kiến định lượng chuyển đầu mỗi ngày (theo booking + TB lịch sử), QL duyệt → xuất kho bán, nhập kho NVL.</p></div>
-      <div class="rc-go" style="flex:none">Mở chuyển kho <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-    </a>
-  </div>
-
-  <div style="font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);font-weight:600;margin:6px 0 12px">Quản lý tồn kho — 2 kho riêng</div>
-  <div class="rep-menu" style="grid-template-columns:repeat(2,1fr)">
-    <a class="rep-card" href="inventory-products.html">
-      <div class="rc-ic gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM5 7v14h14V7M9 11h6"/></svg></div>
-      <h3>Kho sản phẩm bán</h3><p>Thành phẩm bán cho khách (còn nguyên seal): mỹ phẩm, dược mỹ phẩm. Tồn, vòng quay, hạn dùng, nhập/xuất bán.</p>
-      <div class="rc-go">Mở kho sản phẩm bán <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-    </a>
-    <a class="rep-card" href="inventory-materials.html">
-      <div class="rc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v4l4 9a3 3 0 0 1-3 4H8a3 3 0 0 1-3-4l4-9z"/><path d="M7 14h10"/></svg></div>
-      <h3>Kho nguyên vật liệu</h3><p>NVL/vật tư tiêu hao, SKU lẻ, và chai/lọ đang dùng dở trong liệu trình (chưa hết). Định mức, tồn dở, hao hụt.</p>
-      <div class="rc-go">Mở kho NVL <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-    </a>
-  </div>`;
+// SKU vừa bán vừa NVL: dự kiến = max(booking×BOM, TB lịch sử) làm gợi ý
+const PLAN=[
+  {n:'Serum vitamin C 30ml', sku:'SP/NVL-VITC-30', bookUse:'11 buổi', byBook:'330 ml', byHist:'310 ml', sugg:'350 ml', sellStock:'5 lọ', unit:'lọ 30ml', need:'≈ 12 lọ', warn:true},
+  {n:'Gel làm dịu sau laser 500ml', sku:'SP/NVL-SOOTH-500', bookUse:'9 buổi', byBook:'270 ml', byHist:'300 ml', sugg:'300 ml', sellStock:'9 lọ', unit:'lọ 500ml', need:'1 lọ', warn:false},
+  {n:'Tinh chất phục hồi 500ml', sku:'SP/NVL-SER-500', bookUse:'28 buổi', byBook:'840 ml', byHist:'860 ml', sugg:'900 ml', sellStock:'18 lọ', unit:'lọ 500ml', need:'2 lọ', warn:false},
+  {n:'Kem chống nắng SPF50 (mẫu dùng thử)', sku:'SP/NVL-SUN-50', bookUse:'6 buổi', byBook:'30 ml', byHist:'40 ml', sugg:'50 ml', sellStock:'210 tuýp', unit:'tuýp 50ml', need:'1 tuýp', warn:false},
+  {n:'Toner cân bằng da 200ml', sku:'SP/NVL-TON-200', bookUse:'14 buổi', byBook:'280 ml', byHist:'260 ml', sugg:'300 ml', sellStock:'76 chai', unit:'chai 200ml', need:'2 chai', warn:false},
+];
+const TICKETS=[
+  {id:'CK-0912', items:'Serum vitamin C ×12 lọ', by:'Kho → NVL', who:'WH · 08:05', st:'wait', stl:'Chờ QL duyệt'},
+  {id:'CK-0911', items:'Tinh chất phục hồi ×2 lọ', by:'Kho → NVL', who:'QL Mai Anh · 07:50', st:'done', stl:'Đã chuyển'},
+  {id:'CK-0910', items:'Gel làm dịu ×1 lọ', by:'Kho → NVL', who:'QL Mai Anh · 07:48', st:'done', stl:'Đã chuyển'},
+  {id:'CK-0909', items:'Toner cân bằng ×2 chai', by:'Kho → NVL', who:'QL Mai Anh · 07:45', st:'done', stl:'Đã chuyển'},
+];
+const VIEWS={
+plan:`<div class="alert al-info" style="margin-bottom:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Dự kiến = lớn hơn giữa <b>(booking hôm nay × định mức BOM)</b> và <b>trung bình tiêu thụ 7 ngày</b>. Quản lý xem, chỉnh số lượng nếu cần rồi tạo phiếu chuyển.</div></div>
+  <div class="panel" style="padding:6px 4px"><div class="panel-h" style="padding:12px 14px 4px"><div class="panel-title">Dự kiến chuyển kho bán → NVL đầu ngày<small>SKU vừa bán vừa dùng liệu trình · ${new Date().toLocaleDateString('vi-VN')}</small></div></div>
+    <table class="ov-table"><thead><tr><th>SKU (bán & NVL)</th><th>Theo booking</th><th>Theo BOM</th><th>TB 7 ngày</th><th>Dự kiến</th><th>Tồn kho bán</th><th>SL chuyển (lọ/chai)</th><th>Duyệt</th></tr></thead><tbody>
+      ${PLAN.map((p,i)=>`<tr ${p.warn?'style="background:#fdf6f0"':''}>
+        <td><b>${p.n}</b><span class="hint" style="display:block">${p.sku}</span></td>
+        <td>${p.bookUse}</td><td>${p.byBook}</td><td>${p.byHist}</td>
+        <td><b class="num-strong" style="color:var(--teal-deep)">${p.sugg}</b></td>
+        <td>${p.sellStock}${p.warn?' <span class="badge over" style="margin-left:4px">tồn thấp</span>':''}</td>
+        <td><input class="qty-in" id="q${i}" value="${parseInt(p.need.replace(/\D/g,''))||1}"> <span class="hint">${p.unit}</span></td>
+        <td><label style="font-size:12px;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" class="chk" checked> chọn</label></td></tr>`).join('')}
+    </tbody></table>
+    <div style="display:flex;gap:8px;padding:14px;align-items:center"><button class="btn btn-teal" onclick="alert('Đã tạo phiếu chuyển kho cho các SKU đã chọn — chuyển trạng thái Chờ QL duyệt.')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Tạo phiếu chuyển (cần QL duyệt)</button><span class="hint">Phiếu sau khi tạo sẽ chờ QL duyệt → xuất kho bán, nhập kho NVL.</span></div>
+  </div>`,
+tickets:`<div class="panel" style="padding:6px 4px"><div class="panel-h" style="padding:12px 14px 4px"><div class="panel-title">Phiếu chuyển kho<small>Tạo → QL duyệt → xuất kho bán, nhập kho NVL</small></div></div>
+    <table class="ov-table"><thead><tr><th>Mã phiếu</th><th>Nội dung</th><th>Luồng</th><th>Người tạo / duyệt</th><th>Trạng thái</th><th></th></tr></thead><tbody>
+      ${TICKETS.map(t=>`<tr><td><b>${t.id}</b></td><td>${t.items}</td>
+        <td><div class="flow-cell"><span class="src-chip">Kho bán</span><span class="ar">→</span><span class="dst-chip">Kho NVL</span></div></td>
+        <td>${t.who}</td><td><span class="pill-st ${t.st}">${t.stl}</span></td>
+        <td>${t.st==='wait'?`<button class="btn btn-teal" style="padding:5px 12px;font-size:12px" onclick="alert('Đã duyệt ${t.id}: xuất ${t.items} khỏi kho bán, nhập kho NVL. Ghi nhận audit.')">Duyệt & chuyển</button>`:'<span class="hint">✓ hoàn tất</span>'}</td></tr>`).join('')}
+    </tbody></table></div>`,
+};
+function tab(k){
+  document.querySelectorAll('#mt button').forEach(b=>b.classList.remove('on'));
+  const idx={plan:0,tickets:1}[k];
+  document.querySelectorAll('#mt button')[idx].classList.add('on');
+  TV.innerHTML=VIEWS[k];
+}
+window.tab=tab; tab('plan');
 </script>
 </body></html>

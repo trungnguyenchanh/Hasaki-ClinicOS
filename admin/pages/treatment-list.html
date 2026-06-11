@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki ClinicOS · Danh sách phiếu dịch vụ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.snap{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
+.snap .sb{border:1px solid var(--line);border-radius:14px;padding:15px 17px;background:#fff}
+.snap .sb .sv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.snap .sb .sl{font-size:11.5px;color:var(--ink-soft)}
+.snap .sb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.snap .sb.warn .sv{color:#9a5a1e}
+.snap .sb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.snap .sb.good .sv{color:var(--teal-deep)}
+.ops-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ops-card{border:1px solid var(--line);border-radius:15px;padding:16px;background:#fff}
+.ops-card .oc-h{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.ops-card .oc-ic{width:32px;height:32px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.ops-card .oc-ic svg{width:17px;height:17px}
+.ops-card .oc-t{font-weight:600;font-size:14px}
+.ops-card .oc-big{font-family:'Fraunces',serif;font-size:32px;line-height:1;margin:2px 0}
+.ops-card .oc-sub{font-size:11.5px;color:var(--ink-soft)}
+.ops-card .oc-rows{margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
+.ops-card .ocr{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0}
+.ops-card .ocr b{font-family:'Fraunces',serif}
+.ops-card .oc-link{margin-top:11px;font-size:12px;font-weight:600;color:var(--teal-deep);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.ops-card.warn{border-color:#f0c9a8;background:linear-gradient(140deg,#fff,#fdeee3)}
+.load-cell{display:flex;align-items:center;gap:8px;min-width:110px}
+.load-bar{flex:1;height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden}.load-bar i{display:block;height:100%}
+.badge{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.badge.ok{background:var(--teal-soft);color:var(--teal-deep)}.badge.busy{background:#fbeccb;color:#9a6a1e}.badge.over{background:#f4d3cb;color:#9a3b2c}
+.subtab{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.subtab button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--ink-soft)}
+.subtab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
+.kpi-bar{height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden;min-width:90px}.kpi-bar i{display:block;height:100%;background:var(--teal)}
+.num-strong{font-family:'Fraunces',serif;font-weight:600}
+.role-chip{font-size:11.5px;padding:3px 11px;border-radius:20px;background:var(--bg-2);font-weight:500}
+.kpi-big{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
+.kpi-big .kb{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
+.kpi-big .kb .kv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.kpi-big .kb .kl{font-size:11.5px;color:var(--ink-soft)}
+.kpi-big .kb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.kpi-big .kb.warn .kv{color:#9a5a1e}
+.kpi-big .kb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.kpi-big .kb.good .kv{color:var(--teal-deep)}
+.region-block{margin-bottom:22px}
+.region-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.region-head .rg-ic{width:30px;height:30px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.region-head h3{font-family:'Fraunces',serif;font-size:16px;margin:0}
+.region-head .rg-sum{margin-left:auto;font-size:11.5px;color:var(--ink-soft)}
+.ov-table{width:100%;border-collapse:collapse;font-size:13px}
+.ov-table th{text-align:left;font-size:11px;color:var(--ink-soft);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+.ov-table td{padding:10px;border-bottom:1px solid var(--line)}
+.ov-table tr.clickable{cursor:pointer;transition:.12s}.ov-table tr.clickable:hover td{background:var(--teal-soft)}
+.ov-cn{font-weight:600}.ov-cn small{display:block;font-weight:400;color:var(--ink-soft);font-size:11px}
+.donut-box{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.donut{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;flex:none}
+.donut-c{width:80px;height:80px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.donut-c b{font-family:'Fraunces',serif;font-size:17px;display:block}.donut-c span{font-size:10px;color:var(--ink-soft)}
+.leg-list{display:flex;flex-direction:column;gap:7px}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:12.5px}.leg-row .dot{width:11px;height:11px;border-radius:3px;flex:none}.leg-row b{margin-left:auto;font-family:'Fraunces',serif}
+@media(max-width:900px){.snap,.ops-grid,.kpi-big{grid-template-columns:repeat(2,1fr)}}
+
+.filt-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.filt-bar input,.filt-bar select{padding:8px 12px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:13px;outline:none;background:#fff}
+.filt-bar input:focus,.filt-bar select:focus{border-color:var(--teal)}
+.filt-bar input.search{flex:1;min-width:200px}
+.tl{position:relative;padding-left:26px}
+.tl::before{content:'';position:absolute;left:9px;top:4px;bottom:4px;width:2px;background:var(--line)}
+.tl-step{position:relative;padding:10px 0}
+.tl-step::before{content:'';position:absolute;left:-21px;top:14px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--teal)}
+.tl-step.done::before{background:var(--teal)}
+.tl-step.cur::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px #f3e2bd}
+.tl-step .ts-t{font-weight:600;font-size:13.5px}
+.tl-step .ts-s{font-size:11.5px;color:var(--ink-soft)}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('treatment');
+const back=`<a class="btn btn-ghost" href="treatment.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Liệu trình đang làm</a>`;
+document.getElementById('main').innerHTML = topbar('Vận hành','Danh sách phiếu dịch vụ',{who:'MA',branch:'CN Quận 1',right:back}) + `
+  <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:14px">Tra cứu mọi phiếu dịch vụ (DV) theo khách, dịch vụ, nhóm, trạng thái. Bấm mã phiếu để mở chi tiết.</div>
+  <div class="filt-bar">
+    <input class="search" id="q" placeholder="🔍 Tìm mã phiếu / tên khách / dịch vụ..." oninput="render()">
+    <select id="fg" onchange="render()"><option value="">Tất cả nhóm DV</option><option>Triệt lông</option><option>Chăm sóc da</option><option>Giảm béo</option><option>Derma & Hair</option></select>
+    <select id="fs" onchange="render()"><option value="">Tất cả trạng thái</option><option>Đang làm</option><option>Chờ</option><option>Hoàn tất</option><option>Tạm dừng</option></select>
+    <select id="ft" onchange="render()"><option value="">Mọi KTV</option><option>Hồng Trang</option><option>Thanh Mai</option><option>Ngọc Linh</option><option>Mai Linh</option></select>
+  </div>
+  <div class="panel" style="padding:6px 4px"><table class="ov-table"><thead><tr><th>Mã phiếu</th><th>Khách</th><th>Dịch vụ</th><th>Nhóm</th><th>KTV</th><th>Bắt đầu</th><th>Buổi</th><th>Trạng thái</th></tr></thead><tbody id="rows"></tbody></table>
+    <div id="empty" style="display:none;text-align:center;padding:30px;color:var(--ink-soft);font-size:13px">Không có phiếu khớp tiêu chí.</div>
+  </div>
+  <div style="font-size:11.5px;color:var(--ink-soft);margin-top:10px" id="cnt"></div>`;
+
+const DV=[
+  {id:'DV-0825', cid:'C-1042', cust:'Trần Thu Hà', vip:true, svc:'Giảm béo RF bụng · buổi 1/10', g:'Giảm béo', ktv:'Hồng Trang', t:'10:00', ses:'1/10', st:'Đang làm'},
+  {id:'DV-0826', cid:'C-1042', cust:'Trần Thu Hà', vip:true, svc:'Triệt lông Diode 2 vùng', g:'Triệt lông', ktv:'Hồng Trang', t:'11:05', ses:'3/8', st:'Chờ'},
+  {id:'DV-0830', cid:'C-1080', cust:'Lê Minh', svc:'Triệt lông Diode lưng', g:'Triệt lông', ktv:'Thanh Mai', t:'09:40', ses:'1/8', st:'Đang làm'},
+  {id:'DV-0836', cid:'C-1136', cust:'Ngô Khánh', svc:'Phục hồi tóc & uốn', g:'Derma & Hair', ktv:'Mai Linh', t:'09:15', ses:'2/4', st:'Đang làm'},
+  {id:'DV-0837', cid:'C-1136', cust:'Ngô Khánh', svc:'Gội dưỡng sinh', g:'Derma & Hair', ktv:'Mai Linh', t:'10:50', ses:'2/4', st:'Chờ'},
+  {id:'DV-0841', cid:null, cust:'Khách lẻ #A', svc:'Đắp mặt nạ chuyên sâu', g:'Chăm sóc da', ktv:'Ngọc Linh', t:'09:10', ses:'1/1', st:'Hoàn tất'},
+  {id:'DV-0848', cid:null, cust:'Khách lẻ #B', svc:'Chăm sóc da phục hồi', g:'Chăm sóc da', ktv:'Ngọc Linh', t:'08:30', ses:'4/6', st:'Hoàn tất'},
+  {id:'DV-0852', cid:null, cust:'Khách lẻ #C', svc:'Điện di vitamin C', g:'Chăm sóc da', ktv:'Thanh Mai', t:'08:15', ses:'2/5', st:'Tạm dừng'},
+  {id:'DV-0855', cid:null, cust:'Khách lẻ #D', svc:'Giảm béo RF đùi', g:'Giảm béo', ktv:'Hồng Trang', t:'11:20', ses:'5/10', st:'Chờ'},
+  {id:'DV-0860', cid:null, cust:'Khách lẻ #E', svc:'Triệt lông nách', g:'Triệt lông', ktv:'Thanh Mai', t:'07:50', ses:'8/8', st:'Hoàn tất'},
+];
+const stCls={'Đang làm':'busy','Chờ':'ok','Hoàn tất':'ok','Tạm dừng':'over'};
+function render(){
+  const q=document.getElementById('q').value.toLowerCase().trim();
+  const g=document.getElementById('fg').value, s=document.getElementById('fs').value, t=document.getElementById('ft').value;
+  const list=DV.filter(d=>{
+    if(q && !(d.id.toLowerCase().includes(q)||d.cust.toLowerCase().includes(q)||d.svc.toLowerCase().includes(q))) return false;
+    if(g && d.g!==g) return false;
+    if(s && d.st!==s) return false;
+    if(t && d.ktv!==t) return false;
+    return true;
+  });
+  document.getElementById('rows').innerHTML = list.map(d=>`<tr class="clickable" onclick="location.href='service-record.html${d.cid?'?id='+d.cid:''}'">
+    <td><b style="color:var(--teal-deep);font-family:Consolas,monospace">${d.id}</b></td>
+    <td>${d.cust} ${d.vip?'<span class="tag vip">VIP</span>':''}</td><td>${d.svc}</td><td>${d.g}</td><td>${d.ktv}</td><td>${d.t}</td><td>${d.ses}</td>
+    <td><span class="badge ${stCls[d.st]||'ok'}">${d.st}</span></td></tr>`).join('');
+  document.getElementById('empty').style.display = list.length?'none':'block';
+  document.getElementById('cnt').textContent = `Hiển thị ${list.length}/${DV.length} phiếu`;
+}
+window.render=render; render();
+</script>
+</body></html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki ClinicOS · Đơn thuốc · GPP — Tổng quan chi nhánh</title>
+<title>Hasaki ClinicOS · Chi tiết đơn liên thông</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/theme.css">
@@ -61,22 +61,27 @@
 
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
+<script src="../assets/data.js"></script>
 <script>
 renderLayout('pharmacy');
-const right=`<div class="pill-tabs"><button class="on" onclick="location.href='pharmacy.html'">Tổng quan CN</button><button onclick="location.href='pharmacy-orders.html'">Đơn liên thông</button><button onclick="location.href='pharmacy-national.html'">Cổng quốc gia</button><button onclick="location.href='pharmacy-gpp.html'">GPP liên kết</button></div>`;
-document.getElementById('main').innerHTML = topbar('Nghiệp vụ Dược sĩ','Đơn thuốc · GPP — Tổng quan chi nhánh',{who:'DS',branch:'CN Quận 1',right}) + `
-  <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:16px">Tình hình nhà thuốc tại CN Quận 1: đơn chờ liên thông, đã bán, mức liên thông cổng quốc gia, khớp xuất-nhập-tồn GPP.</div>
-<div class="snap">
-  <div class="sb warn"><div class="sl">Đơn chờ liên thông</div><div class="sv">3</div><div class="sl">chờ đối chiếu QG</div></div>
-  <div class="sb good"><div class="sl">Đơn bán hôm nay</div><div class="sv">42</div><div class="sl">đã liên thông</div></div>
-  <div class="sb"><div class="sl">Liên thông đơn QG</div><div class="sv">100%</div><div class="sl">đạt chuẩn</div></div>
-  <div class="sb"><div class="sl">Khớp xuất-nhập-tồn</div><div class="sv">96%</div><div class="sl">chuẩn GPP</div></div></div>
-  <div class="ops-grid">
-    <a class="ops-card" href="pharmacy-orders.html" style="text-decoration:none;color:inherit;cursor:pointer"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div><div class="oc-t">Danh sách đơn liên thông</div></div><div class="oc-big">3</div><div class="oc-sub">chờ đối chiếu / chưa liên thông</div><span class="oc-link" style="margin-top:10px">Mở danh sách đơn →</span></a>
-    <a class="ops-card" href="pharmacy-national.html" style="text-decoration:none;color:inherit;cursor:pointer"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="oc-t">Toa kê — cổng quốc gia</div></div><div class="oc-big">128</div><div class="oc-sub">toa đã liên kết QG tháng này</div><span class="oc-link" style="margin-top:10px">Mở cổng quốc gia →</span></a>
-    <a class="ops-card" href="pharmacy-gpp.html" style="text-decoration:none;color:inherit;cursor:pointer"><div class="oc-h"><div class="oc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM5 7v14h14V7"/></svg></div><div class="oc-t">GPP liên kết</div></div><div class="oc-big">96%</div><div class="oc-sub">khớp xuất-nhập-tồn</div><span class="oc-link" style="margin-top:10px">Mở GPP →</span></a>
-  </div>
-  <div class="alert al-info" style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Mỗi giao dịch thuốc ghi <b>audit bất biến</b>. Chỉ bán khi đơn hợp lệ trên cổng đơn thuốc quốc gia.</div></div>`;
-if(typeof wireUI==="function")wireUI();
+const right=`<div class="pill-tabs"><button onclick="location.href='pharmacy.html'">Tổng quan CN</button><button class="on" onclick="location.href='pharmacy-orders.html'">Đơn liên thông</button><button onclick="location.href='pharmacy-national.html'">Cổng quốc gia</button><button onclick="location.href='pharmacy-gpp.html'">GPP liên kết</button></div>`;
+const id=(typeof getParam==='function')?getParam('id'):null;
+const DETAIL={'QG-7741A':{cust:'Trần Thu Hà',bs:'BS. Bích Hằng',items:[['Thuốc giảm sưng (kê đơn)','2 lần/ngày · 5 ngày','×10'],['Kem bôi phục hồi','Bôi vùng điều trị','×1'],['Vitamin hỗ trợ','1 lần/ngày','×30']],total:'485.000đ'}};
+const d=(id&&DETAIL[id])?DETAIL[id]:DETAIL['QG-7741A'];
+const code=(id&&id.indexOf('QG')===0)?id:'QG-7741A';
+const itemsHtml=d.items.map(function(it){return '<div class="cart-row"><div class="ci"><b>'+it[0]+'</b><span>'+it[1]+'</span></div><div class="cp">'+it[2]+'</div></div>';}).join('');
+document.getElementById('main').innerHTML = topbar('Nghiệp vụ Dược sĩ','Chi tiết đơn liên thông · '+code,{who:'DS',branch:'CN Quận 1',right}) +
+  '<div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:16px">Chi tiết toa thuốc đã liên thông cổng quốc gia — đối chiếu trước khi xuất kho bán.</div>'
+  + '<div class="row r-2">'
+  + '<div class="panel"><div class="panel-h"><div class="panel-title">Đơn '+code+'<small>'+d.cust+' · '+d.bs+' · đã liên thông</small></div></div>'+itemsHtml
+  + '<div class="sumline total" style="margin-top:10px"><span>Tổng</span><span>'+d.total+'</span></div>'
+  + '<div style="display:flex;gap:9px;margin-top:14px"><button class="btn btn-teal" style="flex:1;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>Xác nhận hợp lệ & xuất kho bán</button></div>'
+  + '<a class="btn btn-ghost" href="pharmacy-orders.html" style="margin-top:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Về danh sách đơn</a></div>'
+  + '<div class="panel"><div class="panel-h"><div class="panel-title">Trạng thái liên thông QG<small>donthuocquocgia.vn</small></div></div>'
+  + '<div class="tl"><div class="tl-step done"><div class="ts-t">Bác sĩ kê đơn điện tử</div><div class="ts-s">đẩy lên cổng QG</div></div>'
+  + '<div class="tl-step done"><div class="ts-t">Cổng QG cấp mã đơn</div><div class="ts-s">Mã: '+code+'</div></div>'
+  + '<div class="tl-step cur"><div class="ts-t">Dược sĩ đối chiếu & bán</div><div class="ts-s">đang chờ xác nhận</div></div>'
+  + '<div class="tl-step"><div class="ts-t">Ghi audit & báo cáo GPP</div><div class="ts-s">sau khi bán</div></div></div></div>'
+  + '</div>';
 </script>
 </body></html>

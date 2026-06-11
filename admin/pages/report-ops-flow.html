@@ -114,15 +114,10 @@
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
 <script>
-renderLayout('flow-tracking');
+renderLayout('reports');
 const right=`<div class="tenant" style="background:var(--teal-soft);color:var(--teal-deep);border-color:transparent"><span style="width:8px;height:8px;border-radius:50%;background:var(--teal-deep);display:inline-block"></span> Realtime · cập nhật 30s</div>`;
-document.getElementById('main').innerHTML = topbar('Quy trình tiếp khách','Tracking flow khách trong ngày',{who:'OP',branch:'CN Quận 1',right}) + `
-  <div class="flow-tabs" id="ft">
-    <button class="on" onclick="ftab('queue')">Hàng đợi khách (realtime)</button>
-    <button onclick="ftab('inservice')">Đang làm dịch vụ</button>
-    <button onclick="ftab('timeline')">Hành trình 1 khách</button>
-    <button onclick="ftab('report')">Report quy trình</button>
-  </div>
+document.getElementById('main').innerHTML = topbar('Quản trị','Report quy trình tiếp khách',{who:'OP',branch:'CN Quận 1',right}) + `
+  <div class="flow-tabs" id="ft"><button onclick="location.href='report-ops.html'">← Report vận hành</button><button class="on">Report quy trình tiếp khách</button></div>
   <div id="fv"></div>`;
 const FV=document.getElementById('fv');
 
@@ -165,9 +160,9 @@ function renderTimeline(){
   </div>
   <div class="panel"><div class="panel-h"><div class="panel-title">Các luồng biến thể<small>Quy trình linh hoạt theo tình huống</small></div></div>
     <table><thead><tr><th>Khách</th><th>Biến thể luồng</th><th>Đang ở khâu</th><th>Thời gian</th></tr></thead><tbody>
-      <tr class="clickable" onclick="ftab('timeline')"><td>Trần Thu Hà</td><td>Tư vấn → <b>Bác sĩ</b> → Cashier(trước) → Thực hiện</td><td>Thực hiện</td><td>90p</td></tr>
-      <tr class="clickable" onclick="ftab('timeline')"><td>Ngô Khánh</td><td><b>Yêu cầu gặp bác sĩ trước</b> → Tư vấn → Cashier → Thực hiện</td><td>Tư vấn</td><td>34p</td></tr>
-      <tr class="clickable" onclick="ftab('timeline')"><td>Lê Minh</td><td>Tư vấn → Thực hiện → <b>Thu sau</b> → Đánh giá (không gặp BS)</td><td>Thực hiện</td><td>52p</td></tr>
+      <tr class="clickable" onclick="location.href='flow-timeline.html'"><td>Trần Thu Hà</td><td>Tư vấn → <b>Bác sĩ</b> → Cashier(trước) → Thực hiện</td><td>Thực hiện</td><td>90p</td></tr>
+      <tr class="clickable" onclick="location.href='flow-timeline.html'"><td>Ngô Khánh</td><td><b>Yêu cầu gặp bác sĩ trước</b> → Tư vấn → Cashier → Thực hiện</td><td>Tư vấn</td><td>34p</td></tr>
+      <tr class="clickable" onclick="location.href='flow-timeline.html'"><td>Lê Minh</td><td>Tư vấn → Thực hiện → <b>Thu sau</b> → Đánh giá (không gặp BS)</td><td>Thực hiện</td><td>52p</td></tr>
       <tr class="clickable"><td>Đỗ Lan</td><td>Tư vấn → Bác sĩ <b>(đang chờ 18p)</b></td><td>Bác sĩ · nghẽn</td><td>46p</td></tr>
     </tbody></table>
   </div>`;
@@ -349,14 +344,13 @@ function renderQueue(){
     <div class="queue-board">${QLINES.map(l=>`
       <div class="qline"><div class="qline-h"><div class="qh-ic ${l.ic}" style="background:var(--teal-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px">${l.sv}</svg></div><b>${l.lbl}</b><span class="qh-cnt" style="color:${l.tickets.some(t=>t.w==='late')?'var(--rose)':'var(--teal-deep)'}">${l.tickets.length}</span></div>
         <div class="qline-sub">${l.sub}</div>
-        ${l.tickets.length?l.tickets.map(t=>`<div class="qticket ${t.w==='late'?'urgent':''}" onclick="ftab('timeline')">${t.w==='late'?'<span class="wait-flag">!</span>':''}
+        ${l.tickets.length?l.tickets.map(t=>`<div class="qticket ${t.w==='late'?'urgent':''}" onclick="location.href='flow-timeline.html'">${t.w==='late'?'<span class="wait-flag">!</span>':''}
           <div class="qt-row"><span class="qt-num ${t.src}">${t.num}</span><div style="flex:1;min-width:0"><b>${t.name}</b><div class="qt-meta">${t.meta}</div></div></div>
           <div style="display:flex;align-items:center;margin-top:6px"><span class="qt-wait w-${t.w}">⏱ ${t.wait} phút</span></div></div>`).join(''):'<div class="qline-empty">Không có khách chờ</div>'}
       </div>`).join('')}</div>
   </div>
   <div class="alert al-rose" style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>${late} khách chờ quá lâu (&gt;15 phút):</b> line "Đợi bác sĩ" có 2 khách (Ngô Khánh 18p, Đỗ Lan 22p) — ưu tiên gọi ngay để tránh bỏ sót.</div></div>`;
 }
-
-ftab('queue');
+renderReport();
 </script>
 </body></html>

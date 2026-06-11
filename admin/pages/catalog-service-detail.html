@@ -50,6 +50,7 @@ document.getElementById('main').innerHTML = topbar('Danh mục › Chi tiết d�
     <button class="on" onclick="dtab('info')" style="border:1px solid var(--line);background:var(--ink);color:#fff;font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Hướng dẫn & chống chỉ định</button>
     <button onclick="dtab('steps')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Quy trình các bước</button>
     <button onclick="dtab('machine')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Máy & định mức NVL</button>
+    <button onclick="dtab('config')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Tổng quan & bảo hành</button>
   </div>
   <div id="dv"></div>`;
 
@@ -108,6 +109,26 @@ machine:`<div class="row r-2e">
       <div class="cart-row"><div class="ci"><b>Mặt nạ làm dịu</b><span>Bước 4</span></div><div class="cp">1 cái</div></div>
       <div class="sumline total"><span>Chi phí NVL ước tính</span><span>~185.000đ</span></div>
       <div class="alert al-info" style="margin-top:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Chênh lệch thực tế vs định mức được ghi nhận ở "Chi tiết thực hiện" & cảnh báo ở báo cáo NVL.</div></div>
+    </div>
+  </div>`,
+config:`<div class="row r-2e">
+    <div class="panel"><div class="panel-h"><div class="panel-title">Tổng quan cấu hình SKU<small>step · skill · máy móc liên quan</small></div></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Số bước quy trình</span><b>4 bước · 55 phút</b></div>
+        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Skill yêu cầu</span><span><span class="role-chip">RF · Senior</span> <span class="role-chip">Skincare</span></span></div>
+        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Máy móc</span><span><a href="catalog-machine.html" style="color:var(--teal-deep)">Máy RF · EQ-RF-02</a></span></div>
+        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Định mức NVL/buổi</span><b>~185.000đ</b></div>
+        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0"><span>Liên kết bước chi tiết</span><a href="catalog-step.html" style="color:var(--teal-deep)">Xem các bước →</a></div>
+      </div>
+      <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Cái nhìn tổng quát SKU: gom step (quy trình), skill (tay nghề KTV), máy móc liên quan — dùng để chuẩn hóa & tính chi phí.</div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Cấu hình bảo hành<small>theo group + override SKU lẻ</small></div></div>
+      <table><thead><tr><th>Cấp</th><th>Thời hạn BH</th><th>Áp dụng</th></tr></thead><tbody>
+        <tr><td><span class="role-chip">Group: Giảm béo & body</span></td><td><span class="badge ok">3 tháng</span></td><td>mặc định nhóm</td></tr>
+        <tr style="background:#fdf6f0"><td><b>SKU này (Giảm béo RF bụng)</b></td><td><span class="badge ok">3 tháng</span></td><td>theo group (không override)</td></tr>
+      </tbody></table>
+      <div style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Điều kiện làm lại miễn phí: <b>không giảm theo cam kết khi tuân thủ chế độ</b>, có ảnh before/after.</div>
+      <div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-teal" style="padding:7px 14px;font-size:12.5px">Sửa cấu hình BH</button><a class="btn btn-ghost" href="warranty.html" style="padding:7px 14px;font-size:12.5px">Mở trang bảo hành</a></div>
     </div>
   </div>`,
 };

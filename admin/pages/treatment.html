@@ -37,7 +37,7 @@
 <script src="../assets/app.js"></script>
 <script>
 renderLayout('treatment');
-const right=`<a class="btn btn-ghost" href="flow-tracking.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>H\u00e0nh tr\u00ecnh kh\u00e1ch (booking)</a>`;
+const right=`<div class="pill-tabs"><a class="btn btn-ghost" href="treatment-list.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg> Danh sách phiếu DV</a><a class="btn btn-ghost" href="flow-queue.html" style="padding:7px 13px;font-size:12.5px;text-decoration:none"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg> Hành trình khách</a></div>`;
 document.getElementById('main').innerHTML = topbar('V\u1eadn h\u00e0nh','Phi\u1ebfu d\u1ecbch v\u1ee5 ph\u00e1t sinh trong ng\u00e0y',{who:'OP',branch:'CN Qu\u1eadn 1',right}) + `
   <div class="kpi-grid">
     <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">8</div><div class="kpi-lbl">Kh\u00e1ch \u0111ang l\u00e0m DV</div></div>

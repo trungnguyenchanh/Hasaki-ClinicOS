@@ -41,7 +41,7 @@ const NAV = [
   ]},
   { group: "Quy trình tiếp khách", items: [
     { id:"reception", label:"Tiếp nhận khách", href:"reception.html", icon:'<path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9v0M9 13v0M9 17v0"/>' },
-    { id:"flow-tracking", label:"Tracking flow trong ngày", href:"flow-tracking.html", badge:"12", icon:'<path d="M3 12h4l3-8 4 16 3-8h4"/>' },
+    { id:"flow-tracking", label:"Tracking flow trong ngày", href:"flow-queue.html", badge:"12", icon:'<path d="M3 12h4l3-8 4 16 3-8h4"/>' },
   ]},
   { group: "Danh mục (Catalog)", items: [
     { id:"protocol-catalog", label:"Danh mục phác đồ", href:"protocol-catalog.html", icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
@@ -110,8 +110,10 @@ function drawBars(el, data, max){
 
 // generic interactions
 function wireUI(){
-  document.querySelectorAll('.pill-tabs').forEach(g=>g.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    g.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');}));
+  document.querySelectorAll('.pill-tabs').forEach(g=>g.querySelectorAll('button').forEach(b=>{
+    if(b.getAttribute('onclick')) return; // nút điều hướng (location.href) — không ghi đè
+    b.onclick=()=>{ g.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on'); };
+  }));
   document.querySelectorAll('[data-pay]').forEach(o=>o.onclick=()=>{
     document.querySelectorAll('[data-pay]').forEach(x=>x.classList.remove('sel'));o.classList.add('sel');});
 }
