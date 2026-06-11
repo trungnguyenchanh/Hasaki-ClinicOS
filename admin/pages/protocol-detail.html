@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki ClinicOS · Chi tiết phác đồ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.snap{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
+.snap .sb{border:1px solid var(--line);border-radius:14px;padding:15px 17px;background:#fff}
+.snap .sb .sv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.snap .sb .sl{font-size:11.5px;color:var(--ink-soft)}
+.snap .sb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.snap .sb.warn .sv{color:#9a5a1e}
+.snap .sb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.snap .sb.good .sv{color:var(--teal-deep)}
+.ops-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ops-card{border:1px solid var(--line);border-radius:15px;padding:16px;background:#fff}
+.ops-card .oc-h{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.ops-card .oc-ic{width:32px;height:32px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.ops-card .oc-ic svg{width:17px;height:17px}
+.ops-card .oc-t{font-weight:600;font-size:14px}
+.ops-card .oc-big{font-family:'Fraunces',serif;font-size:32px;line-height:1;margin:2px 0}
+.ops-card .oc-sub{font-size:11.5px;color:var(--ink-soft)}
+.ops-card .oc-rows{margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
+.ops-card .ocr{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0}
+.ops-card .ocr b{font-family:'Fraunces',serif}
+.ops-card .oc-link{margin-top:11px;font-size:12px;font-weight:600;color:var(--teal-deep);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.ops-card.warn{border-color:#f0c9a8;background:linear-gradient(140deg,#fff,#fdeee3)}
+.load-cell{display:flex;align-items:center;gap:8px;min-width:110px}
+.load-bar{flex:1;height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden}.load-bar i{display:block;height:100%}
+.badge{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.badge.ok{background:var(--teal-soft);color:var(--teal-deep)}.badge.busy{background:#fbeccb;color:#9a6a1e}.badge.over{background:#f4d3cb;color:#9a3b2c}
+.subtab{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.subtab button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--ink-soft)}
+.subtab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
+.kpi-bar{height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden;min-width:90px}.kpi-bar i{display:block;height:100%;background:var(--teal)}
+.num-strong{font-family:'Fraunces',serif;font-weight:600}
+.role-chip{font-size:11.5px;padding:3px 11px;border-radius:20px;background:var(--bg-2);font-weight:500}
+.kpi-big{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
+.kpi-big .kb{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
+.kpi-big .kb .kv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.kpi-big .kb .kl{font-size:11.5px;color:var(--ink-soft)}
+.kpi-big .kb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.kpi-big .kb.warn .kv{color:#9a5a1e}
+.kpi-big .kb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.kpi-big .kb.good .kv{color:var(--teal-deep)}
+.region-block{margin-bottom:22px}
+.region-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.region-head .rg-ic{width:30px;height:30px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.region-head h3{font-family:'Fraunces',serif;font-size:16px;margin:0}
+.region-head .rg-sum{margin-left:auto;font-size:11.5px;color:var(--ink-soft)}
+.ov-table{width:100%;border-collapse:collapse;font-size:13px}
+.ov-table th{text-align:left;font-size:11px;color:var(--ink-soft);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+.ov-table td{padding:10px;border-bottom:1px solid var(--line)}
+.ov-table tr.clickable{cursor:pointer;transition:.12s}.ov-table tr.clickable:hover td{background:var(--teal-soft)}
+.ov-cn{font-weight:600}.ov-cn small{display:block;font-weight:400;color:var(--ink-soft);font-size:11px}
+.donut-box{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.donut{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;flex:none}
+.donut-c{width:80px;height:80px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.donut-c b{font-family:'Fraunces',serif;font-size:17px;display:block}.donut-c span{font-size:10px;color:var(--ink-soft)}
+.leg-list{display:flex;flex-direction:column;gap:7px}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:12.5px}.leg-row .dot{width:11px;height:11px;border-radius:3px;flex:none}.leg-row b{margin-left:auto;font-family:'Fraunces',serif}
+@media(max-width:900px){.snap,.ops-grid,.kpi-big{grid-template-columns:repeat(2,1fr)}}
+
+.phase{display:flex;gap:14px;margin-bottom:4px}
+.phase-col{display:flex;flex-direction:column;align-items:center;width:30px;flex:none}
+.phase-col .pn{width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px;font-family:'Fraunces',serif}
+.phase-col .pl{flex:1;width:2px;background:var(--line);margin:4px 0}
+.phase-body{flex:1;padding-bottom:18px}
+.phase-body>b{font-size:14px}
+.phase-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.opt-box{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin-top:9px;background:var(--bg-2)}
+.opt-box .ob-h{font-size:11.5px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.opt-row{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:3px 0}
+.opt-row input{accent-color:var(--teal)}
+.opt-row .od{color:var(--ink-soft);margin-left:auto;font-size:11.5px}
+.hist-row{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.hist-row:last-child{border:none}
+.hist-row .hd{font-family:Consolas,monospace;font-size:11.5px;color:var(--ink-soft);white-space:nowrap}
+.st-pill{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px}
+.st-pill.draft{background:var(--bg-2);color:var(--ink-soft)}.st-pill.wait{background:#fbeccb;color:#9a6a1e}.st-pill.live{background:var(--teal-soft);color:var(--teal-deep)}
+.filt-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filt-bar input,.filt-bar select{padding:8px 12px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:13px;outline:none;background:#fff}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('protocol-catalog');
+
+const PROTOCOLS={
+  'PR-01':{ nm:'Trị nám chuyên sâu', g:'Chăm sóc da', dur:'12 tuần', ph:4, kh:28, adh:88, st:'live', ver:'v2.1',
+    phases:[
+      {n:1, t:'Khám & đánh giá', time:'Tuần 0', who:'Bác sĩ', buoi:'1 buổi',
+        svc:[['Khám da liễu + soi da AI','Bắt buộc','1 lần']], drug:[],
+        opts:{label:'Chọn gói xét nghiệm (trong phạm vi)', items:[['Soi da cơ bản','mặc định',true],['Soi da chuyên sâu + sắc tố','tùy chọn',false]]}},
+      {n:2, t:'Điều trị tích cực', time:'Tuần 1–8', who:'KTV Laser', buoi:'4 buổi',
+        svc:[['Laser trị nám Q-switch','Cách 2 tuần','4 buổi']], drug:[['Kem ức chế sắc tố','Bôi tối · 2 lần/ngày','8 tuần'],['Viên uống chống nắng','1 viên/ngày','8 tuần']],
+        opts:{label:'Chọn cường độ laser (BS chỉ định trong ngưỡng)', items:[['Mức nhẹ (da nhạy cảm)','tùy da',false],['Mức tiêu chuẩn','mặc định',true],['Mức mạnh (nám đậm)','tối đa cho phép',false]]}},
+      {n:3, t:'Tái khám & điều chỉnh', time:'Tuần 9', who:'Bác sĩ', buoi:'1 buổi',
+        svc:[['Tái khám + soi da so sánh','Bắt buộc','1 lần']], drug:[],
+        opts:{label:'Hướng điều chỉnh', items:[['Giữ phác đồ','nếu đạt',true],['Tăng cường 2 buổi laser','nếu chậm',false]]}},
+      {n:4, t:'Duy trì', time:'Tuần 10–12', who:'ĐD/KTV', buoi:'2 buổi',
+        svc:[['Chăm sóc da phục hồi','Định kỳ','2 buổi']], drug:[['Serum dưỡng sáng','Duy trì','4 tuần']],
+        opts:{label:'Tần suất duy trì', items:[['2 tuần/lần','mặc định',true],['1 tuần/lần','da yếu',false]]}},
+    ],
+    followers:[
+      {nm:'Trần Thu Hà', cid:'C-1042', start:'02/04', prog:'GĐ 2 · buổi 3/4', adh:'Tốt', flag:'ok'},
+      {nm:'Khách lẻ #A', cid:null, start:'10/04', prog:'GĐ 2 · buổi 2/4', adh:'Tốt', flag:'ok'},
+      {nm:'Khách lẻ #B', cid:null, start:'28/03', prog:'GĐ 3 · tái khám', adh:'Tốt', flag:'ok'},
+    ],
+    deviations:[
+      {nm:'Ngô Khánh', cid:'C-1136', issue:'Bỏ 2 buổi laser liên tiếp', change:'BS giãn lịch +2 tuần', adh:'Kém'},
+      {nm:'Khách lẻ #C', cid:null, issue:'Tự ý ngưng kem bôi', change:'Tư vấn lại, nhắc tuân thủ', adh:'Trung bình'},
+    ],
+    history:[
+      {d:'15/03/2026', who:'BS. Bích Hằng', act:'Tạo bản v2.1 — điều chỉnh ngưỡng laser', by:'BS trưởng Minh Quân duyệt'},
+      {d:'02/01/2026', who:'BS. Bích Hằng', act:'Bản v2.0 — thêm giai đoạn duy trì', by:'BS trưởng Minh Quân duyệt'},
+      {d:'10/08/2025', who:'BS. Thu Hà', act:'Bản v1.0 — phác đồ gốc', by:'Hội đồng chuyên môn duyệt'},
+    ],
+    eff:{done:21, rate:'82%', note:'Cải thiện sắc tố rõ rệt sau 8 tuần ở 82% khách hoàn tất. Nhóm tuân thủ kém hiệu quả giảm ~30%.'} },
+};
+const id=(typeof getParam==='function')?getParam('id'):null;
+const P=(id&&PROTOCOLS[id])?PROTOCOLS[id]:PROTOCOLS['PR-01'];
+const pid=(id&&PROTOCOLS[id])?id:'PR-01';
+
+const back=`<a class="btn btn-ghost" href="protocol-catalog.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Danh mục phác đồ</a>`;
+document.getElementById('main').innerHTML = topbar('Phác đồ điều trị',`${P.nm} · ${pid}`,{who:'AD',branch:'Tất cả CN',right:back}) + `
+  <div class="snap">
+    <div class="sb"><div class="sl">Nhóm · thời lượng</div><div class="sv" style="font-size:18px">${P.g}</div><div class="sl">${P.dur} · ${P.ph} giai đoạn</div></div>
+    <div class="sb"><div class="sl">KH đang theo</div><div class="sv">${P.kh}</div><div class="sl">phiên bản ${P.ver}</div></div>
+    <div class="sb good"><div class="sl">Tỉ lệ tuân thủ</div><div class="sv">${P.adh}%</div><div class="sl">trung bình</div></div>
+    <div class="sb"><div class="sl">Hiệu quả cuối</div><div class="sv">${P.eff.rate}</div><div class="sl">${P.eff.done} ca hoàn tất</div></div>
+  </div>
+  <div class="subtab" id="st">
+    <button class="on" onclick="tab('phases')">Phối hợp DV, thuốc & hiệu quả</button>
+    <button onclick="tab('customers')">Khách theo phác đồ (${P.followers.length+P.deviations.length})</button>
+    <button onclick="tab('hist')">Lịch sử chỉnh sửa</button>
+  </div>
+  <div id="pv"></div>`;
+const PV=document.getElementById('pv');
+const VIEWS={
+phases:`<div class="panel" style="margin-bottom:16px"><div class="panel-h"><div class="panel-title">Đánh giá hiệu quả cuối cùng<small>kết quả thực tế của phác đồ · so sánh theo nhóm tuân thủ</small></div></div>
+  <div class="snap" style="grid-template-columns:repeat(2,1fr);margin:0 0 16px"><div class="sb good"><div class="sl">Tỉ lệ đạt kết quả</div><div class="sv">${P.eff.rate}</div><div class="sl">${P.eff.done} ca hoàn tất</div></div><div class="sb"><div class="sl">KH đang theo</div><div class="sv">${P.kh}</div><div class="sl">chưa hoàn tất</div></div></div>
+  <div style="font-size:13px;color:var(--ink-soft);margin-bottom:14px;line-height:1.6">${P.eff.note}</div>
+  <table><thead><tr><th>Nhóm tuân thủ</th><th>Số KH</th><th>Đạt kết quả</th></tr></thead><tbody>
+    <tr><td>Tuân thủ tốt</td><td>21</td><td><span class="badge ok">91%</span></td></tr>
+    <tr><td>Tuân thủ TB</td><td>5</td><td><span class="badge busy">62%</span></td></tr>
+    <tr><td>Tuân thủ kém</td><td>2</td><td><span class="badge over">~30%</span></td></tr>
+  </tbody></table></div>
+  <div class="panel"><div class="panel-h"><div class="panel-title">Chi tiết các giai đoạn<small>phối hợp dịch vụ + thuốc · thời gian · liều lượng · mỗi bước có option trong phạm vi quy định</small></div></div>
+  ${P.phases.map((ph,i)=>`<div class="phase">
+    <div class="phase-col"><div class="pn">${ph.n}</div>${i<P.phases.length-1?'<div class="pl"></div>':''}</div>
+    <div class="phase-body"><b>${ph.t}</b> <span style="font-size:12px;color:var(--ink-soft)">· ${ph.time}</span>
+      <div class="phase-tags"><span class="role-chip">${ph.who}</span><span class="tag new">${ph.buoi}</span></div>
+      ${ph.svc.length?`<div style="margin-top:9px;font-size:12.5px"><b style="font-size:11.5px;color:var(--ink-soft)">DỊCH VỤ:</b> ${ph.svc.map(s=>`${s[0]} <span style="color:var(--ink-soft)">(${s[1]} · ${s[2]})</span>`).join(' · ')}</div>`:''}
+      ${ph.drug.length?`<div style="margin-top:6px;font-size:12.5px"><b style="font-size:11.5px;color:var(--ink-soft)">THUỐC/SP:</b> ${ph.drug.map(d=>`${d[0]} <span style="color:var(--ink-soft)">(${d[1]} · ${d[2]})</span>`).join(' · ')}</div>`:''}
+      <div class="opt-box"><div class="ob-h">⚙ ${ph.opts.label}</div>${ph.opts.items.map((o,oi)=>`<label class="opt-row"><input type="radio" name="opt${i}" ${o[2]?'checked':''}> ${o[0]} <span class="od">${o[1]}</span></label>`).join('')}</div>
+    </div></div>`).join('')}
+  <div class="alert al-info" style="margin-top:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Mỗi bước cho phép <b>lựa chọn option</b> (cường độ, tần suất, gói…) nhưng <b>luôn nằm trong phạm vi bác sĩ đã quy định</b> cho phác đồ. Tùy chọn ngoài ngưỡng phải tạo bản chỉnh sửa & duyệt lại.</div></div></div>`,
+
+customers:`<div class="filt-bar"><input id="cq" placeholder="🔍 Tìm khách theo phác đồ..." style="flex:1;min-width:200px" oninput="renderCust()"><select id="cf" onchange="renderCust()"><option value="">Tất cả</option><option value="ok">Tuân thủ tốt</option><option value="bad">Không tuân thủ / có thay đổi</option></select></div>
+  <div class="panel" style="padding:6px 4px"><div class="panel-h" style="padding:12px 14px 4px"><div class="panel-title">Khách theo phác đồ<small id="csub">tất cả khách · tuân thủ tốt & cần theo dõi</small></div></div>
+  <table class="ov-table"><thead><tr><th>Khách</th><th>Bắt đầu / Tiến độ</th><th>Tình trạng tuân thủ</th><th>Thay đổi / xử lý</th><th>Mức</th><th></th></tr></thead><tbody id="crows"></tbody></table>
+  <div id="cempty" style="display:none;text-align:center;padding:24px;color:var(--ink-soft);font-size:13px">Không có khách khớp.</div>
+  <div class="alert al-warn" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div>Khách không tuân thủ làm sai lệch kết quả phác đồ. Mọi thay đổi cá nhân hóa được ghi nhận để đánh giá hiệu quả công bằng.</div></div></div>`,
+
+hist:`<div class="panel"><div class="panel-h"><div class="panel-title">Lịch sử chỉnh sửa phác đồ<small>ngày chỉnh · nội dung · người phê duyệt</small></div></div>
+  ${P.history.map(h=>`<div class="hist-row"><span class="hd">${h.d}</span><div style="flex:1"><b>${h.act}</b><span style="display:block;font-size:11.5px;color:var(--ink-soft)">Người chỉnh: ${h.who} · <span style="color:var(--teal-deep)">${h.by}</span></span></div></div>`).join('')}
+  <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Mọi thay đổi phác đồ ghi audit bất biến: ai chỉnh, khi nào, ai phê duyệt. Bản mới chỉ áp dụng sau khi được duyệt.</div></div></div>`,
+};
+function tab(k){document.querySelectorAll('#st button').forEach(b=>b.classList.remove('on'));const i={phases:0,customers:1,hist:2}[k];document.querySelectorAll('#st button')[i].classList.add('on');PV.innerHTML=VIEWS[k];if(k==='customers')renderCust();}
+// gộp KH đang theo + không tuân thủ thành 1 danh sách có search/filter
+const ALLCUST=[
+  ...P.followers.map(f=>({nm:f.nm,cid:f.cid,info:f.start+' · '+f.prog,issue:'—',change:'—',adh:f.adh,bad:false})),
+  ...P.deviations.map(d=>({nm:d.nm,cid:d.cid,info:'theo dõi',issue:d.issue,change:d.change,adh:d.adh,bad:true})),
+];
+function renderCust(){
+  const q=(document.getElementById('cq')?.value||'').toLowerCase().trim();
+  const f=document.getElementById('cf')?.value||'';
+  const list=ALLCUST.filter(c=>{
+    if(q && !c.nm.toLowerCase().includes(q)) return false;
+    if(f==='ok' && c.bad) return false;
+    if(f==='bad' && !c.bad) return false;
+    return true;
+  });
+  const rows=document.getElementById('crows');
+  rows.innerHTML=list.map(c=>`<tr class="clickable" onclick="location.href='customer-detail.html${c.cid?'?id='+c.cid:''}'" ${c.bad?'style="background:#fdf6f0"':''}>
+    <td><b>${c.nm}</b></td><td>${c.info}</td><td>${c.bad?c.issue:'<span style="color:var(--teal-deep)">Tuân thủ tốt</span>'}</td><td>${c.change}</td>
+    <td><span class="badge ${c.bad?(c.adh==='Kém'?'over':'busy'):'ok'}">${c.adh}</span></td><td><span style="color:var(--teal-deep);font-size:12px">Xem hồ sơ →</span></td></tr>`).join('');
+  document.getElementById('cempty').style.display=list.length?'none':'block';
+  document.getElementById('csub').textContent=`${list.length} khách`+(f==='ok'?' · tuân thủ tốt':(f==='bad'?' · cần theo dõi':' · tất cả'));
+}
+window.tab=tab; window.renderCust=renderCust; tab('phases');
+</script>
+</body></html>

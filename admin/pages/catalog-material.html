@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki ClinicOS · Kỹ năng (Skill)</title>
+<title>Hasaki ClinicOS · Định biên nguyên vật liệu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/theme.css">
@@ -60,13 +60,6 @@
 
 .filt-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .filt-bar input,.filt-bar select{padding:8px 12px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:13px;outline:none;background:#fff}
-.mp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.mp{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:#fff}
-.mp b{display:block;font-family:'Fraunces',serif;font-size:16px}.mp span{font-size:11px;color:var(--ink-soft)}
-.cart-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}.cart-row:last-child{border:none}
-.cart-row .ci b{font-weight:600}.cart-row .ci span{display:block;font-size:11px;color:var(--ink-soft)}.cart-row .cp{font-family:'Fraunces',serif;font-weight:600}
-.dots b{font-family:'Fraunces',serif}
-.lvl-dots{letter-spacing:2px;font-size:13px}
 .link-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
 .link-card{border:1px solid var(--line);border-radius:13px;padding:13px;text-decoration:none;color:inherit;background:#fff;transition:.15s;text-align:center}
 .link-card:hover{border-color:var(--teal);box-shadow:var(--shadow);transform:translateY(-2px)}
@@ -75,56 +68,59 @@
 .link-card b{font-size:12.5px;display:block}.link-card span{font-size:10.5px;color:var(--ink-soft)}
 .link-card.on{border-color:var(--teal);background:var(--teal-soft)}
 .rel-chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:20px;background:var(--bg-2);text-decoration:none;color:var(--ink);margin:3px 4px 3px 0}
-.rel-chip:hover{background:var(--teal-soft);color:var(--teal-deep)}
-.rel-chip svg{width:12px;height:12px}
+.rel-chip:hover{background:var(--teal-soft);color:var(--teal-deep)}.rel-chip svg{width:12px;height:12px}
 @media(max-width:900px){.link-grid{grid-template-columns:repeat(2,1fr)}}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
 <script>
-renderLayout('catalog-skill');
-const right=`<button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Thêm kỹ năng</button>`;
+renderLayout('catalog-material');
+const right=`<button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Khai báo NVL</button>`;
 const LINKNAV=`<div class="link-grid">
   <a class="link-card" href="catalog-service.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><b>Dịch vụ</b><span>SKU dịch vụ</span></a>
   <a class="link-card" href="catalog-step.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><b>Bước</b><span>quy trình</span></a>
-  <a class="link-card on" href="catalog-skill.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><b>Kỹ năng</b><span>skill matrix</span></a>
+  <a class="link-card" href="catalog-skill.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><b>Kỹ năng</b><span>skill matrix</span></a>
   <a class="link-card" href="catalog-machine.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="3"/></svg></div><b>Máy móc</b><span>thiết bị</span></a>
-  <a class="link-card" href="catalog-material.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v4l4 9a3 3 0 0 1-3 4H8a3 3 0 0 1-3-4l4-9z"/></svg></div><b>Nguyên vật liệu</b><span>định biên</span></a>
+  <a class="link-card on" href="catalog-material.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v4l4 9a3 3 0 0 1-3 4H8a3 3 0 0 1-3-4l4-9z"/></svg></div><b>Nguyên vật liệu</b><span>định biên</span></a>
 </div>`;
-document.getElementById('main').innerHTML = topbar('Danh mục','Kỹ năng (Skill matrix)',{who:'AD',branch:'Tất cả CN',right}) + `
+document.getElementById('main').innerHTML = topbar('Danh mục','Định biên nguyên vật liệu (NVL)',{who:'AD',branch:'Tất cả CN',right}) + `
   ${LINKNAV}
+  <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:16px">Định mức NVL <b>khai báo theo từng bước</b> của dịch vụ (BOM chuẩn) — dùng để tự xuất kho & đối soát hao hụt. Đây là <b>cấu hình định biên</b>, khác với kho vận hành (tồn thực tế).</div>
   <div class="snap">
-    <div class="sb"><div class="sl">Tổng số kỹ năng</div><div class="sv">9</div><div class="sl">nhóm skill</div></div>
-    <div class="sb"><div class="sl">Nhân sự được cấp</div><div class="sv">31</div><div class="sl">toàn chuỗi</div></div>
-    <div class="sb good"><div class="sl">Đạt Expert</div><div class="sv">8</div><div class="sl">cấp cao nhất</div></div>
-    <div class="sb warn"><div class="sl">Đang học việc</div><div class="sv">5</div><div class="sl">chưa đủ cấp</div></div>
+    <div class="sb"><div class="sl">NVL được khai báo</div><div class="sv">28</div><div class="sl">trong các bước</div></div>
+    <div class="sb"><div class="sl">Bước có NVL</div><div class="sv">18</div><div class="sl">/ 24 bước</div></div>
+    <div class="sb"><div class="sl">Dịch vụ áp dụng</div><div class="sv">12</div><div class="sl">SKU dịch vụ</div></div>
+    <div class="sb good"><div class="sl">Chi phí NVL TB/buổi</div><div class="sv">165k</div><div class="sl">trung bình</div></div>
   </div>
   <div class="filt-bar">
-    <input id="q" placeholder="🔍 Tìm kỹ năng..." style="flex:1;min-width:200px" oninput="render()">
-    <select id="fc" onchange="render()"><option value="">Mọi nhóm</option><option>Thiết bị</option><option>Chăm sóc</option><option>Tóc</option></select>
+    <input id="q" placeholder="🔍 Tìm NVL / bước..." style="flex:1;min-width:200px" oninput="render()">
+    <select id="fs" onchange="render()"><option value="">Mọi dịch vụ</option><option>Giảm béo RF bụng</option><option>Triệt lông Diode</option><option>Chăm sóc da phục hồi</option></select>
   </div>
-  <div class="panel" style="padding:6px 4px"><div class="panel-h" style="padding:12px 14px 4px"><div class="panel-title">Danh mục kỹ năng<small>cấp độ: Junior ●○○ · Senior ●●○ · Expert ●●● — đầu vào điều phối tự động</small></div></div>
-    <table class="ov-table"><thead><tr><th>Kỹ năng</th><th>Nhóm</th><th>NV được cấp</th><th>Cấp cao nhất</th><th>Bước/DV liên quan</th></tr></thead><tbody id="rows"></tbody></table>
-    <div id="empty" style="display:none;text-align:center;padding:24px;color:var(--ink-soft);font-size:13px">Không có kỹ năng khớp.</div>
-  </div>`;
+  <div class="panel" style="padding:6px 4px"><div class="panel-h" style="padding:12px 14px 4px"><div class="panel-title">Định biên NVL theo bước<small>BOM chuẩn · mỗi dòng = 1 NVL khai báo trong 1 bước</small></div></div>
+    <table class="ov-table"><thead><tr><th>NVL</th><th>Bước (step)</th><th>Dịch vụ</th><th>Định mức/buổi</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead><tbody id="rows"></tbody></table>
+    <div id="empty" style="display:none;text-align:center;padding:24px;color:var(--ink-soft);font-size:13px">Không có NVL khớp.</div>
+  </div>
+  <div class="alert al-info" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Định biên này là <b>chuẩn BOM</b> dùng để tự xuất kho. Tồn kho thực tế & hao hụt theo dõi ở <a href="inventory-materials.html" style="color:var(--teal-deep)">Kho nguyên vật liệu</a> (nghiệp vụ vận hành).</div></div>`;
 
-const SKILLS=[
-  {id:'SK-RF', nm:'RF (Radio Frequency)', g:'Thiết bị', gk:'Thiết bị', staff:6, lv:'Expert', rel:'4 bước · 3 DV'},
-  {id:'SK-LASER', nm:'Laser triệt lông', g:'Thiết bị', gk:'Thiết bị', staff:5, lv:'Expert', rel:'2 bước · 2 DV'},
-  {id:'SK-HIFU', nm:'HIFU nâng cơ', g:'Thiết bị', gk:'Thiết bị', staff:3, lv:'Expert', rel:'1 bước · 1 DV'},
-  {id:'SK-SKIN', nm:'Chăm sóc da (Skincare)', g:'Chăm sóc', gk:'Chăm sóc', staff:9, lv:'Senior', rel:'8 bước · 6 DV'},
-  {id:'SK-DERMA', nm:'Da liễu (lăn kim, peel)', g:'Chăm sóc', gk:'Chăm sóc', staff:4, lv:'Senior', rel:'3 bước · 2 DV'},
-  {id:'SK-HAIR', nm:'Tạo kiểu & phục hồi tóc', g:'Tóc', gk:'Tóc', staff:3, lv:'Senior', rel:'3 bước · 2 DV'},
-  {id:'SK-MASSAGE', nm:'Massage trị liệu', g:'Chăm sóc', gk:'Chăm sóc', staff:5, lv:'Senior', rel:'2 bước · 2 DV'},
+const MAT=[
+  {nvl:'Gel làm sạch', step:'Làm sạch & chuẩn bị da', stepId:'ST-02', svc:'Giảm béo RF bụng', qty:'20 ml', price:'2.000đ/ml', total:'40.000đ'},
+  {nvl:'Gel dẫn RF', step:'Trị liệu RF vùng bụng', stepId:'ST-03', svc:'Giảm béo RF bụng', qty:'45 ml', price:'1.800đ/ml', total:'81.000đ'},
+  {nvl:'Tinh chất tan mỡ', step:'Trị liệu RF vùng bụng', stepId:'ST-03', svc:'Giảm béo RF bụng', qty:'1 ống', price:'45.000đ/ống', total:'45.000đ'},
+  {nvl:'Mặt nạ làm dịu', step:'Làm dịu & kết thúc', stepId:'ST-04', svc:'Giảm béo RF bụng', qty:'1 cái', price:'18.000đ/cái', total:'18.000đ'},
+  {nvl:'Gel lạnh triệt lông', step:'Bắn laser triệt lông', stepId:'ST-05', svc:'Triệt lông Diode', qty:'30 ml', price:'1.500đ/ml', total:'45.000đ'},
+  {nvl:'Bông + cồn y tế', step:'Vệ sinh & sát khuẩn', stepId:'ST-01', svc:'Triệt lông Diode', qty:'1 set', price:'5.000đ/set', total:'5.000đ'},
+  {nvl:'Tinh chất phục hồi', step:'Đắp tinh chất', stepId:'ST-07', svc:'Chăm sóc da phục hồi', qty:'30 ml', price:'4.000đ/ml', total:'120.000đ'},
+  {nvl:'Kem massage', step:'Massage dẫn', stepId:'ST-07', svc:'Chăm sóc da phục hồi', qty:'15 ml', price:'2.500đ/ml', total:'37.500đ'},
+  {nvl:'Serum vitamin C', step:'Điện di tinh chất', stepId:'ST-07', svc:'Chăm sóc da phục hồi', qty:'30 ml', price:'5.000đ/ml', total:'150.000đ'},
+  {nvl:'Gel siêu âm', step:'Nâng cơ HIFU', stepId:'ST-06', svc:'Nâng cơ HIFU mặt', qty:'40 ml', price:'2.000đ/ml', total:'80.000đ'},
 ];
 function render(){
-  const q=document.getElementById('q').value.toLowerCase().trim();
-  const c=document.getElementById('fc').value;
-  const list=SKILLS.filter(s=>{ if(q&&!s.nm.toLowerCase().includes(q))return false; if(c&&s.gk!==c)return false; return true; });
-  document.getElementById('rows').innerHTML=list.map(s=>`<tr class="clickable" onclick="location.href='catalog-skill-detail.html?id=${s.id}'">
-    <td><b>${s.nm}</b><span style="display:block;font-size:11px;color:var(--ink-soft);font-family:Consolas,monospace">${s.id}</span></td>
-    <td><span class="role-chip">${s.g}</span></td><td>${s.staff} người</td>
-    <td><span class="badge ${s.lv==='Expert'?'ok':'busy'}">${s.lv}</span></td><td style="font-size:12px">${s.rel}</td></tr>`).join('');
+  const q=document.getElementById('q').value.toLowerCase().trim(); const s=document.getElementById('fs').value;
+  const list=MAT.filter(m=>{ if(q&&!(m.nvl.toLowerCase().includes(q)||m.step.toLowerCase().includes(q)))return false; if(s&&m.svc!==s)return false; return true; });
+  document.getElementById('rows').innerHTML=list.map(m=>`<tr>
+    <td><b>${m.nvl}</b></td>
+    <td><a href="catalog-step-detail.html?id=${m.stepId}" style="color:var(--teal-deep)">${m.step}</a></td>
+    <td style="font-size:12px">${m.svc}</td><td>${m.qty}</td><td style="font-size:12px;color:var(--ink-soft)">${m.price}</td><td class="num-strong">${m.total}</td></tr>`).join('');
   document.getElementById('empty').style.display=list.length?'none':'block';
 }
 window.render=render; render();

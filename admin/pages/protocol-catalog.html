@@ -1,17 +1,82 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki Clinic · Danh mục phác đồ</title>
+<title>Hasaki ClinicOS · Danh mục phác đồ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/theme.css">
 <style>
-.phase{display:flex;gap:14px;align-items:flex-start}
-.phase .pn{width:30px;height:30px;border-radius:9px;background:var(--indigo-soft);color:var(--indigo);display:grid;place-items:center;font-weight:600;font-size:13px;flex:none}
-.phase-col{display:flex;flex-direction:column;align-items:center}
-.phase .pl{width:2px;flex:1;background:var(--line);margin:4px 0;min-height:16px}
-.phase:last-child .pl{display:none}
-.phase-body{flex:1;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:13px}
-.phase-body b{font-size:14px}.phase-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.snap{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
+.snap .sb{border:1px solid var(--line);border-radius:14px;padding:15px 17px;background:#fff}
+.snap .sb .sv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.snap .sb .sl{font-size:11.5px;color:var(--ink-soft)}
+.snap .sb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.snap .sb.warn .sv{color:#9a5a1e}
+.snap .sb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.snap .sb.good .sv{color:var(--teal-deep)}
+.ops-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ops-card{border:1px solid var(--line);border-radius:15px;padding:16px;background:#fff}
+.ops-card .oc-h{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.ops-card .oc-ic{width:32px;height:32px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.ops-card .oc-ic svg{width:17px;height:17px}
+.ops-card .oc-t{font-weight:600;font-size:14px}
+.ops-card .oc-big{font-family:'Fraunces',serif;font-size:32px;line-height:1;margin:2px 0}
+.ops-card .oc-sub{font-size:11.5px;color:var(--ink-soft)}
+.ops-card .oc-rows{margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
+.ops-card .ocr{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0}
+.ops-card .ocr b{font-family:'Fraunces',serif}
+.ops-card .oc-link{margin-top:11px;font-size:12px;font-weight:600;color:var(--teal-deep);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.ops-card.warn{border-color:#f0c9a8;background:linear-gradient(140deg,#fff,#fdeee3)}
+.load-cell{display:flex;align-items:center;gap:8px;min-width:110px}
+.load-bar{flex:1;height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden}.load-bar i{display:block;height:100%}
+.badge{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.badge.ok{background:var(--teal-soft);color:var(--teal-deep)}.badge.busy{background:#fbeccb;color:#9a6a1e}.badge.over{background:#f4d3cb;color:#9a3b2c}
+.subtab{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.subtab button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--ink-soft)}
+.subtab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
+.kpi-bar{height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden;min-width:90px}.kpi-bar i{display:block;height:100%;background:var(--teal)}
+.num-strong{font-family:'Fraunces',serif;font-weight:600}
+.role-chip{font-size:11.5px;padding:3px 11px;border-radius:20px;background:var(--bg-2);font-weight:500}
+.kpi-big{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
+.kpi-big .kb{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
+.kpi-big .kb .kv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.kpi-big .kb .kl{font-size:11.5px;color:var(--ink-soft)}
+.kpi-big .kb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.kpi-big .kb.warn .kv{color:#9a5a1e}
+.kpi-big .kb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.kpi-big .kb.good .kv{color:var(--teal-deep)}
+.region-block{margin-bottom:22px}
+.region-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.region-head .rg-ic{width:30px;height:30px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.region-head h3{font-family:'Fraunces',serif;font-size:16px;margin:0}
+.region-head .rg-sum{margin-left:auto;font-size:11.5px;color:var(--ink-soft)}
+.ov-table{width:100%;border-collapse:collapse;font-size:13px}
+.ov-table th{text-align:left;font-size:11px;color:var(--ink-soft);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+.ov-table td{padding:10px;border-bottom:1px solid var(--line)}
+.ov-table tr.clickable{cursor:pointer;transition:.12s}.ov-table tr.clickable:hover td{background:var(--teal-soft)}
+.ov-cn{font-weight:600}.ov-cn small{display:block;font-weight:400;color:var(--ink-soft);font-size:11px}
+.donut-box{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.donut{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;flex:none}
+.donut-c{width:80px;height:80px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.donut-c b{font-family:'Fraunces',serif;font-size:17px;display:block}.donut-c span{font-size:10px;color:var(--ink-soft)}
+.leg-list{display:flex;flex-direction:column;gap:7px}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:12.5px}.leg-row .dot{width:11px;height:11px;border-radius:3px;flex:none}.leg-row b{margin-left:auto;font-family:'Fraunces',serif}
+@media(max-width:900px){.snap,.ops-grid,.kpi-big{grid-template-columns:repeat(2,1fr)}}
+
+.phase{display:flex;gap:14px;margin-bottom:4px}
+.phase-col{display:flex;flex-direction:column;align-items:center;width:30px;flex:none}
+.phase-col .pn{width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px;font-family:'Fraunces',serif}
+.phase-col .pl{flex:1;width:2px;background:var(--line);margin:4px 0}
+.phase-body{flex:1;padding-bottom:18px}
+.phase-body>b{font-size:14px}
+.phase-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.opt-box{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin-top:9px;background:var(--bg-2)}
+.opt-box .ob-h{font-size:11.5px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.opt-row{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:3px 0}
+.opt-row input{accent-color:var(--teal)}
+.opt-row .od{color:var(--ink-soft);margin-left:auto;font-size:11.5px}
+.hist-row{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.hist-row:last-child{border:none}
+.hist-row .hd{font-family:Consolas,monospace;font-size:11.5px;color:var(--ink-soft);white-space:nowrap}
+.st-pill{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px}
+.st-pill.draft{background:var(--bg-2);color:var(--ink-soft)}.st-pill.wait{background:#fbeccb;color:#9a6a1e}.st-pill.live{background:var(--teal-soft);color:var(--teal-deep)}
+.filt-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filt-bar input,.filt-bar select{padding:8px 12px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:13px;outline:none;background:#fff}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
@@ -19,40 +84,47 @@
 renderLayout('protocol-catalog');
 const right=`<button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo phác đồ</button>`;
 document.getElementById('main').innerHTML = topbar('Phác đồ điều trị','Danh mục phác đồ chuẩn',{who:'AD',branch:'Tất cả CN',right}) + `
-  <div class="kpi-grid">
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div></div><div class="kpi-val">14</div><div class="kpi-lbl">Phác đồ chuẩn</div></div>
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div></div><div class="kpi-val">86</div><div class="kpi-lbl">Khách đang theo phác đồ</div></div>
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div></div><div class="kpi-val">78%</div><div class="kpi-lbl">Tuân thủ trung bình</div></div>
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div></div><div class="kpi-val">12 tuần</div><div class="kpi-lbl">Thời lượng TB phác đồ</div></div>
+  <div class="snap">
+    <div class="sb"><div class="sl">Phác đồ đang hoạt động</div><div class="sv">12</div><div class="sl">áp dụng toàn chuỗi</div></div>
+    <div class="sb warn"><div class="sl">Chờ phê duyệt</div><div class="sv">2</div><div class="sl">bác sĩ trưởng duyệt</div></div>
+    <div class="sb"><div class="sl">Tổng KH đang theo</div><div class="sv">86</div><div class="sl">các phác đồ</div></div>
+    <div class="sb good"><div class="sl">Tỉ lệ tuân thủ TB</div><div class="sv">84%</div><div class="sl">toàn bộ phác đồ</div></div>
   </div>
-  <div class="row r-2e">
-    <div class="panel"><div class="panel-h"><div class="panel-title">Danh mục phác đồ chuẩn<small>Do bác sĩ thiết kế · gồm nhiều giai đoạn theo thời gian</small></div></div>
-      <table><thead><tr><th>Phác đồ</th><th>Nhóm</th><th>Giai đoạn</th><th>Thời lượng</th><th>Đang dùng</th></tr></thead><tbody>
-        <tr class="clickable"><td><b>Trị nám chuyên sâu</b></td><td>Chăm sóc da</td><td>4 giai đoạn</td><td>12 tuần</td><td>28 khách</td></tr>
-        <tr class="clickable"><td><b>Giảm béo định hình toàn diện</b></td><td>Giảm béo</td><td>3 giai đoạn</td><td>10 tuần</td><td>22 khách</td></tr>
-        <tr class="clickable"><td><b>Triệt lông trọn gói</b></td><td>Triệt lông</td><td>2 giai đoạn</td><td>8 tháng</td><td>19 khách</td></tr>
-        <tr class="clickable"><td><b>Phục hồi tóc & da đầu</b></td><td>Derma & Hair</td><td>3 giai đoạn</td><td>6 tuần</td><td>17 khách</td></tr>
-      </tbody></table>
-    </div>
-    <div class="panel"><div class="panel-h"><div class="panel-title">Chi tiết: Trị nám chuyên sâu<small>4 giai đoạn · 12 tuần</small></div></div>
-      <div class="phase">
-        <div class="phase-col"><div class="pn">1</div><div class="pl"></div></div>
-        <div class="phase-body"><b>Giai đoạn khám & đánh giá</b><div style="font-size:12.5px;color:var(--ink-soft)">Tuần 0 · khám bác sĩ, soi da, kê toa</div><div class="phase-tags"><span class="role-chip">Bác sĩ</span><span class="tag new">1 buổi</span></div></div>
-      </div>
-      <div class="phase">
-        <div class="phase-col"><div class="pn">2</div><div class="pl"></div></div>
-        <div class="phase-body"><b>Giai đoạn điều trị tích cực</b><div style="font-size:12.5px;color:var(--ink-soft)">Tuần 1–8 · 4 buổi laser cách 2 tuần</div><div class="phase-tags"><span class="role-chip">KTV Laser</span><span class="tag new">4 buổi</span></div></div>
-      </div>
-      <div class="phase">
-        <div class="phase-col"><div class="pn">3</div><div class="pl"></div></div>
-        <div class="phase-body"><b>Giai đoạn tái khám</b><div style="font-size:12.5px;color:var(--ink-soft)">Tuần 9 · đánh giá kết quả, điều chỉnh</div><div class="phase-tags"><span class="role-chip">Bác sĩ</span><span class="tag new">1 buổi</span></div></div>
-      </div>
-      <div class="phase">
-        <div class="phase-col"><div class="pn">4</div></div>
-        <div class="phase-body"><b>Giai đoạn duy trì</b><div style="font-size:12.5px;color:var(--ink-soft)">Tuần 10–12 · chăm sóc da định kỳ</div><div class="phase-tags"><span class="role-chip">ĐD/KTV</span><span class="tag new">2 buổi</span></div></div>
-      </div>
-    </div>
-  </div>`;
-wireUI();
+  <div class="filt-bar">
+    <input id="q" placeholder="🔍 Tìm phác đồ..." style="flex:1;min-width:200px" oninput="render()">
+    <select id="fg" onchange="render()"><option value="">Tất cả nhóm</option><option>Chăm sóc da</option><option>Giảm béo</option><option>Triệt lông</option><option>Derma & Hair</option></select>
+    <select id="fs" onchange="render()"><option value="">Mọi trạng thái</option><option>Đang hoạt động</option><option>Chờ phê duyệt</option><option>Đang chỉnh</option></select>
+  </div>
+  <div class="panel" style="padding:6px 4px"><table class="ov-table"><thead><tr><th>Phác đồ</th><th>Nhóm</th><th>Giai đoạn</th><th>Thời lượng</th><th>KH đang theo</th><th>Tuân thủ</th><th>Trạng thái</th></tr></thead><tbody id="rows"></tbody></table></div>`;
+
+const PR=[
+  {id:'PR-01', nm:'Trị nám chuyên sâu', g:'Chăm sóc da', ph:'4 giai đoạn', dur:'12 tuần', kh:28, adh:88, st:'live'},
+  {id:'PR-02', nm:'Giảm béo định hình toàn diện', g:'Giảm béo', ph:'3 giai đoạn', dur:'10 tuần', kh:22, adh:79, st:'live'},
+  {id:'PR-03', nm:'Triệt lông trọn gói', g:'Triệt lông', ph:'2 giai đoạn', dur:'8 tháng', kh:19, adh:91, st:'live'},
+  {id:'PR-04', nm:'Phục hồi tóc & da đầu', g:'Derma & Hair', ph:'3 giai đoạn', dur:'6 tuần', kh:17, adh:76, st:'live'},
+  {id:'PR-05', nm:'Trị mụn cốc chuyên sâu (bản 2.0)', g:'Chăm sóc da', ph:'4 giai đoạn', dur:'8 tuần', kh:0, adh:null, st:'wait'},
+  {id:'PR-06', nm:'Trẻ hóa da công nghệ cao', g:'Chăm sóc da', ph:'5 giai đoạn', dur:'16 tuần', kh:0, adh:null, st:'draft'},
+];
+const stMap={live:['live','Đang hoạt động'],wait:['wait','Chờ phê duyệt'],draft:['draft','Đang chỉnh']};
+const stName={live:'Đang hoạt động',wait:'Chờ phê duyệt',draft:'Đang chỉnh'};
+function render(){
+  const q=document.getElementById('q').value.toLowerCase().trim();
+  const g=document.getElementById('fg').value, s=document.getElementById('fs').value;
+  const list=PR.filter(p=>{
+    if(q && !p.nm.toLowerCase().includes(q)) return false;
+    if(g && p.g!==g) return false;
+    if(s && stName[p.st]!==s) return false;
+    return true;
+  });
+  document.getElementById('rows').innerHTML = list.map(p=>{
+    const [sc,sl]=stMap[p.st];
+    return `<tr class="clickable" onclick="location.href='protocol-detail.html?id=${p.id}'">
+      <td><b>${p.nm}</b><span style="display:block;font-size:11px;color:var(--ink-soft);font-family:Consolas,monospace">${p.id}</span></td>
+      <td>${p.g}</td><td>${p.ph}</td><td>${p.dur}</td><td>${p.kh?p.kh+' khách':'—'}</td>
+      <td>${p.adh!==null?`<div class="load-cell"><span class="load-bar"><i style="width:${p.adh}%;background:${p.adh>=85?'var(--teal)':(p.adh>=75?'#d9a441':'#d9694f')}"></i></span><b>${p.adh}%</b></div>`:'—'}</td>
+      <td><span class="st-pill ${sc}">${sl}</span></td></tr>`;
+  }).join('');
+}
+window.render=render; render();
 </script>
 </body></html>

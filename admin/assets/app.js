@@ -35,6 +35,7 @@ const NAV = [
     { id:"consultant", label:"Tư vấn viên", href:"consultant-cn.html", icon:'<path d="M10 2v6l-3 3 3 3v6M14 2v6l3 3-3 3v6"/>' },
     { id:"cashier", label:"Cashier · Thu ngân", href:"cashier-cn.html", icon:'<rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/>' },
     { id:"treatment", label:"Liệu trình", href:"treatment.html", icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
+    { id:"warranty", label:"Bảo hành dịch vụ", href:"warranty.html", icon:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' },
     { id:"dispatch", label:"Điều phối tua", href:"dispatch.html", badge:"5", icon:'<path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/>' },
     { id:"inventory", label:"Kho & Pha chế", href:"inventory.html", icon:'<path d="M3 3h18v4H3zM5 7v14h14V7M9 11h6"/>' },
     { id:"pharmacy", label:"Đơn thuốc · GPP", href:"pharmacy.html", badge:"3", icon:'<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/><circle cx="9" cy="10" r="1.5"/><path d="M13 9h4M13 12h4"/>' },
@@ -49,7 +50,7 @@ const NAV = [
     { id:"catalog-machine", label:"Máy móc · Thiết bị", href:"catalog-machine.html", icon:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/>' },
     { id:"catalog-skill", label:"Kỹ năng (Skill)", href:"catalog-skill.html", icon:'<path d="M12 2 2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>' },
     { id:"catalog-step", label:"Bước liệu trình", href:"catalog-step.html", icon:'<path d="M4 6h16M4 12h16M4 18h10"/>' },
-    { id:"warranty", label:"Bảo hành dịch vụ", href:"warranty.html", icon:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' },
+    { id:"catalog-material", label:"Định biên NVL", href:"catalog-material.html", icon:'<path d="M9 3h6v4l4 9a3 3 0 0 1-3 4H8a3 3 0 0 1-3-4l4-9z"/><path d="M7 14h10"/>' },
   ]},
   { group: "Quản trị", items: [
     { id:"reports", label:"Báo cáo & KPI", href:"reports.html", icon:'<path d="M18 20V10M12 20V4M6 20v-6"/>' },

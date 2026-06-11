@@ -31,13 +31,31 @@
 .mp-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .mp{background:var(--bg-2);border-radius:11px;padding:10px 12px}
 .mp b{font-family:'Fraunces',serif;font-size:16px;display:block}.mp span{font-size:11px;color:var(--ink-soft)}
+.link-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+.link-card{border:1px solid var(--line);border-radius:13px;padding:13px;text-decoration:none;color:inherit;background:#fff;transition:.15s;text-align:center}
+.link-card:hover{border-color:var(--teal);box-shadow:var(--shadow);transform:translateY(-2px)}
+.link-card .lc-ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;margin:0 auto 8px;background:var(--teal-soft);color:var(--teal-deep)}
+.link-card .lc-ic svg{width:18px;height:18px}
+.link-card b{font-size:12.5px;display:block}.link-card span{font-size:10.5px;color:var(--ink-soft)}
+.link-card.on{border-color:var(--teal);background:var(--teal-soft)}
+.rel-chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:20px;background:var(--bg-2);text-decoration:none;color:var(--ink);margin:3px 4px 3px 0}
+.rel-chip:hover{background:var(--teal-soft);color:var(--teal-deep)}.rel-chip svg{width:12px;height:12px}
+@media(max-width:900px){.link-grid{grid-template-columns:repeat(2,1fr)}}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
 <script>
 renderLayout('catalog-service');
-const right=`<a class="btn btn-ghost" href="catalog-service.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Danh mục dịch vụ</a><button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Sửa dịch vụ</button>`;
+const right=`<a class="btn btn-ghost" href="catalog-service.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Danh mục dịch vụ</a><a class="btn btn-ghost" href="catalog-service-dossier.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Hồ sơ đầy đủ</a><button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Sửa dịch vụ</button>`;
+const LINKNAV=`<div class="link-grid">
+  <a class="link-card on" href="catalog-service.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><b>Dịch vụ</b><span>SKU dịch vụ</span></a>
+  <a class="link-card" href="catalog-step.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><b>Bước</b><span>quy trình</span></a>
+  <a class="link-card" href="catalog-skill.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><b>Kỹ năng</b><span>skill matrix</span></a>
+  <a class="link-card" href="catalog-machine.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="3"/></svg></div><b>Máy móc</b><span>thiết bị</span></a>
+  <a class="link-card" href="catalog-material.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v4l4 9a3 3 0 0 1-3 4H8a3 3 0 0 1-3-4l4-9z"/></svg></div><b>Nguyên vật liệu</b><span>định biên</span></a>
+</div>`;
 document.getElementById('main').innerHTML = topbar('Danh mục › Chi tiết dịch vụ','Giảm béo RF bụng',{who:'AD',branch:'Tất cả CN',right}) + `
+  ${LINKNAV}
   <div class="svc-head">
     <div class="q-av av-gold">RF</div>
     <div style="flex:1;min-width:220px"><div style="font-family:Fraunces,serif;font-size:21px;font-weight:600">Giảm béo RF bụng</div>
@@ -47,10 +65,10 @@ document.getElementById('main').innerHTML = topbar('Danh mục › Chi tiết d�
   </div>
 
   <div class="dtabs" id="dt" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px">
-    <button class="on" onclick="dtab('info')" style="border:1px solid var(--line);background:var(--ink);color:#fff;font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Hướng dẫn & chống chỉ định</button>
+    <button class="on" onclick="dtab('config')" style="border:1px solid var(--line);background:var(--ink);color:#fff;font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Hồ sơ tổng quan</button>
     <button onclick="dtab('steps')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Quy trình các bước</button>
-    <button onclick="dtab('machine')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Máy & định mức NVL</button>
-    <button onclick="dtab('config')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Tổng quan & bảo hành</button>
+    <button onclick="dtab('machine')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Máy & định biên NVL</button>
+    <button onclick="dtab('info')" style="border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:500;padding:8px 15px;border-radius:30px;cursor:pointer">Hướng dẫn & chống chỉ định</button>
   </div>
   <div id="dv"></div>`;
 
@@ -115,9 +133,9 @@ config:`<div class="row r-2e">
     <div class="panel"><div class="panel-h"><div class="panel-title">Tổng quan cấu hình SKU<small>step · skill · máy móc liên quan</small></div></div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Số bước quy trình</span><b>4 bước · 55 phút</b></div>
-        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Skill yêu cầu</span><span><span class="role-chip">RF · Senior</span> <span class="role-chip">Skincare</span></span></div>
-        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Máy móc</span><span><a href="catalog-machine.html" style="color:var(--teal-deep)">Máy RF · EQ-RF-02</a></span></div>
-        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Định mức NVL/buổi</span><b>~185.000đ</b></div>
+        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Skill yêu cầu</span><span><a href="catalog-skill-detail.html?id=SK-RF" style="color:var(--teal-deep)"><span class="role-chip">RF · Senior</span></a> <span class="role-chip">Skincare</span></span></div>
+        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Máy móc</span><span><a href="catalog-machine-detail.html?id=EQ-RF-02" style="color:var(--teal-deep)">Máy RF · EQ-RF-02</a></span></div>
+        <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Định biên NVL/buổi</span><span><b>~185.000đ</b> · <a href="catalog-material.html" style="color:var(--teal-deep)">chi tiết →</a></span></div>
         <div class="ocr" style="display:flex;justify-content:space-between;padding:8px 0"><span>Liên kết bước chi tiết</span><a href="catalog-step.html" style="color:var(--teal-deep)">Xem các bước →</a></div>
       </div>
       <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Cái nhìn tổng quát SKU: gom step (quy trình), skill (tay nghề KTV), máy móc liên quan — dùng để chuẩn hóa & tính chi phí.</div></div>
@@ -133,6 +151,6 @@ config:`<div class="row r-2e">
   </div>`,
 };
 function dtab(k){document.querySelectorAll('#dt button').forEach(b=>{b.style.background='#fff';b.style.color='var(--ink-soft)';});event&&event.target&&(event.target.style.background='var(--ink)',event.target.style.color='#fff');DV.innerHTML=TABS[k];wireUI();}
-dtab('info');
+dtab('config');
 </script>
 </body></html>

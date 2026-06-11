@@ -1,31 +1,131 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki Clinic · Catalog Máy móc</title>
+<title>Hasaki ClinicOS · Máy móc & Thiết bị</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/theme.css"></head>
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.snap{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
+.snap .sb{border:1px solid var(--line);border-radius:14px;padding:15px 17px;background:#fff}
+.snap .sb .sv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.snap .sb .sl{font-size:11.5px;color:var(--ink-soft)}
+.snap .sb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.snap .sb.warn .sv{color:#9a5a1e}
+.snap .sb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.snap .sb.good .sv{color:var(--teal-deep)}
+.ops-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ops-card{border:1px solid var(--line);border-radius:15px;padding:16px;background:#fff}
+.ops-card .oc-h{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.ops-card .oc-ic{width:32px;height:32px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.ops-card .oc-ic svg{width:17px;height:17px}
+.ops-card .oc-t{font-weight:600;font-size:14px}
+.ops-card .oc-big{font-family:'Fraunces',serif;font-size:32px;line-height:1;margin:2px 0}
+.ops-card .oc-sub{font-size:11.5px;color:var(--ink-soft)}
+.ops-card .oc-rows{margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
+.ops-card .ocr{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0}
+.ops-card .ocr b{font-family:'Fraunces',serif}
+.ops-card .oc-link{margin-top:11px;font-size:12px;font-weight:600;color:var(--teal-deep);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.ops-card.warn{border-color:#f0c9a8;background:linear-gradient(140deg,#fff,#fdeee3)}
+.load-cell{display:flex;align-items:center;gap:8px;min-width:110px}
+.load-bar{flex:1;height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden}.load-bar i{display:block;height:100%}
+.badge{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.badge.ok{background:var(--teal-soft);color:var(--teal-deep)}.badge.busy{background:#fbeccb;color:#9a6a1e}.badge.over{background:#f4d3cb;color:#9a3b2c}
+.subtab{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.subtab button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--ink-soft)}
+.subtab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
+.kpi-bar{height:7px;border-radius:4px;background:var(--bg-2);overflow:hidden;min-width:90px}.kpi-bar i{display:block;height:100%;background:var(--teal)}
+.num-strong{font-family:'Fraunces',serif;font-weight:600}
+.role-chip{font-size:11.5px;padding:3px 11px;border-radius:20px;background:var(--bg-2);font-weight:500}
+.kpi-big{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
+.kpi-big .kb{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
+.kpi-big .kb .kv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.kpi-big .kb .kl{font-size:11.5px;color:var(--ink-soft)}
+.kpi-big .kb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.kpi-big .kb.warn .kv{color:#9a5a1e}
+.kpi-big .kb.good{background:linear-gradient(140deg,#fff,var(--teal-soft));border-color:#bfe3da}.kpi-big .kb.good .kv{color:var(--teal-deep)}
+.region-block{margin-bottom:22px}
+.region-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.region-head .rg-ic{width:30px;height:30px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
+.region-head h3{font-family:'Fraunces',serif;font-size:16px;margin:0}
+.region-head .rg-sum{margin-left:auto;font-size:11.5px;color:var(--ink-soft)}
+.ov-table{width:100%;border-collapse:collapse;font-size:13px}
+.ov-table th{text-align:left;font-size:11px;color:var(--ink-soft);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+.ov-table td{padding:10px;border-bottom:1px solid var(--line)}
+.ov-table tr.clickable{cursor:pointer;transition:.12s}.ov-table tr.clickable:hover td{background:var(--teal-soft)}
+.ov-cn{font-weight:600}.ov-cn small{display:block;font-weight:400;color:var(--ink-soft);font-size:11px}
+.donut-box{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.donut{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;flex:none}
+.donut-c{width:80px;height:80px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.donut-c b{font-family:'Fraunces',serif;font-size:17px;display:block}.donut-c span{font-size:10px;color:var(--ink-soft)}
+.leg-list{display:flex;flex-direction:column;gap:7px}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:12.5px}.leg-row .dot{width:11px;height:11px;border-radius:3px;flex:none}.leg-row b{margin-left:auto;font-family:'Fraunces',serif}
+@media(max-width:900px){.snap,.ops-grid,.kpi-big{grid-template-columns:repeat(2,1fr)}}
+
+.filt-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filt-bar input,.filt-bar select{padding:8px 12px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:13px;outline:none;background:#fff}
+.mp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.mp{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:#fff}
+.mp b{display:block;font-family:'Fraunces',serif;font-size:16px}.mp span{font-size:11px;color:var(--ink-soft)}
+.cart-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}.cart-row:last-child{border:none}
+.cart-row .ci b{font-weight:600}.cart-row .ci span{display:block;font-size:11px;color:var(--ink-soft)}.cart-row .cp{font-family:'Fraunces',serif;font-weight:600}
+.dots b{font-family:'Fraunces',serif}
+.lvl-dots{letter-spacing:2px;font-size:13px}
+.link-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+.link-card{border:1px solid var(--line);border-radius:13px;padding:13px;text-decoration:none;color:inherit;background:#fff;transition:.15s;text-align:center}
+.link-card:hover{border-color:var(--teal);box-shadow:var(--shadow);transform:translateY(-2px)}
+.link-card .lc-ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;margin:0 auto 8px;background:var(--teal-soft);color:var(--teal-deep)}
+.link-card .lc-ic svg{width:18px;height:18px}
+.link-card b{font-size:12.5px;display:block}.link-card span{font-size:10.5px;color:var(--ink-soft)}
+.link-card.on{border-color:var(--teal);background:var(--teal-soft)}
+.rel-chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:20px;background:var(--bg-2);text-decoration:none;color:var(--ink);margin:3px 4px 3px 0}
+.rel-chip:hover{background:var(--teal-soft);color:var(--teal-deep)}
+.rel-chip svg{width:12px;height:12px}
+@media(max-width:900px){.link-grid{grid-template-columns:repeat(2,1fr)}}
+</style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
 <script>
 renderLayout('catalog-machine');
 const right=`<button class="btn btn-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Thêm thiết bị</button>`;
-document.getElementById('main').innerHTML = topbar('Danh mục','Catalog — Máy móc & Thiết bị cao cấp',{who:'AD',branch:'CN Quận 1',right}) + `
-  <div class="kpi-grid">
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div></div><div class="kpi-val">9</div><div class="kpi-lbl">Thiết bị cao cấp</div></div>
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-val">11,2 tỷ</div><div class="kpi-lbl">Tổng giá trị tài sản</div></div>
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-blush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div></div><div class="kpi-val">71%</div><div class="kpi-lbl">Hiệu suất sử dụng TB</div></div>
-    <div class="card"><div class="kpi-top"><div class="kpi-ic ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div></div><div class="kpi-val">2</div><div class="kpi-lbl">Sắp đến hạn bảo trì</div></div>
+const LINKNAV=`<div class="link-grid">
+  <a class="link-card" href="catalog-service.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><b>Dịch vụ</b><span>SKU dịch vụ</span></a>
+  <a class="link-card" href="catalog-step.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><b>Bước</b><span>quy trình</span></a>
+  <a class="link-card" href="catalog-skill.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><b>Kỹ năng</b><span>skill matrix</span></a>
+  <a class="link-card on" href="catalog-machine.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="3"/></svg></div><b>Máy móc</b><span>thiết bị</span></a>
+  <a class="link-card" href="catalog-material.html"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v4l4 9a3 3 0 0 1-3 4H8a3 3 0 0 1-3-4l4-9z"/></svg></div><b>Nguyên vật liệu</b><span>định biên</span></a>
+</div>`;
+document.getElementById('main').innerHTML = topbar('Danh mục','Máy móc & Thiết bị cao cấp',{who:'AD',branch:'CN Quận 1',right}) + `
+  ${LINKNAV}
+  <div class="snap">
+    <div class="sb"><div class="sl">Tổng thiết bị</div><div class="sv">8</div><div class="sl">tài sản cao cấp</div></div>
+    <div class="sb good"><div class="sl">Đang hoạt động</div><div class="sv">6</div><div class="sl">sẵn sàng</div></div>
+    <div class="sb warn"><div class="sl">Cần bảo trì</div><div class="sv">1</div><div class="sl">đến hạn</div></div>
+    <div class="sb warn"><div class="sl">Sắp hết bảo hành</div><div class="sv">1</div><div class="sl">≤30 ngày</div></div>
   </div>
-  <div class="panel"><div class="panel-h"><div class="panel-title">Danh mục máy móc<small>Tài sản đắt tiền — theo dõi hiệu suất, khấu hao, bảo trì</small></div><div class="pill-tabs"><button class="on">Tất cả</button><button>Đang hoạt động</button><button>Cần bảo trì</button></div></div>
-    <table><thead><tr><th>Thiết bị</th><th>Mã TS</th><th>Giá trị</th><th>Chi nhánh</th><th>Hiệu suất tháng</th><th>Bảo trì kế tiếp</th><th>Trạng thái</th></tr></thead><tbody>
-      <tr class="clickable"><td><b>Laser Diode XL</b></td><td>EQ-LSR-01</td><td class="num-strong">1,8 tỷ</td><td>Quận 1</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:82%"></i></div> 82%</td><td>15/07</td><td><span class="tag done">Hoạt động</span></td></tr>
-      <tr class="clickable"><td><b>Máy HIFU nâng cơ</b></td><td>EQ-HIF-01</td><td class="num-strong">1,2 tỷ</td><td>Quận 1</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:40%"></i></div> 40%</td><td>Hôm nay</td><td><span class="tag prog">Bảo trì</span></td></tr>
-      <tr class="clickable"><td><b>Máy RF giảm béo</b></td><td>EQ-RF-02</td><td class="num-strong">950 tr</td><td>Quận 1</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:58%"></i></div> 58%</td><td>30/07</td><td><span class="tag done">Hoạt động</span></td></tr>
-      <tr class="clickable"><td><b>Laser Diode XL</b></td><td>EQ-LSR-05</td><td class="num-strong">1,8 tỷ</td><td>Quận 7</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:76%"></i></div> 76%</td><td>22/07</td><td><span class="tag done">Hoạt động</span></td></tr>
-      <tr class="clickable"><td><b>Máy điện di Mesotherapy</b></td><td>EQ-MESO-01</td><td class="num-strong">620 tr</td><td>Đà Nẵng</td><td><div class="kpi-bar" style="display:inline-block;vertical-align:middle"><i style="width:64%"></i></div> 64%</td><td>05/08</td><td><span class="tag done">Hoạt động</span></td></tr>
-    </tbody></table>
-    <div class="alert al-warn" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div>Máy HIFU hiệu suất chỉ <b>40%</b> — thấp so với giá trị tài sản; gợi ý đẩy dịch vụ nâng cơ hoặc luân chuyển chi nhánh.</div></div>
+  <div class="filt-bar">
+    <input id="q" placeholder="🔍 Tìm thiết bị..." style="flex:1;min-width:200px" oninput="render()">
+    <select id="fs" onchange="render()"><option value="">Mọi trạng thái</option><option>Hoạt động</option><option>Cần bảo trì</option></select>
+  </div>
+  <div class="panel" style="padding:6px 4px"><div class="panel-h" style="padding:12px 14px 4px"><div class="panel-title">Danh mục máy móc<small>tài sản đắt tiền — hiệu suất · khấu hao · bảo trì · bảo hành</small></div></div>
+    <table class="ov-table"><thead><tr><th>Thiết bị</th><th>Mã</th><th>Giá trị</th><th>Skill vận hành</th><th>Bảo trì kế tiếp</th><th>Trạng thái</th></tr></thead><tbody id="rows"></tbody></table>
+    <div id="empty" style="display:none;text-align:center;padding:24px;color:var(--ink-soft);font-size:13px">Không có thiết bị khớp.</div>
   </div>`;
-wireUI();
+
+const MACHINES=[
+  {id:'EQ-RF-02', nm:'Máy RF Slim', val:'450tr', skill:'RF', maint:'12/2026', st:'ok', stl:'Hoạt động'},
+  {id:'EQ-LASER-01', nm:'Laser Diode XL', val:'600tr', skill:'LASER', maint:'09/2026', st:'ok', stl:'Hoạt động'},
+  {id:'EQ-HIFU-01', nm:'Máy HIFU', val:'1,2 tỷ', skill:'HIFU', maint:'Quá hạn 180h', st:'maint', stl:'Cần bảo trì'},
+  {id:'EQ-DERMA-01', nm:'Máy soi da AI', val:'200tr', skill:'Skincare', maint:'10/2026', st:'ok', stl:'Hoạt động'},
+  {id:'EQ-EDI-01', nm:'Máy điện di', val:'80tr', skill:'Skincare', maint:'11/2026', st:'ok', stl:'Hoạt động'},
+  {id:'EQ-RF-01', nm:'Máy RF mặt', val:'380tr', skill:'RF', maint:'BH còn 12 ngày', st:'warr', stl:'Sắp hết BH'},
+];
+const stB={ok:'ok',maint:'over',warr:'busy'};
+function render(){
+  const q=document.getElementById('q').value.toLowerCase().trim(); const s=document.getElementById('fs').value;
+  const list=MACHINES.filter(m=>{ if(q&&!m.nm.toLowerCase().includes(q))return false; if(s==='Hoạt động'&&m.st!=='ok')return false; if(s==='Cần bảo trì'&&m.st!=='maint')return false; return true; });
+  document.getElementById('rows').innerHTML=list.map(m=>`<tr class="clickable" onclick="location.href='catalog-machine-detail.html?id=${m.id}'" ${m.st!=='ok'?'style="background:#fdf6f0"':''}>
+    <td><b>${m.nm}</b></td><td style="font-family:Consolas,monospace;font-size:12px">${m.id}</td><td class="num-strong">${m.val}</td>
+    <td><a href="catalog-skill.html" onclick="event.stopPropagation()" style="color:var(--teal-deep)"><span class="role-chip">${m.skill}</span></a></td>
+    <td style="font-size:12px;${m.st!=='ok'?'color:var(--rose)':''}">${m.maint}</td><td><span class="badge ${stB[m.st]}">${m.stl}</span></td></tr>`).join('');
+  document.getElementById('empty').style.display=list.length?'none':'block';
+}
+window.render=render; render();
 </script>
 </body></html>
