@@ -10,6 +10,7 @@
 .sm-glabel::after{content:"";flex:1;height:1px;background:var(--line)}
 .sm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
 .sm-card{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff;transition:.16s;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.sm-cardhead{display:block}
 .sm-card:hover{border-color:var(--teal);box-shadow:var(--shadow);transform:translateY(-2px)}
 .sm-top{display:flex;align-items:center;gap:11px;margin-bottom:9px}
 .sm-ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex:none}
@@ -33,7 +34,7 @@
 renderLayout('sitemap');
 document.getElementById('main').innerHTML = topbar('Tổng quan','Sơ đồ trang & tính năng (Site map)',{who:'AD',branch:'Toàn hệ thống'}) + `
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-    <div class="card"><div class="kpi-val">25</div><div class="kpi-lbl">Tổng số trang</div></div>
+    <div class="card"><div class="kpi-val">79</div><div class="kpi-lbl">Tổng số trang</div></div>
     <div class="card"><div class="kpi-val">6</div><div class="kpi-lbl">Nhóm chức năng</div></div>
     <div class="card"><div class="kpi-val">3</div><div class="kpi-lbl">Nghiệp vụ đặc thù</div></div>
     <div class="card"><div class="kpi-val">100%</div><div class="kpi-lbl">Trang có lối vào</div></div>
@@ -43,7 +44,7 @@ document.getElementById('main').innerHTML = topbar('Tổng quan','Sơ đồ tran
 const MAP=[
  {group:"Tổng quan",items:[
   {ic:'ic-teal',svg:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>',t:"Dashboard",f:"index.html",href:"../index.html",d:"Tổng quan vận hành: KPI doanh thu/buổi/khách, biểu đồ nhóm dịch vụ, hàng đợi điều phối, cảnh báo hệ thống, hiệu quả nhân sự.",a:["Xem KPI","Mở hàng đợi","Cảnh báo→trang liên quan"],l:[["Điều phối","dispatch.html"],["Chi tiết thực hiện","service-record.html"],["Bảo hành","warranty.html"]]},
-  {ic:'ic-blush',svg:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',t:"Lịch & Booking",f:"booking.html",d:"Form đặt lịch chi tiết, bản đồ nhiệt khung giờ (quá tải), nhân sự rảnh theo khung, lịch máy cao cấp.",a:["Đặt lịch","Kiểm tra slot trống","Xem tải nhân sự/máy"],l:[["Hồ sơ khách","customer-detail.html"]]},
+  {ic:'ic-blush',svg:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',t:"Lịch & Booking",f:"booking.html",d:"Form đặt lịch chi tiết, bản đồ nhiệt khung giờ (quá tải), nhân sự rảnh theo khung, lịch máy cao cấp.",a:["Đặt lịch","Kiểm tra slot trống","Xem tải nhân sự/máy"],l:[["Hồ sơ khách","customer-detail.html"]],sub:[["Calendar CN","booking.html"],["Tạo booking mới","booking-new.html"],["Danh sách booking","booking-list.html"],["Chi tiết booking","booking-detail.html"]]},
   {ic:'ic-gold',svg:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',t:"Khách hàng",f:"customers.html",d:"Danh sách khách toàn chuỗi, lọc VIP/có gói/mới, đồng bộ CRM.",a:["Tìm khách","Lọc nhóm","Mở hồ sơ"],l:[["Chi tiết khách","customer-detail.html"]]},
   {ic:'ic-indigo',svg:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>',t:"Sơ đồ trang",f:"sitemap.html",d:"Trang bạn đang xem — bản đồ toàn bộ tính năng & liên kết.",a:["Điều hướng nhanh"],l:[]},
  ]},
@@ -88,15 +89,19 @@ const MAP=[
 
 document.getElementById('map').innerHTML = MAP.map(g=>`
   <div class="sm-group"><div class="sm-glabel">${g.group}</div>
-    <div class="sm-grid">${g.items.map(it=>`
-      <a class="sm-card" href="${it.href||it.f}">
-        <div class="sm-top"><div class="sm-ic ${it.ic}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${it.svg}</svg></div>
-          <div><h4>${it.t}</h4><div class="file">${it.f}</div></div></div>
-        <div class="sm-desc">${it.d}</div>
-        <div class="sm-actions">${it.a.map(a=>`<span class="sm-act">${a}</span>`).join('')}</div>
-        ${it.l.length?`<div class="sm-link">Liên kết: ${it.l.map(x=>`<b>${x[0]}</b>`).join(' · ')}</div>`:''}
-        ${it.sub&&it.sub.length?`<div class="sm-subs"><div class="sub-h">Trang con (${it.sub.length})</div>${it.sub.map(x=>`<a href="${x[1]}" onclick="event.stopPropagation()">${x[0]} <code>${x[1]}</code></a>`).join('')}</div>`:''}
-      </a>`).join('')}</div>
+    <div class="sm-grid">${g.items.map(it=>{
+      // gộp: trang con của module (sub) + các liên kết liên quan (l) — tất cả vào trong cùng 1 box, đều bấm được
+      const subs = (it.sub||[]).concat(it.l||[]);
+      return `
+      <div class="sm-card">
+        <a class="sm-cardhead" href="${it.href||it.f}" style="text-decoration:none;color:inherit">
+          <div class="sm-top"><div class="sm-ic ${it.ic}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${it.svg}</svg></div>
+            <div><h4>${it.t}</h4><div class="file">${it.f}</div></div></div>
+          <div class="sm-desc">${it.d}</div>
+          <div class="sm-actions">${it.a.map(a=>`<span class="sm-act">${a}</span>`).join('')}</div>
+        </a>
+        ${subs.length?`<div class="sm-subs"><div class="sub-h">Trang con (${subs.length})</div>${subs.map(x=>`<a href="${x[1]}">${x[0]} <code>${x[1]}</code></a>`).join('')}</div>`:''}
+      </div>`;}).join('')}</div>
   </div>`).join('');
 wireUI();
 </script>

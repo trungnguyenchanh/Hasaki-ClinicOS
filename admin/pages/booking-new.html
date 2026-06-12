@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasaki ClinicOS · Chi tiết booking</title>
+<title>Hasaki ClinicOS · Tạo booking mới</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/theme.css">
@@ -86,58 +86,29 @@
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
 <script src="../assets/app.js"></script>
-<script src="../assets/data.js"></script>
 <script>
 renderLayout('booking');
-const C = (typeof getCustomer==='function')?getCustomer():{name:'Trần Thu Hà',id:'C-1042',initials:'TH'};
 const back=`<a class="btn btn-ghost" href="booking.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Calendar CN</a>`;
-document.getElementById('main').innerHTML = topbar('Lịch & Booking › Chi tiết','Chi tiết booking',{who:'BK',branch:'CN Quận 1',right:back}) + `
+document.getElementById('main').innerHTML = topbar('Lịch & Booking','Tạo booking mới',{who:'BK',branch:'CN Quận 1',right:back}) + `
   <div class="row r-2">
-
-    <!-- ===== PHẦN A: THÔNG TIN BOOKING + LỊCH SỬ ===== -->
-    <div>
-      <div class="panel" style="margin-bottom:16px"><div class="panel-h"><div class="panel-title">A · Thông tin booking<small>mã BK-2048 · đặt ngày 10/06</small></div><span class="badge ok">Đã xác nhận</span></div>
-        <div class="prof-row"><span>Mã booking</span><b style="font-family:Consolas,monospace">BK-2048</b></div>
-        <div class="prof-row"><span>Khách hàng</span><b>${C.name} · ${C.id}</b></div>
-        <div class="prof-row"><span>Dịch vụ</span><b>Giảm béo RF bụng</b></div>
-        <div class="prof-row"><span>Ngày & giờ</span><b>12/06/2026 · 11:00</b></div>
-        <div class="prof-row"><span>KTV phụ trách</span><b>Hồng Trang (RF Senior)</b></div>
-        <div class="prof-row"><span>Phòng / Máy</span><b>Slim 1 · Máy RF EQ-RF-02</b></div>
-        <div class="prof-row"><span>Ghi chú</span><span>Khách muốn phòng yên tĩnh</span></div>
-        <div style="display:flex;gap:8px;margin-top:14px"><a class="btn btn-teal" href="reception.html" style="flex:1;justify-content:center;padding:8px;font-size:12.5px">Tiếp nhận khách</a><a class="btn btn-ghost" href="booking-new.html" style="padding:8px 13px;font-size:12.5px">Đổi lịch</a></div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Form đặt lịch chi tiết<small>Liên kết hồ sơ khách · kiểm tra nhân sự, máy, phòng</small></div></div>
+      <div class="field"><label>Khách hàng</label>
+        <div style="display:flex;gap:8px"><input value="Trần Thu Hà · C-1042" style="flex:1" readonly><a class="btn btn-ghost" href="customer-detail.html?id=C-1042" style="padding:9px 13px">Hồ sơ</a></div>
+        <div style="font-size:11.5px;color:var(--rose);margin-top:5px">⚠ Dị ứng Lidocaine · không thích KTV nam · đã có gói triệt lông</div>
       </div>
-      <div class="panel"><div class="panel-h"><div class="panel-title">Lịch sử booking & phiếu liên quan<small>các mã phiếu phát sinh từ booking này</small></div></div>
-        <table class="ov-table"><thead><tr><th>Mã phiếu</th><th>Loại</th><th>Ngày</th><th>Trạng thái</th></tr></thead><tbody>
-          <tr class="clickable" onclick="location.href='booking-detail.html'"><td style="font-family:Consolas,monospace">BK-2048</td><td>Booking</td><td>12/06</td><td><span class="badge ok">Hiện tại</span></td></tr>
-          <tr class="clickable" onclick="location.href='service-record.html'"><td style="font-family:Consolas,monospace">DV-0841</td><td>Phiếu dịch vụ</td><td>12/06</td><td><span class="badge busy">Sẽ tạo khi tiếp nhận</span></td></tr>
-          <tr class="clickable" onclick="location.href='cashier-payment.html'"><td style="font-family:Consolas,monospace">RC-0825</td><td>Hóa đơn (gói gốc)</td><td>02/05</td><td><span class="badge ok">Đã thanh toán</span></td></tr>
-          <tr class="clickable" onclick="location.href='booking-list.html'"><td style="font-family:Consolas,monospace">BK-1990</td><td>Booking trước</td><td>05/06</td><td><span class="badge ok">Đã hoàn tất</span></td></tr>
-        </tbody></table>
-        <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Booking này thuộc gói <b>PKG-RF-10</b> (RC-0825). Khi tiếp nhận sẽ sinh phiếu dịch vụ DV-0841 & trừ 1 buổi gói.</div></div>
-      </div>
+      <div class="field"><label>Dịch vụ</label><select><option>Giảm béo RF bụng (máy RF · cần KTV RF Senior)</option><option>Triệt lông Diode (máy Laser Diode XL)</option><option>Chăm sóc da phục hồi</option></select></div>
+      <div class="row r-2e" style="margin:0 0 14px"><div class="field" style="margin:0"><label>Ngày</label><input type="text" value="12/06/2026"></div><div class="field" style="margin:0"><label>Khung giờ (còn trống)</label><select><option>11:00 ✓ trống</option><option>15:00 ✓ trống</option><option>10:00 ⚠ quá tải</option></select></div></div>
+      <div class="row r-2e" style="margin:0 0 14px"><div class="field" style="margin:0"><label>Phòng / Máy</label><select><option>Slim 1 · Máy RF (trống)</option><option>Laser 2 · Laser Diode XL</option></select></div><div class="field" style="margin:0"><label>KTV / ĐD</label><select><option>Hồng Trang (RF Senior · rảnh)</option><option>Thanh Mai (LASER)</option></select></div></div>
+      <div class="field"><label>Ghi chú đặt lịch</label><input placeholder="VD: khách muốn phòng yên tĩnh, đến sớm 10 phút…"></div>
+      <div style="display:flex;gap:9px"><button class="btn btn-teal" style="flex:1;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>Xác nhận đặt lịch</button><button class="btn btn-ghost" onclick="location.href='booking.html'">Hủy</button></div>
     </div>
-
-    <!-- ===== PHẦN B: PROFILE KHÁCH TÓM TẮT ===== -->
-    <div>
-      <div class="panel" style="margin-bottom:16px"><div class="panel-h"><div class="panel-title">B · Hồ sơ khách (tóm tắt)</div><a class="btn btn-ghost" href="customer-detail.html?id=${C.id}" style="padding:5px 11px;font-size:11.5px">Hồ sơ đầy đủ</a></div>
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="q-av av-gold" style="width:46px;height:46px;font-size:16px">${C.initials||'TH'}</div><div><b style="font-size:15px">${C.name}</b><span style="display:block;font-size:12px;color:var(--ink-soft)">${C.id} · <span class="tag vip">VIP</span> · KH từ 2023</span></div></div>
-        <div class="prof-row"><span>Điện thoại</span><b>•••• 1042</b></div>
-        <div class="prof-row"><span>Tổng chi tiêu</span><b>48,5tr</b></div>
-        <div class="prof-row"><span>Lưu ý y tế</span><span style="color:var(--rose)">Dị ứng Lidocaine</span></div>
-        <div class="prof-row"><span>Sở thích</span><span>Không thích KTV nam</span></div>
-      </div>
-      <div class="panel" style="margin-bottom:16px"><div class="panel-h"><div class="panel-title">Gói & liệu trình<small>còn hiệu lực</small></div><a class="btn btn-ghost" href="customer-packages.html?id=${C.id}" style="padding:5px 11px;font-size:11.5px">Xem gói</a></div>
-        <div class="prof-row"><span>Giảm béo RF bụng</span><b>9/10 buổi</b></div>
-        <div class="prof-row"><span>Triệt lông Diode</span><b>5/8 buổi</b></div>
-      </div>
-      <div class="panel" style="margin-bottom:16px"><div class="panel-h"><div class="panel-title">Voucher<small>đang có</small></div><a class="btn btn-ghost" href="customer-voucher.html?id=${C.id}" style="padding:5px 11px;font-size:11.5px">Xem voucher</a></div>
-        <div class="prof-row"><span>VC-8841 · giảm 20%</span><span class="badge ok">Còn hiệu lực</span></div>
-        <div class="prof-row"><span>VC-8870 · tặng 1 buổi</span><span class="badge ok">Còn hiệu lực</span></div>
-      </div>
-      <div class="panel"><div class="panel-h"><div class="panel-title">Tài khoản<small>số dư ví</small></div><a class="btn btn-ghost" href="customer-wallet.html?id=${C.id}" style="padding:5px 11px;font-size:11.5px">Xem ví</a></div>
-        <div class="prof-row"><span>Cash</span><b>4,5tr</b></div>
-        <div class="prof-row"><span>Promotion 1 / 2</span><b>800k / 300k</b></div>
-      </div>
+    <div class="panel"><div class="panel-h"><div class="panel-title">Kiểm tra khả dụng<small>tự đối chiếu khung giờ · nhân sự · máy trước khi xác nhận</small></div></div>
+      <div class="prof-row"><span>Khung 11:00</span><span class="badge ok">Còn trống</span></div>
+      <div class="prof-row"><span>KTV Hồng Trang (RF Senior)</span><span class="badge ok">Rảnh</span></div>
+      <div class="prof-row"><span>Máy RF · EQ-RF-02</span><span class="badge ok">Sẵn sàng</span></div>
+      <div class="prof-row"><span>Phòng Slim 1</span><span class="badge ok">Trống</span></div>
+      <div class="prof-row"><span>Đối chiếu chống chỉ định</span><span class="badge busy">Cần xác nhận</span></div>
+      <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Hệ thống tự kiểm tra <b>khung giờ trống · nhân sự rảnh · máy sẵn sàng</b> và đối chiếu chống chỉ định với hồ sơ khách trước khi xác nhận.</div></div>
     </div>
   </div>`;
 </script>
