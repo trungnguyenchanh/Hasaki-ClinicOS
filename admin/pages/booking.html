@@ -71,6 +71,7 @@
 .blk.b-gold{background:#fbeccb;color:#9a6a1e;border-left:3px solid #d9a441}
 .blk.b-blush{background:#f7e0d8;color:#9a4b3b;border-left:3px solid #d98a6f}
 .blk.b-slate{background:#e4e9ef;color:#4a5b6b;border-left:3px solid #8499ab}
+.blk.b-unassign{background:repeating-linear-gradient(45deg,#eef1f4,#eef1f4 5px,#e2e7ec 5px,#e2e7ec 10px);color:#5a6b7a;border-left:3px dashed #8499ab}
 .blk.b-late{background:#f4d3cb;color:#9a3b2c;border-left:3px solid #c0564a}
 .blk.maint{background:repeating-linear-gradient(45deg,#f0e3d3,#f0e3d3 6px,#e8d6bf 6px,#e8d6bf 12px);color:#9a6a1e;border-left:3px solid #c99a4a}
 .lrow{display:flex;align-items:center;gap:11px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px}
@@ -106,7 +107,7 @@ document.getElementById('main').innerHTML = topbar('Lịch & Booking','Calendar 
     <div class="pill-tabs" id="caltab"><button class="on" onclick="setCal('customer')">Theo khách hàng</button><button onclick="setCal('staff')">Theo nhân viên</button><button onclick="setCal('machine')">Theo máy móc</button></div></div>
     <div id="calWarn"></div>
     <div class="cal-wrap"><div class="cal" id="cal"></div></div>
-    <div class="legend2" style="margin-top:10px"><span><i style="background:var(--teal-soft)"></i>Đã xác nhận</span><span><i style="background:#fbeccb"></i>Chờ check-in</span><span><i style="background:#f7e0d8"></i>VIP</span><span><i style="background:#e8d6bf"></i>Bảo trì máy</span><span><i style="background:#f4d3cb"></i>Thiếu máy / chờ vận chuyển</span></div>
+    <div class="legend2" style="margin-top:10px"><span><i style="background:var(--teal-soft)"></i>Đã xác nhận</span><span><i style="background:#fbeccb"></i>Chờ check-in</span><span><i style="background:#f7e0d8"></i>VIP</span><span><i style="background:#e2e7ec"></i>Chưa gán KTV</span><span><i style="background:#e8d6bf"></i>Bảo trì máy</span><span><i style="background:#f4d3cb"></i>Thiếu máy / chờ vận chuyển</span></div>
   </div>
 
   <div class="panel"><div class="panel-h"><div class="panel-title">Khách trong ngày — sắp đến & đã trễ<small>top 10 theo giờ hẹn · đánh dấu khách đã trễ</small></div><a class="btn btn-ghost" href="reception.html" style="padding:6px 12px;font-size:12px">Tiếp nhận khách</a></div>
@@ -120,14 +121,18 @@ const CUSTOMER=[
   {nm:'Lê Minh',role:'C-1080',av:'av-slate',blks:{'14:00':['Triệt lông · Laser 2','b-gold']}},
   {nm:'Trần My',role:'Khách lẻ',av:'av-blush',blks:{'13:30':['Chăm sóc da · Slim 2','b-gold']}},
   {nm:'Lê Vy',role:'Khách lẻ',av:'av-teal',blks:{'15:00':['Nhuộm dưỡng · Salon','b-teal']}},
+  {nm:'Phạm Yến',role:'Khách lẻ · không chỉ định KTV',av:'av-slate',blks:{'10:00':['Chăm sóc da · CHƯA GÁN KTV','b-unassign']}},
+  {nm:'Vũ Phương',role:'Khách lẻ · không chỉ định KTV',av:'av-teal',blks:{'17:00':['Soi da & tư vấn · CHƯA GÁN KTV','b-unassign']}},
   {nm:'Đỗ Lan',role:'Khách lẻ',av:'av-slate',blks:{'16:00':['HIFU · CHƯA CÓ MÁY','b-late']}},
 ];
 // lịch theo nhân viên
 const STAFF=[
-  {nm:'Hồng Trang',role:'RF Senior',av:'av-gold',blks:{'11:00':['Trần Thu Hà · RF bụng','b-blush'],'15:00':['Khách lẻ · RF mặt','b-teal']}},
-  {nm:'Thanh Mai',role:'LASER',av:'av-teal',blks:{'09:00':['Ngô Khánh · Triệt lông','b-teal'],'14:00':['Lê Minh · Triệt lông','b-gold']}},
-  {nm:'Ngọc Linh',role:'ĐD Skincare',av:'av-blush',blks:{'13:30':['Trần My · Chăm sóc da','b-gold'],'16:00':['Khách lẻ · Phục hồi','b-teal']}},
-  {nm:'Mai Linh',role:'Stylist tóc',av:'av-slate',blks:{'15:00':['Lê Vy · Nhuộm dưỡng','b-teal']}},
+  {nm:'⊘ Chưa phân công',role:'điều phối gán sau',av:'av-slate',unassign:true,blks:{'10:00':['Phạm Yến · Chăm sóc da','b-unassign'],'17:00':['Vũ Phương · Soi da & tư vấn','b-unassign']}},
+  {nm:'Hồng Trang',role:'RF Senior',av:'av-gold',shift:['Ca sáng','7:30–14:00','ok'],blks:{'11:00':['Trần Thu Hà · RF bụng','b-blush']}},
+  {nm:'Thanh Mai',role:'LASER',av:'av-teal',shift:['Cả ngày','7:30–20:00','ok'],note:'Xin ra ngoài 15:00–16:00 (việc cá nhân)',blks:{'09:00':['Ngô Khánh · Triệt lông','b-teal'],'14:00':['Lê Minh · Triệt lông','b-gold']}},
+  {nm:'Ngọc Linh',role:'ĐD Skincare',av:'av-blush',shift:['Ca chiều','13:00–20:00','late'],note:'Off đột xuất sáng — Phương Anh thay ca sáng',blks:{'13:30':['Trần My · Chăm sóc da','b-gold'],'16:00':['Khách lẻ · Phục hồi','b-teal']}},
+  {nm:'Mai Linh',role:'Stylist tóc',av:'av-slate',shift:['Ca chiều','13:00–20:00','ok'],blks:{'15:00':['Lê Vy · Nhuộm dưỡng','b-teal']}},
+  {nm:'Phương Anh',role:'Học việc · thay ca',av:'av-teal',shift:['Thay ca sáng','7:30–14:00','sub'],note:'Thay Ngọc Linh (off đột xuất)',blks:{'10:00':['Hỗ trợ KTV chính','b-slate']}},
 ];
 // lịch theo máy móc
 const MACHINE=[
@@ -145,7 +150,10 @@ function buildCal(rows){
   // set grid columns
   document.getElementById('cal').style.gridTemplateColumns=`150px repeat(${TIMES.length},1fr)`;
   rows.forEach(r=>{
-    h+=`<div class="res-name"><div class="q-av ${r.av}" style="width:26px;height:26px;font-size:10px">${r.nm.split(' ').slice(-1)[0].slice(0,2)}</div><div><b style="font-size:12px">${r.nm}</b><span style="display:block;font-size:10px;color:var(--ink-soft)">${r.role}</span></div></div>`;
+    const sc={ok:'mb-go',late:'mb-soon',sub:'mb-late'}[(r.shift&&r.shift[2])||'ok'];
+    const shiftHtml = r.shift ? `<span class="mini-badge ${sc}" style="margin-top:3px;display:inline-block">${r.shift[0]} · ${r.shift[1]}</span>${r.note?`<span style="display:block;font-size:9.5px;color:#9a5a1e;margin-top:2px">⚠ ${r.note}</span>`:''}` : '';
+    const avTxt = r.unassign ? '⊘' : r.nm.split(' ').slice(-1)[0].slice(0,2);
+    h+=`<div class="res-name" style="align-items:flex-start"><div class="q-av ${r.av}" style="width:26px;height:26px;font-size:10px;flex:none">${avTxt}</div><div><b style="font-size:12px">${r.nm}</b><span style="display:block;font-size:10px;color:var(--ink-soft)">${r.role}</span>${shiftHtml}</div></div>`;
     TIMES.forEach(t=>{
       const bk=r.blks[t];
       h+=`<div class="slot">${bk?`<div class="blk ${bk[1]}" onclick="location.href='booking-detail.html'"><b>${bk[0].split(' · ')[0]}</b>${bk[0].split(' · ')[1]?bk[0].split(' · ')[1]:''}</div>`:''}</div>`;

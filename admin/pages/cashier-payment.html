@@ -117,6 +117,7 @@ let items = [
   { kind:'med', name:'Lidocaine gel 5%', sku:'MED-LIDO', price:120000, qty:2, disc:0, rule:'—', pick:'picked',  note:'đã scan pick tại quầy dược 10:22' },
   { kind:'med', name:'Vitamin C bôi 10ml', sku:'MED-VITC', price:260000, qty:1, disc:0, rule:'—', pick:'nopick',  note:'CHƯA có lịch sử scan pick thuốc' },
   { kind:'med', name:'Kem phục hồi B5', sku:'MED-B5', price:180000, qty:1, disc:0, rule:'—', pick:'nostock', note:'hết stock tại CN — chờ nhập' },
+  { kind:'prod', name:'Serum dưỡng phục hồi', sku:'SP-B5-30', price:680000, qty:1, disc:0, rule:'—', lot:'B5-2503', lotExp:'08/2026', note:'sản phẩm bán mang về · xuất lô FEFO' },
 ];
 // MẶC ĐỊNH: chưa pay lần nào (xem trạng thái còn sửa được). ?paid=1 → đã pay 1 phần (khóa SKU).
 let payments = [];
@@ -212,7 +213,7 @@ function renderStep(){
       </div>
       <div class="sku-sum">
         ${items.map(it=>`<div class="sr ${billable(it)?'':'dim'}">
-          <div class="nm"><b>${it.name}</b><span>${it.sku}${it.disc?` · −${fmt(it.disc)}`:''}${!billable(it)?' · ko tính':''}</span></div>
+          <div class="nm"><b>${it.name}</b><span>${it.sku}${it.lot?` · Lô ${it.lot} · HSD ${it.lotExp}`:''}${it.disc?` · −${fmt(it.disc)}`:''}${!billable(it)?' · ko tính':''}</span></div>
           <div class="qx">×${it.qty}</div>
           <div class="pr">${billable(it)?fmt(it.price*it.qty-it.disc):fmt(it.price*it.qty)}</div>
         </div>`).join('')}

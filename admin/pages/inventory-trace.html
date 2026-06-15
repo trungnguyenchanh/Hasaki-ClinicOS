@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasaki ClinicOS · Log theo lô</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+.snap{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
+.snap .sb{border:1px solid var(--line);border-radius:14px;padding:15px 17px;background:#fff}
+.snap .sb .sv{font-family:'Fraunces',serif;font-size:26px;line-height:1;margin:5px 0 2px}
+.snap .sb .sl{font-size:11.5px;color:var(--ink-soft)}
+.snap .sb.warn{background:linear-gradient(140deg,#fff,#fdeee3);border-color:#f0c9a8}.snap .sb.warn .sv{color:#9a5a1e}
+.snap .sb.rose{background:linear-gradient(140deg,#fff,#f7dcd5);border-color:#e8b3a8}.snap .sb.rose .sv{color:#9a3b2c}
+.mini-tab{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.mini-tab button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--ink-soft)}
+.mini-tab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
+.ov-table{width:100%;border-collapse:collapse;font-size:13px}
+.ov-table th{text-align:left;font-size:11px;color:var(--ink-soft);font-weight:600;padding:9px 12px;border-bottom:1px solid var(--line)}
+.ov-table td{padding:10px 12px;border-bottom:1px solid var(--line)}
+.ov-table tr:last-child td{border:none}
+.lot-no{font-family:Consolas,monospace;font-weight:600;font-size:12.5px}
+.kind-pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap}
+.kind-pill.nvl{background:var(--teal-soft);color:var(--teal-deep)}
+.kind-pill.sale{background:#e6e0f5;color:#6b54b8}
+.lflag{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.lflag.active{background:var(--teal-soft);color:var(--teal-deep)}
+.lflag.near{background:#fbeccb;color:#9a6a1e}
+.lflag.expired{background:#f4d3cb;color:#9a3b2c}
+.panel{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;margin-bottom:20px}
+.panel-h{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line)}
+.panel-title{font-weight:600;font-size:14px}.panel-title small{display:block;font-size:11.5px;color:var(--ink-soft);font-weight:400;margin-top:1px}
+.filter-note{margin-left:auto;font-size:11.5px;color:var(--teal-deep);font-weight:600}
+.filter-note a{color:var(--ink-soft);text-decoration:none;margin-left:8px;font-weight:400}
+.io-in{color:var(--teal-deep);font-weight:600}
+.io-out{color:#9a3b2c;font-weight:600}
+.io-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.io-tag.in{background:var(--teal-soft);color:var(--teal-deep)}
+.io-tag.out{background:#f7dcd5;color:#9a3b2c}
+.ref-link{font-family:Consolas,monospace;font-size:11.5px;color:var(--teal-deep);text-decoration:none;font-weight:600}
+.qcol{font-family:'Fraunces',serif;font-weight:600;white-space:nowrap}
+@media(max-width:900px){.snap{grid-template-columns:repeat(2,1fr)}}
+</style></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
+<script src="../assets/app.js"></script>
+<script>
+renderLayout('inventory');
+const back=`<a class="btn btn-ghost" href="inventory-materials.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Kho NVL</a>`;
+document.getElementById('main').innerHTML = topbar('Vận hành · Lô vật tư','Log theo số lô',{who:'WH',branch:'CN Quận 1',right:back}) + `
+  <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:16px">Theo dõi <b>số lô + HSD</b> của vật tư có gắn lô (NVL liệu trình & sản phẩm bán). Bảng tổng các lô đang giữ và nhật ký nhập/xuất theo lô.</div>
+  <div class="snap" id="snap"></div>
+  <div class="panel">
+    <div class="panel-h"><div class="panel-title">Tất cả lô đang giữ<small>xuất theo FEFO · hạn sớm xuất trước</small></div><div class="filter-note" id="fnote"></div></div>
+    <div class="mini-tab" id="lf" style="padding:12px 16px 0;margin:0">
+      <button class="on" onclick="lfilter('all')">Tất cả</button>
+      <button onclick="lfilter('near')">⚠ Cận date</button>
+      <button onclick="lfilter('expired')">Hết hạn</button>
+    </div>
+    <div style="padding:6px 4px"><table class="ov-table"><thead><tr><th>Số lô</th><th>Vật tư</th><th>Loại</th><th>HSD</th><th>Tồn lô</th><th>Ngày nhập</th><th>Trạng thái</th></tr></thead><tbody id="lotRows"></tbody></table></div>
+  </div>
+  <div class="panel">
+    <div class="panel-h"><div class="panel-title">Nhật ký nhập / xuất theo lô<small>nhập kho · xuất dùng/bán · điều chỉnh</small></div></div>
+    <div class="mini-tab" id="iof" style="padding:12px 16px 0;margin:0">
+      <button class="on" onclick="iofilter('all')">Tất cả</button>
+      <button onclick="iofilter('in')">Nhập</button>
+      <button onclick="iofilter('out')">Xuất</button>
+    </div>
+    <div style="padding:6px 4px"><table class="ov-table"><thead><tr><th>Thời gian</th><th>Số lô</th><th>Vật tư</th><th>Loại GD</th><th>Số lượng</th><th>Tồn sau</th><th>Chứng từ</th></tr></thead><tbody id="ioRows"></tbody></table></div>
+  </div>`;
+
+// ===== Dữ liệu lô (gộp NVL + SP, có cột loại) =====
+const LOTS=[
+  {lot:'SER-2503A', mat:'Tinh chất phục hồi', kind:'nvl', sku:'NVL-SER-500', exp:'04/2026', qty:'4 lọ', in:'05/03/2026', st:'near'},
+  {lot:'SER-2505B', mat:'Tinh chất phục hồi', kind:'nvl', sku:'NVL-SER-500', exp:'09/2026', qty:'14 lọ', in:'18/05/2026', st:'active'},
+  {lot:'HIFU-2502X', mat:'Đầu cartridge HIFU', kind:'nvl', sku:'NVL-HIFU-C', exp:'08/2026', qty:'9 đầu', in:'20/02/2026', st:'active'},
+  {lot:'HIFU-2504Y', mat:'Đầu cartridge HIFU', kind:'nvl', sku:'NVL-HIFU-C', exp:'02/2027', qty:'5 đầu', in:'10/04/2026', st:'active'},
+  {lot:'SOOTH-2412C', mat:'Gel làm dịu sau laser', kind:'nvl', sku:'NVL-SOOTH-500', exp:'05/2026', qty:'5 lọ', in:'28/12/2025', st:'near'},
+  {lot:'SOOTH-2503D', mat:'Gel làm dịu sau laser', kind:'nvl', sku:'NVL-SOOTH-500', exp:'11/2026', qty:'4 lọ', in:'12/03/2026', st:'active'},
+  {lot:'VITC-2411E', mat:'Serum vitamin C', kind:'nvl', sku:'NVL-VITC-30', exp:'04/2026', qty:'2 lọ', in:'15/11/2025', st:'near'},
+  {lot:'VITC-2502F', mat:'Serum vitamin C', kind:'nvl', sku:'NVL-VITC-30', exp:'10/2026', qty:'5 lọ', in:'08/02/2026', st:'active'},
+  {lot:'NDL-2504G', mat:'Đầu kim lăn', kind:'nvl', sku:'NVL-NDL-1', exp:'04/2027', qty:'30 đầu', in:'02/04/2026', st:'active'},
+  {lot:'NDL-2505H', mat:'Đầu kim lăn', kind:'nvl', sku:'NVL-NDL-1', exp:'05/2027', qty:'12 đầu', in:'15/05/2026', st:'active'},
+  {lot:'B5-2503', mat:'Serum phục hồi B5', kind:'sale', sku:'SP-B5-30', exp:'08/2026', qty:'140', in:'02/03/2026', st:'active'},
+  {lot:'B5-2506', mat:'Serum phục hồi B5', kind:'sale', sku:'SP-B5-30', exp:'12/2026', qty:'60', in:'01/06/2026', st:'active'},
+  {lot:'CLN-2501', mat:'Sữa rửa mặt dịu nhẹ', kind:'sale', sku:'SP-CLN-150', exp:'05/2026', qty:'55', in:'15/01/2026', st:'near'},
+  {lot:'MSK-2412', mat:'Mặt nạ dưỡng ẩm (hộp)', kind:'sale', sku:'SP-MSK-10', exp:'03/2026', qty:'240', in:'05/12/2025', st:'near'},
+  {lot:'SUN-2504', mat:'Kem chống nắng SPF50', kind:'sale', sku:'SP-SUN-50', exp:'11/2026', qty:'210', in:'10/04/2026', st:'active'},
+  {lot:'NMT-2411', mat:'Kem dưỡng ẩm ban đêm', kind:'sale', sku:'SP-NMT-50', exp:'04/2026', qty:'22', in:'20/11/2025', st:'near'},
+];
+const stLbl={active:['active','Còn hạn'],near:['near','Cận date'],expired:['expired','Hết hạn']};
+const kindLbl={nvl:['nvl','NVL'],sale:['sale','SP bán']};
+
+// ===== Nhật ký nhập/xuất theo lô =====
+const IOLOG=[
+  {dt:'14/06 11:20', lot:'SOOTH-2412C', mat:'Gel làm dịu sau laser', io:'out', q:'15 ml', after:'5 lọ', ref:'DV-0825'},
+  {dt:'14/06 10:40', lot:'B5-2503', mat:'Serum phục hồi B5', io:'out', q:'1 hộp', after:'140', ref:'RC-0825'},
+  {dt:'14/06 09:31', lot:'SER-2503A', mat:'Tinh chất phục hồi', io:'out', q:'30 ml', after:'4 lọ', ref:'DV-0830'},
+  {dt:'14/06 09:12', lot:'MSK-2412', mat:'Mặt nạ dưỡng ẩm (hộp)', io:'out', q:'1 hộp', after:'240', ref:'RC-0825'},
+  {dt:'13/06 16:05', lot:'B5-2503', mat:'Serum phục hồi B5', io:'out', q:'1 hộp', after:'141', ref:'RC-0836'},
+  {dt:'13/06 11:05', lot:'HIFU-2502X', mat:'Đầu cartridge HIFU', io:'out', q:'1 đầu', after:'9 đầu', ref:'DV-0825'},
+  {dt:'13/06 08:30', lot:'VITC-2411E', mat:'Serum vitamin C', io:'out', q:'30 ml', after:'2 lọ', ref:'DV-0852'},
+  {dt:'12/06 08:00', lot:'B5-2506', mat:'Serum phục hồi B5', io:'in', q:'60', after:'60', ref:'PN-0612'},
+  {dt:'11/06 14:22', lot:'HIFU-2502X', mat:'Đầu cartridge HIFU', io:'out', q:'1 đầu', after:'10 đầu', ref:'DV-0836'},
+  {dt:'10/06 08:00', lot:'NDL-2505H', mat:'Đầu kim lăn', io:'in', q:'12 đầu', after:'12 đầu', ref:'PN-0610'},
+  {dt:'08/06 08:00', lot:'SUN-2504', mat:'Kem chống nắng SPF50', io:'in', q:'210', after:'210', ref:'PN-0608'},
+  {dt:'05/06 08:00', lot:'SER-2505B', mat:'Tinh chất phục hồi', io:'in', q:'14 lọ', after:'14 lọ', ref:'PN-0605'},
+];
+
+// snapshot
+function renderSnap(){
+  const near=LOTS.filter(l=>l.st==='near').length, exp=LOTS.filter(l=>l.st==='expired').length;
+  document.getElementById('snap').innerHTML=`
+    <div class="sb"><div class="sl">Lô đang giữ</div><div class="sv">${LOTS.length}</div><div class="sl">NVL + sản phẩm bán</div></div>
+    <div class="sb warn"><div class="sl">Lô cận date</div><div class="sv">${near}</div><div class="sl">cần đẩy dùng/bán</div></div>
+    <div class="sb rose"><div class="sl">Lô hết hạn</div><div class="sv">${exp}</div><div class="sl">cần xử lý</div></div>
+    <div class="sb"><div class="sl">Giao dịch lô</div><div class="sv">${IOLOG.length}</div><div class="sl">nhập/xuất gần đây</div></div>`;
+}
+
+// lọc theo sku (link từ kho) — chỉ pre-filter bảng lô
+const focusSku=getParam('sku');
+function expKey(e){const [m,y]=e.split('/');return parseInt(y)*12+parseInt(m);}
+function renderLots(filter){
+  let list=[...LOTS];
+  if(focusSku) list=list.filter(l=>l.sku===focusSku);
+  if(filter&&filter!=='all') list=list.filter(l=>l.st===filter);
+  list.sort((a,b)=>expKey(a.exp)-expKey(b.exp));
+  document.getElementById('lotRows').innerHTML=list.map(l=>{
+    const [sc,st]=stLbl[l.st]; const [kc,kt]=kindLbl[l.kind];
+    return `<tr ${l.st!=='active'?'style="background:#fdf6f0"':''}>
+      <td><span class="lot-no">${l.lot}</span></td><td><b>${l.mat}</b></td>
+      <td><span class="kind-pill ${kc}">${kt}</span></td><td>${l.exp}</td>
+      <td class="qcol">${l.qty}</td><td>${l.in}</td><td><span class="lflag ${sc}">${st}</span></td></tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--ink-soft);padding:24px">Không có lô phù hợp.</td></tr>';
+  if(focusSku) document.getElementById('fnote').innerHTML=`Đang lọc lô của <b>${focusSku}</b> <a href="inventory-trace.html">× bỏ lọc</a>`;
+}
+function lfilter(k){
+  document.querySelectorAll('#lf button').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('#lf button')[{all:0,near:1,expired:2}[k]].classList.add('on');
+  renderLots(k);
+}
+
+function renderIO(filter){
+  let list=IOLOG;
+  if(filter&&filter!=='all') list=IOLOG.filter(r=>r.io===filter);
+  document.getElementById('ioRows').innerHTML=list.map(r=>{
+    const isIn=r.io==='in';
+    const refHref = r.ref.startsWith('DV-')?`service-record.html?tk=${r.ref}`:(r.ref.startsWith('RC-')?`receipt-preview.html?tk=${r.ref}`:'inventory-products.html');
+    return `<tr><td style="white-space:nowrap">${r.dt}</td><td><span class="lot-no">${r.lot}</span></td>
+      <td>${r.mat}</td><td><span class="io-tag ${isIn?'in':'out'}">${isIn?'NHẬP':'XUẤT'}</span></td>
+      <td class="qcol ${isIn?'io-in':'io-out'}">${isIn?'+':'−'}${r.q}</td><td class="qcol">${r.after}</td>
+      <td><a class="ref-link" href="${refHref}">${r.ref}</a></td></tr>`;
+  }).join('');
+}
+function iofilter(k){
+  document.querySelectorAll('#iof button').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('#iof button')[{all:0,in:1,out:2}[k]].classList.add('on');
+  renderIO(k);
+}
+window.lfilter=lfilter; window.iofilter=iofilter;
+renderSnap(); renderLots('all'); renderIO('all');
+</script>
+</body></html>

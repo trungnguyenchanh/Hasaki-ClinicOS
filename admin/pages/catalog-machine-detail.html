@@ -77,6 +77,21 @@
 .rel-chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:20px;background:var(--bg-2);text-decoration:none;color:var(--ink);margin:3px 4px 3px 0}
 .rel-chip:hover{background:var(--teal-soft);color:var(--teal-deep)}
 .rel-chip svg{width:12px;height:12px}
+.hp-row{border:1px solid var(--line);border-radius:13px;padding:13px 15px;margin-bottom:10px;background:#fff}
+.hp-row.near{border-color:#f0c9a8;background:linear-gradient(140deg,#fff,#fdeee3)}
+.hp-row.using{border-color:#bfe3da}
+.hp-top{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.hp-top b{font-size:13.5px}
+.hp-id{font-family:Consolas,monospace;font-size:11px;color:var(--ink-soft)}
+.hp-tag{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;margin-left:auto;white-space:nowrap}
+.hp-tag.using{background:var(--teal-soft);color:var(--teal-deep)}
+.hp-tag.idle{background:var(--bg-2);color:var(--ink-soft)}
+.hp-tag.near{background:#f4d3cb;color:#9a3b2c}
+.hp-bar{height:8px;border-radius:5px;background:var(--bg-2);overflow:hidden;margin:7px 0}
+.hp-bar i{display:block;height:100%}
+.hp-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-soft)}
+.hp-meta b{font-family:'Fraunces',serif;color:var(--ink)}
+.hp-act{display:flex;gap:8px;margin-top:10px}
 @media(max-width:900px){.link-grid{grid-template-columns:repeat(2,1fr)}}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
@@ -89,6 +104,16 @@ const MC={
     maint:{next:'12/2026', last:'06/2026', warr:'BH đến 03/2027', cycle:'6 tháng/lần'},
     perf:{rev:'1,2 tỷ', sess:720, roi:'267%'},
     steps:[['Trị liệu RF vùng bụng','ST-03']], svcs:[['Giảm béo RF bụng'],['Giảm béo định hình toàn diện']], skills:[['RF (Radio Frequency)','SK-RF']] },
+  'EQ-LASER-01':{ nm:'Laser Diode XL', val:'600.000.000đ', buy:'01/2024', dep:'5 năm · còn 2,6 năm', skill:'LASER · Senior',
+    specs:[['Diode 808nm','Bước sóng'],['10–40 J/cm²','Dải năng lượng'],['10 Hz','Tần số phát'],['Spot 12mm','Kích thước đầu'],['Sapphire làm mát','Hệ làm mát'],['88%','Hiệu suất']],
+    maint:{next:'09/2026', last:'03/2026', warr:'BH đến 01/2027', cycle:'6 tháng/lần'},
+    perf:{rev:'2,1 tỷ', sess:1240, roi:'350%'},
+    handpieces:[
+      {id:'HP-12MM', name:'Tay cầm 12mm (body)', shotUsed:842000, shotMax:1000000, energy:'14 J/cm²', st:'using'},
+      {id:'HP-09MM', name:'Tay cầm 9mm (vùng nhỏ)', shotUsed:120000, shotMax:1000000, energy:'12 J/cm²', st:'idle'},
+      {id:'HP-15MM', name:'Tay cầm 15mm (vùng lớn)', shotUsed:988000, shotMax:1000000, energy:'16 J/cm²', st:'near'},
+    ],
+    steps:[['Bắn laser triệt lông','ST-07']], svcs:[['Triệt lông Diode'],['Triệt lông toàn thân']], skills:[['LASER triệt lông','SK-LASER']] },
 };
 const id=(typeof getParam==='function')?getParam('id'):null;
 const M=(id&&MC[id])?MC[id]:MC['EQ-RF-02'];
@@ -107,7 +132,7 @@ document.getElementById('main').innerHTML = topbar('Danh mục',`${M.nm} · ${mi
     <div class="sb"><div class="sl">Giá trị tài sản</div><div class="sv" style="font-size:18px">${M.val}</div><div class="sl">mua ${M.buy}</div></div>
     <div class="sb"><div class="sl">Khấu hao</div><div class="sv" style="font-size:16px">${M.dep}</div><div class="sl">còn lại</div></div>
     <div class="sb good"><div class="sl">Doanh thu sinh ra</div><div class="sv">${M.perf.rev}</div><div class="sl">${M.perf.sess} buổi · ROI ${M.perf.roi}</div></div>
-    <div class="sb"><div class="sl">Skill vận hành</div><div class="sv" style="font-size:16px">${M.skill}</div><div class="sl">yêu cầu</div></div>
+    ${M.handpieces?(()=>{const u=M.handpieces.find(h=>h.st==='using')||M.handpieces[0];const left=u.shotMax-u.shotUsed;return `<div class="sb warn"><div class="sl">Tay cầm đang dùng</div><div class="sv" style="font-size:18px">${(left/1000).toFixed(0)}k shot</div><div class="sl">còn lại · ${u.name}</div></div>`;})():`<div class="sb"><div class="sl">Skill vận hành</div><div class="sv" style="font-size:16px">${M.skill}</div><div class="sl">yêu cầu</div></div>`}
   </div>
   <div class="row r-2">
     <div class="panel"><div class="panel-h"><div class="panel-title">Thông số kỹ thuật</div></div>
@@ -121,6 +146,20 @@ document.getElementById('main').innerHTML = topbar('Danh mục',`${M.nm} · ${mi
       <div style="display:flex;gap:8px;margin-top:12px"><button class="btn btn-teal" style="padding:7px 14px;font-size:12.5px">Đặt lịch bảo trì</button><button class="btn btn-ghost" style="padding:7px 14px;font-size:12.5px">Nhật ký vận hành</button></div>
     </div>
   </div>
+  ${M.handpieces?`<div class="panel" style="margin-top:16px"><div class="panel-h"><div class="panel-title">Tay cầm (Handpiece) — theo dõi số shot<small>mỗi tay cầm có tuổi thọ theo số phát · hết shot thì thay tay cầm, không thay máy</small></div><button class="btn btn-teal" style="padding:6px 12px;font-size:12px;margin-left:auto">+ Thêm tay cầm</button></div>
+    <div style="padding:4px 2px">${M.handpieces.map(h=>{
+      const left=h.shotMax-h.shotUsed; const pct=h.shotUsed/h.shotMax*100; const leftPct=100-pct;
+      const near=leftPct<=12; const cls=near?'near':(h.st==='using'?'using':'');
+      const tag=near?['near','⚠ Cần thay sớm']:(h.st==='using'?['using','Đang dùng']:['idle','Dự phòng']);
+      const fmtN=n=>n.toLocaleString('vi-VN');
+      return `<div class="hp-row ${cls}">
+        <div class="hp-top"><b>${h.name}</b><span class="hp-id">${h.id} · năng lượng đang set: ${h.energy}</span><span class="hp-tag ${tag[0]}">${tag[1]}</span></div>
+        <div class="hp-bar"><i style="width:${pct.toFixed(1)}%;background:${near?'#c0564a':'var(--teal)'}"></i></div>
+        <div class="hp-meta"><span>Đã bắn <b>${fmtN(h.shotUsed)}</b> / ${fmtN(h.shotMax)} shot</span><span>Còn lại <b style="${near?'color:#c0564a':''}">${fmtN(left)} shot</b> (${leftPct.toFixed(0)}%)</span></div>
+        ${near?`<div class="hp-act"><button class="btn btn-teal" style="padding:6px 13px;font-size:12px">Thay tay cầm</button><button class="btn btn-ghost" style="padding:6px 13px;font-size:12px">Đặt mua tay cầm mới</button></div>`:''}
+      </div>`}).join('')}</div>
+    <div style="font-size:11.5px;color:var(--ink-soft);padding:6px 4px 2px">Số shot được trừ tự động khi KTV thực hiện liệu trình (ghi nhận ở <a href="service-record.html" style="color:var(--teal-deep)">hồ sơ thực hiện</a>). Khi tay cầm hết shot, hệ thống chặn dùng tiếp & nhắc thay.</div>
+  </div>`:''}
   <div class="panel" style="margin-top:16px"><div class="panel-h"><div class="panel-title">Liên kết — bước · dịch vụ · skill dùng thiết bị này</div></div>
     <div style="font-size:11.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px;margin:4px 0 6px">Bước liệu trình</div>
     ${M.steps.map(s=>`<a class="rel-chip" href="catalog-step-detail.html?id=${s[1]}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>${s[0]}</a>`).join('')}

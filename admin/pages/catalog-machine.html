@@ -97,32 +97,47 @@ document.getElementById('main').innerHTML = topbar('Danh mục','Máy móc & Thi
     <div class="sb"><div class="sl">Tổng thiết bị</div><div class="sv">8</div><div class="sl">tài sản cao cấp</div></div>
     <div class="sb good"><div class="sl">Đang hoạt động</div><div class="sv">6</div><div class="sl">sẵn sàng</div></div>
     <div class="sb warn"><div class="sl">Cần bảo trì</div><div class="sv">1</div><div class="sl">đến hạn</div></div>
-    <div class="sb warn"><div class="sl">Sắp hết bảo hành</div><div class="sv">1</div><div class="sl">≤30 ngày</div></div>
+    <div class="sb warn"><div class="sl">Tay cầm sắp hết shot</div><div class="sv">2</div><div class="sl">cần thay tay cầm</div></div>
   </div>
   <div class="filt-bar">
     <input id="q" placeholder="🔍 Tìm thiết bị..." style="flex:1;min-width:200px" oninput="render()">
     <select id="fs" onchange="render()"><option value="">Mọi trạng thái</option><option>Hoạt động</option><option>Cần bảo trì</option></select>
   </div>
   <div class="panel" style="padding:6px 4px"><div class="panel-h" style="padding:12px 14px 4px"><div class="panel-title">Danh mục máy móc<small>tài sản đắt tiền — hiệu suất · khấu hao · bảo trì · bảo hành</small></div></div>
-    <table class="ov-table"><thead><tr><th>Thiết bị</th><th>Mã</th><th>Giá trị</th><th>Skill vận hành</th><th>Bảo trì kế tiếp</th><th>Trạng thái</th></tr></thead><tbody id="rows"></tbody></table>
+    <table class="ov-table"><thead><tr><th>Thiết bị</th><th>Mã</th><th>Giá trị</th><th>Skill vận hành</th><th>Tay cầm · Shot</th><th>Bảo trì kế tiếp</th><th>Trạng thái</th></tr></thead><tbody id="rows"></tbody></table>
     <div id="empty" style="display:none;text-align:center;padding:24px;color:var(--ink-soft);font-size:13px">Không có thiết bị khớp.</div>
   </div>`;
 
 const MACHINES=[
   {id:'EQ-RF-02', nm:'Máy RF Slim', val:'450tr', skill:'RF', maint:'12/2026', st:'ok', stl:'Hoạt động'},
-  {id:'EQ-LASER-01', nm:'Laser Diode XL', val:'600tr', skill:'LASER', maint:'09/2026', st:'ok', stl:'Hoạt động'},
-  {id:'EQ-HIFU-01', nm:'Máy HIFU', val:'1,2 tỷ', skill:'HIFU', maint:'Quá hạn 180h', st:'maint', stl:'Cần bảo trì'},
+  {id:'EQ-LASER-01', nm:'Laser Diode XL', val:'600tr', skill:'LASER', maint:'09/2026', st:'ok', stl:'Hoạt động', hp:{name:'Tay cầm 12mm', shotUsed:842000, shotMax:1000000}},
+  {id:'EQ-IPL-01', nm:'Máy IPL trẻ hóa', val:'320tr', skill:'IPL', maint:'10/2026', st:'ok', stl:'Hoạt động', hp:{name:'Tay cầm IPL-560', shotUsed:178000, shotMax:200000}},
+  {id:'EQ-HIFU-01', nm:'Máy HIFU', val:'1,2 tỷ', skill:'HIFU', maint:'Quá hạn 180h', st:'maint', stl:'Cần bảo trì', hp:{name:'Cartridge 4.5mm', shotUsed:9200, shotMax:10000}},
   {id:'EQ-DERMA-01', nm:'Máy soi da AI', val:'200tr', skill:'Skincare', maint:'10/2026', st:'ok', stl:'Hoạt động'},
   {id:'EQ-EDI-01', nm:'Máy điện di', val:'80tr', skill:'Skincare', maint:'11/2026', st:'ok', stl:'Hoạt động'},
   {id:'EQ-RF-01', nm:'Máy RF mặt', val:'380tr', skill:'RF', maint:'BH còn 12 ngày', st:'warr', stl:'Sắp hết BH'},
 ];
 const stB={ok:'ok',maint:'over',warr:'busy'};
+// % shot còn lại của tay cầm; <12% → cảnh báo
+function hpCell(m){
+  if(!m.hp) return '<span style="color:var(--ink-soft);font-size:12px">— không có tay cầm</span>';
+  const left=m.hp.shotMax-m.hp.shotUsed; const pct=left/m.hp.shotMax*100;
+  const warn=pct<=12;
+  const col=warn?'#c0564a':'var(--teal)';
+  const fmtK=n=>n>=1000?(n/1000).toFixed(0)+'k':n;
+  return `<div style="min-width:150px">
+    <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>${m.hp.name}</span><b style="font-family:'Fraunces',serif;${warn?'color:#c0564a':''}">${fmtK(left)} shot</b></div>
+    <div style="height:6px;border-radius:4px;background:var(--bg-2);overflow:hidden"><i style="display:block;height:100%;width:${(m.hp.shotUsed/m.hp.shotMax*100).toFixed(0)}%;background:${col}"></i></div>
+    ${warn?'<span style="font-size:10px;color:#c0564a;font-weight:600">⚠ Sắp hết shot — chuẩn bị thay tay cầm</span>':''}
+  </div>`;
+}
 function render(){
   const q=document.getElementById('q').value.toLowerCase().trim(); const s=document.getElementById('fs').value;
   const list=MACHINES.filter(m=>{ if(q&&!m.nm.toLowerCase().includes(q))return false; if(s==='Hoạt động'&&m.st!=='ok')return false; if(s==='Cần bảo trì'&&m.st!=='maint')return false; return true; });
   document.getElementById('rows').innerHTML=list.map(m=>`<tr class="clickable" onclick="location.href='catalog-machine-detail.html?id=${m.id}'" ${m.st!=='ok'?'style="background:#fdf6f0"':''}>
     <td><b>${m.nm}</b></td><td style="font-family:Consolas,monospace;font-size:12px">${m.id}</td><td class="num-strong">${m.val}</td>
     <td><a href="catalog-skill.html" onclick="event.stopPropagation()" style="color:var(--teal-deep)"><span class="role-chip">${m.skill}</span></a></td>
+    <td>${hpCell(m)}</td>
     <td style="font-size:12px;${m.st!=='ok'?'color:var(--rose)':''}">${m.maint}</td><td><span class="badge ${stB[m.st]}">${m.stl}</span></td></tr>`).join('');
   document.getElementById('empty').style.display=list.length?'none':'block';
 }

@@ -55,6 +55,10 @@
 .mini-mp{font-size:12px;display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bg-2)}
 .mini-mp:last-child{border:none}.mini-mp b{font-family:'Fraunces',serif;font-weight:600}
 .mini-mp .nvl-warn{color:var(--amber)}
+.nvl-lot{display:inline-block;font-family:Consolas,monospace;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:5px;background:var(--teal-soft);color:var(--teal-deep);margin-left:6px;vertical-align:middle}
+.hp-mini{margin-top:8px;padding-top:7px;border-top:1px dashed var(--line)}
+.hp-mini-h{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--teal-deep);margin-bottom:4px}
+.hp-mini-h svg{width:13px;height:13px;flex:none}
 .mini-photo{display:flex;gap:6px}
 .mini-photo .pp{width:42px;height:42px;border-radius:9px;display:grid;place-items:center;flex:none}
 .pp.ba{background:linear-gradient(135deg,#e8e2d6,#d4cdbf)}.pp.aa{background:linear-gradient(135deg,var(--teal-soft),#c9e6df)}.pp.add{border:1.5px dashed var(--line);cursor:pointer;color:var(--ink-soft)}
@@ -121,20 +125,20 @@ const STEPS=[
   {svc:'rf',role:'ktv',n:'Trị liệu RF vùng bụng',status:'doing',time:'10:18',
    persons:[['HT','Hồng Trang','Thợ chính','rl-main']],
    machine:{name:'Máy RF · EQ-RF-02',params:[['Cường độ','Mức 6/10'],['Nhiệt độ','42°C'],['Thời gian','25 phút']]},
-   nvl:[['Gel dẫn RF','48 ml',true],['Tinh chất tan mỡ','1 ống',false]],photos:[]},
+   nvl:[['Gel dẫn RF','48 ml',true],['Tinh chất tan mỡ','1 ống',false,'SER-2503A']],photos:[]},
   {svc:'rf',role:'ktv',n:'Làm dịu & kết thúc',status:'wait',time:'—',
    persons:[['HT','Hồng Trang','Thợ chính','rl-main']],machine:null,
-   nvl:[['Mặt nạ làm dịu','1 cái',false]],photos:['aa']},
+   nvl:[['Mặt nạ làm dịu','1 cái',false],['Gel làm dịu sau laser','15 ml',false,'SOOTH-2412C']],photos:['aa']},
   {svc:'laser',role:'ktv',n:'Làm sạch & chuẩn bị da',status:'wait',time:'11:00',dupKey:'clean',dup:true,
    persons:[['TM','Thanh Mai','Thợ chính','rl-main']],machine:null,
    nvl:[['Gel làm sạch','20 ml',false]],photos:[]},
   {svc:'laser',role:'ktv',n:'Bắn laser triệt lông',status:'wait',time:'11:08',
    persons:[['TM','Thanh Mai','Thợ chính','rl-main']],
-   machine:{name:'Laser Diode XL · EQ-LSR-01',params:[['Bước sóng','808nm'],['Năng lượng','14 J/cm²'],['Số phát','240']]},
+   machine:{name:'Laser Diode XL · EQ-LSR-01',params:[['Bước sóng','808nm'],['Năng lượng','14 J/cm²'],['Số phát','240']],hp:{name:'Tay cầm 12mm',id:'HP-12MM',shots:240,after:'157.760 / 1.000.000'}},
    nvl:[['Gel lạnh','30 ml',false]],photos:['ba','aa']},
   {svc:'warr',role:'ktv',n:'Bắn laser làm lại (BH)',status:'wait',time:'11:25',warr:true,
    persons:[['TM','Thanh Mai','Thợ chính','rl-main']],
-   machine:{name:'Laser Diode XL · EQ-LSR-01',params:[['Bước sóng','808nm'],['Năng lượng','12 J/cm²'],['Số phát','60']]},
+   machine:{name:'Laser Diode XL · EQ-LSR-01',params:[['Bước sóng','808nm'],['Năng lượng','12 J/cm²'],['Số phát','60']],hp:{name:'Tay cầm 12mm',id:'HP-12MM',shots:60,after:'157.700 / 1.000.000'}},
    nvl:[['Gel lạnh','10 ml',false]],photos:['ba']},
 ];
 const STATUSCLS={done:['Xong','done'],doing:['Đang làm','prog'],wait:['Chờ','wait']};
@@ -183,8 +187,8 @@ function renderSteps(){
         ${s.drNote?`<div class="dr-alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg><div><b>Lưu ý từ bác sĩ (khi kê toa):</b> ${s.drNote}</div></div>`:''}
         <div class="tl-detail">
           <div class="dt-block"><div class="dt-lbl">Người thực hiện</div>${s.persons.map(p=>`<div class="dt-person"><div class="q-av av-${p[3]==='rl-doc'?'indigo':p[3]==='rl-nurse'?'blush':p[3]==='rl-sub'?'sage':'teal'}">${p[0]}</div>${p[1]}<span class="rl ${p[3]}">${p[2]}</span></div>`).join('')}</div>
-          ${s.machine?`<div class="dt-block"><div class="dt-lbl">Máy & thông số</div><div style="font-size:11.5px;font-weight:600;color:var(--teal-deep);margin-bottom:5px">${s.machine.name}</div>${s.machine.params.map(p=>`<div class="mini-mp"><span style="color:var(--ink-soft)">${p[0]}</span><b>${p[1]}</b></div>`).join('')}</div>`:'<div class="dt-block"><div class="dt-lbl">Máy</div><div style="font-size:12px;color:var(--ink-soft)">Không dùng máy</div></div>'}
-          ${s.nvl.length?`<div class="dt-block"><div class="dt-lbl">NVL bị trừ</div>${s.nvl.map(n=>`<div class="mini-mp"><span style="color:var(--ink-soft)">${n[0]}</span><b class="${n[2]?'nvl-warn':''}">${n[1]}${n[2]?' ⚠':''}</b></div>`).join('')}</div>`:'<div class="dt-block"><div class="dt-lbl">NVL</div><div style="font-size:12px;color:var(--ink-soft)">—</div></div>'}
+          ${s.machine?`<div class="dt-block"><div class="dt-lbl">Máy & thông số</div><div style="font-size:11.5px;font-weight:600;color:var(--teal-deep);margin-bottom:5px">${s.machine.name}</div>${s.machine.params.map(p=>`<div class="mini-mp"><span style="color:var(--ink-soft)">${p[0]}</span><b>${p[1]}</b></div>`).join('')}${s.machine.hp?`<div class="hp-mini"><div class="hp-mini-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v5M9 21h6"/></svg>Tay cầm: ${s.machine.hp.name} <span style="font-family:Consolas,monospace;font-size:10px;color:var(--ink-soft)">(${s.machine.hp.id})</span></div><div class="mini-mp"><span style="color:var(--ink-soft)">Shot buổi này</span><b style="color:var(--rose)">−${s.machine.hp.shots} shot</b></div><div class="mini-mp"><span style="color:var(--ink-soft)">Shot tay cầm sau buổi</span><b>${s.machine.hp.after}</b></div></div>`:''}</div>`:'<div class="dt-block"><div class="dt-lbl">Máy</div><div style="font-size:12px;color:var(--ink-soft)">Không dùng máy</div></div>'}
+          ${s.nvl.length?`<div class="dt-block"><div class="dt-lbl">NVL bị trừ${s.nvl.some(n=>n[3])?' · lô (FEFO)':''}</div>${s.nvl.map(n=>`<div class="mini-mp"><span style="color:var(--ink-soft)">${n[0]}${n[3]?`<span class="nvl-lot">Lô ${n[3]}</span>`:''}</span><b class="${n[2]?'nvl-warn':''}">${n[1]}${n[2]?' ⚠':''}</b></div>`).join('')}</div>`:'<div class="dt-block"><div class="dt-lbl">NVL</div><div style="font-size:12px;color:var(--ink-soft)">—</div></div>'}
           ${s.photos.length||s.status!=='wait'?`<div class="dt-block"><div class="dt-lbl">Hình ảnh</div><div class="mini-photo">${s.photos.map(p=>`<div class="pp ${p}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div>`).join('')}<div class="pp add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div></div>`:''}
         </div>
       </div></div>`;

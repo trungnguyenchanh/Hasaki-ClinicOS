@@ -23,6 +23,8 @@
 .ic-laser{background:#fbe7e0;color:var(--blush-deep)}.ic-rf{background:#f7eed3;color:var(--gold)}
 .ic-skin{background:var(--teal-soft);color:var(--teal-deep)}.ic-hair{background:var(--indigo-soft);color:var(--indigo)}
 .ic-relax{background:#e3f0ec;color:#5d9486}.ic-prod{background:#eef1f4;color:#6b7a86}
+.cart-lot{display:inline-block;font-family:Consolas,monospace;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:5px;background:var(--teal-soft);color:var(--teal-deep);margin-top:4px}
+.cart-lot.near{background:#fbeccb;color:#9a6a1e}
 /* invoice — rõ ràng chống nhầm */
 .inv-row{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
 .inv-row:last-of-type{border:none}
@@ -122,9 +124,9 @@ const CATALOG={
     {ic:'laser',t:"Trừ gói",n:"Triệt lông · buổi 5/8",p:0},
   ],
   "Sản phẩm":[
-    {ic:'prod',t:"Sản phẩm",n:"Serum dưỡng phục hồi",p:680000},
-    {ic:'prod',t:"Sản phẩm",n:"Kem chống nắng SPF50",p:420000},
-    {ic:'prod',t:"Sản phẩm",n:"Sữa rửa mặt dịu nhẹ",p:280000},
+    {ic:'prod',t:"Sản phẩm",n:"Serum dưỡng phục hồi",p:680000,sku:'SP-B5-30'},
+    {ic:'prod',t:"Sản phẩm",n:"Kem chống nắng SPF50",p:420000,sku:'SP-SUN-50'},
+    {ic:'prod',t:"Sản phẩm",n:"Sữa rửa mặt dịu nhẹ",p:280000,sku:'SP-CLN-150'},
   ],
   "Thuốc (SKU)":[
     {ic:'med',t:"Thuốc",n:"Lidocaine gel 5%",p:120000,pick:'picked'},
@@ -133,6 +135,9 @@ const CATALOG={
   ],
 };
 let activeCat=Object.keys(CATALOG)[0];
+// FEFO lô sản phẩm bán (gán khi thêm vào giỏ → lưu vào hoá đơn để truy vết)
+const PLOTS_SALE={'SP-B5-30':{lot:'B5-2503',exp:'08/2026'},'SP-SUN-50':{lot:'SUN-2504',exp:'11/2026'},'SP-CLN-150':{lot:'CLN-2501',exp:'05/2026',near:true}};
+function fefoSale(sku){return sku?PLOTS_SALE[sku]:null;}
 // cart: dịch vụ có cờ done (ý 5); thuốc có pick (ý 6)
 let cart=[
   {ic:'rf',n:"Gói giảm béo RF bụng · 10 buổi",m:"Mua gói",p:18000000,q:1,done:false},
@@ -172,6 +177,7 @@ function renderCart(){const c=document.getElementById('cart');
       : `<span style="text-decoration:line-through;color:var(--ink-soft)">${fmt(it.p*it.q)}</span>`;
     return `<div class="inv-row">${icSvg(it.ic)}
       <div><div class="inv-name">${it.n}</div><div class="inv-sub">${it.m}</div>
+        ${it.lot?`<div><span class="cart-lot ${it.lotNear?'near':''}">Lô ${it.lot} · HSD ${it.lotExp}${it.lotNear?' · cận date':''}</span></div>`:''}
         ${stateBadge?`<div style="margin:4px 0">${stateBadge}</div>`:''}
         <div class="inv-qty"><button onclick="chq(${i},-1)" ${minusDisabled?'disabled':''}>−</button><span class="qn">${it.q}</span><button onclick="chq(${i},1)">+</button></div></div>
       <div class="inv-right"><div class="inv-price">${priceShown}</div><div class="inv-unit">${it.p===0?'':'đơn giá '+fmt(it.p)}</div>${showRm?`<span class="inv-rm" onclick="rm(${i})">×</span>`:'<span style="display:inline-block;width:14px"></span>'}</div>
@@ -197,7 +203,7 @@ function applyVou(){const v=(document.getElementById('vouIn').value||'').trim();
   renderSum();
 }
 function addItem(cat,i){const x=CATALOG[cat][i];const ex=cart.find(c=>c.n===x.n);
-  if(ex){ex.q++;}else{cart.push({ic:x.ic,n:x.n,m:x.t==='Trừ gói'?'Trừ từ gói khách':x.t,p:x.p,q:1,pick:x.pick,done:false});}renderCart();}
+  if(ex){ex.q++;}else{const lot=fefoSale(x.sku);cart.push({ic:x.ic,n:x.n,m:x.t==='Trừ gói'?'Trừ từ gói khách':x.t,p:x.p,q:1,pick:x.pick,done:false,sku:x.sku,lot:lot?lot.lot:null,lotExp:lot?lot.exp:null,lotNear:lot&&lot.near});}renderCart();}
 function chq(i,d){
   if(d<0 && cart[i].done) return; // ý 5: dịch vụ đã hoàn thành không giảm SL
   cart[i].q=Math.max(1,cart[i].q+d);renderCart();

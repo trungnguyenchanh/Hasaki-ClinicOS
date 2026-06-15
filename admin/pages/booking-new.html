@@ -98,18 +98,28 @@ document.getElementById('main').innerHTML = topbar('Lịch & Booking','Tạo boo
       </div>
       <div class="field"><label>Dịch vụ</label><select><option>Giảm béo RF bụng (máy RF · cần KTV RF Senior)</option><option>Triệt lông Diode (máy Laser Diode XL)</option><option>Chăm sóc da phục hồi</option></select></div>
       <div class="row r-2e" style="margin:0 0 14px"><div class="field" style="margin:0"><label>Ngày</label><input type="text" value="12/06/2026"></div><div class="field" style="margin:0"><label>Khung giờ (còn trống)</label><select><option>11:00 ✓ trống</option><option>15:00 ✓ trống</option><option>10:00 ⚠ quá tải</option></select></div></div>
-      <div class="row r-2e" style="margin:0 0 14px"><div class="field" style="margin:0"><label>Phòng / Máy</label><select><option>Slim 1 · Máy RF (trống)</option><option>Laser 2 · Laser Diode XL</option></select></div><div class="field" style="margin:0"><label>KTV / ĐD</label><select><option>Hồng Trang (RF Senior · rảnh)</option><option>Thanh Mai (LASER)</option></select></div></div>
+      <div class="row r-2e" style="margin:0 0 14px"><div class="field" style="margin:0"><label>Phòng / Máy</label><select><option>Slim 1 · Máy RF (trống)</option><option>Laser 2 · Laser Diode XL</option></select></div><div class="field" style="margin:0"><label>KTV / ĐD</label><select id="staffSel" onchange="onStaffChange()"><option value="any">— Không yêu cầu nhân viên cụ thể (CN tự phân) —</option><option>Hồng Trang (RF Senior · rảnh)</option><option>Thanh Mai (LASER)</option></select></div></div>
+      <div id="anyNote" class="alert al-info" style="margin:0 0 14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Khách <b>không chỉ định nhân viên</b> — hệ thống điều phối sẽ tự gán KTV/ĐD đủ kỹ năng & rảnh khi đến giờ. Phù hợp khách dễ tính, ưu tiên đúng giờ.</div></div>
       <div class="field"><label>Ghi chú đặt lịch</label><input placeholder="VD: khách muốn phòng yên tĩnh, đến sớm 10 phút…"></div>
       <div style="display:flex;gap:9px"><button class="btn btn-teal" style="flex:1;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>Xác nhận đặt lịch</button><button class="btn btn-ghost" onclick="location.href='booking.html'">Hủy</button></div>
     </div>
     <div class="panel"><div class="panel-h"><div class="panel-title">Kiểm tra khả dụng<small>tự đối chiếu khung giờ · nhân sự · máy trước khi xác nhận</small></div></div>
       <div class="prof-row"><span>Khung 11:00</span><span class="badge ok">Còn trống</span></div>
-      <div class="prof-row"><span>KTV Hồng Trang (RF Senior)</span><span class="badge ok">Rảnh</span></div>
+      <div class="prof-row" id="chkStaff"><span>Nhân sự</span><span class="badge ok">CN tự phân khi đến giờ</span></div>
       <div class="prof-row"><span>Máy RF · EQ-RF-02</span><span class="badge ok">Sẵn sàng</span></div>
       <div class="prof-row"><span>Phòng Slim 1</span><span class="badge ok">Trống</span></div>
       <div class="prof-row"><span>Đối chiếu chống chỉ định</span><span class="badge busy">Cần xác nhận</span></div>
       <div class="alert al-info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Hệ thống tự kiểm tra <b>khung giờ trống · nhân sự rảnh · máy sẵn sàng</b> và đối chiếu chống chỉ định với hồ sơ khách trước khi xác nhận.</div></div>
     </div>
   </div>`;
+function onStaffChange(){
+  const v=document.getElementById('staffSel').value;
+  const any = v==='any';
+  document.getElementById('anyNote').style.display = any?'flex':'none';
+  document.getElementById('chkStaff').innerHTML = any
+    ? '<span>Nhân sự</span><span class="badge ok">CN tự phân khi đến giờ</span>'
+    : '<span>'+document.getElementById('staffSel').selectedOptions[0].text.split(' (')[0]+'</span><span class="badge ok">Rảnh</span>';
+}
+window.onStaffChange=onStaffChange; onStaffChange();
 </script>
 </body></html>

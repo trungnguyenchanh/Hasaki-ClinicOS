@@ -78,6 +78,30 @@
 .mini-tab button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--ink-soft)}
 .mini-tab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
 .bar-mini{display:inline-block;width:54px;height:6px;border-radius:3px;background:var(--bg-2);overflow:hidden;vertical-align:middle;margin-right:6px}.bar-mini i{display:block;height:100%}
+/* ==== lô / batch tracking ==== */
+.lot-chip{font-family:Consolas,monospace;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--teal-soft);color:var(--teal-deep);white-space:nowrap}
+.lot-chip.near{background:#fbeccb;color:#9a6a1e}.lot-chip.expired{background:#f4d3cb;color:#9a3b2c}
+.lot-none{color:var(--ink-soft);font-size:12px}
+.lot-btn{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:11px;padding:3px 9px;border-radius:7px;cursor:pointer;color:var(--teal-deep);font-weight:600;white-space:nowrap}
+.lot-btn:hover{border-color:var(--teal);background:var(--teal-soft)}
+.lot-mask{position:fixed;inset:0;background:rgba(35,30,28,.34);display:none;z-index:60}
+.lot-mask.on{display:block}
+.lot-drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,92vw);background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.12);transform:translateX(100%);transition:.22s;z-index:61;display:flex;flex-direction:column}
+.lot-drawer.on{transform:translateX(0)}
+.lot-dh{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:10px}
+.lot-dh .ld-t{font-family:'Fraunces',serif;font-size:17px;margin:0}
+.lot-dh .ld-s{font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+.lot-dh .ld-x{margin-left:auto;border:none;background:var(--bg-2);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px;color:var(--ink-soft);flex:none}
+.lot-db{padding:16px 20px;overflow:auto;flex:1}
+.lot-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.lot-tbl th{text-align:left;font-size:10.5px;color:var(--ink-soft);font-weight:600;padding:7px 8px;border-bottom:1px solid var(--line)}
+.lot-tbl td{padding:9px 8px;border-bottom:1px solid var(--line)}
+.lot-tbl tr.fefo td{background:var(--teal-soft)}
+.lot-no{font-family:Consolas,monospace;font-weight:600}
+.lot-flag{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:5px;margin-left:5px}
+.lot-flag.fefo{background:var(--teal-deep);color:#fff}
+.lot-note{font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-top:14px;padding:11px 13px;background:var(--bg-2);border-radius:10px}
+.lot-trace{display:inline-flex;align-items:center;gap:5px;margin-top:13px;font-size:12px;font-weight:600;color:var(--teal-deep);text-decoration:none}
 @media(max-width:900px){.rep-menu{grid-template-columns:1fr}}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
@@ -98,7 +122,8 @@ document.getElementById('main').innerHTML = topbar('Vận hành','Kho nguyên v�
     <button onclick="tab('open')">Chai/lọ dùng dở (37)</button>
     <button onclick="tab('low')">⚠ Dưới định mức (8)</button>
   </div>
-  <div class="panel" style="padding:6px 4px"><table class="ov-table" id="tb"><thead><tr><th>Vật tư (NVL)</th><th>SKU</th><th>Tồn nguyên</th><th>Đang dùng dở</th><th>ĐM tối thiểu</th><th>Hao hụt/tháng</th><th>Hạn dùng</th><th>Trạng thái</th></tr></thead><tbody id="rows"></tbody></table></div>`;
+  <div class="mini-tab" style="margin-top:-6px"><span style="font-size:11.5px;color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px">Vật tư <b style="color:var(--teal-deep)">tiêm/cấy</b> có theo dõi <b>số lô + HSD</b> (xuất FEFO). <a href="inventory-trace.html" style="color:var(--teal-deep);font-weight:600;text-decoration:none">Log theo lô →</a></span></div>
+  <div class="panel" style="padding:6px 4px"><table class="ov-table" id="tb"><thead><tr><th>Vật tư (NVL)</th><th>SKU</th><th>Tồn nguyên</th><th>Đang dùng dở</th><th>ĐM tối thiểu</th><th>Hao hụt/tháng</th><th>Hạn dùng · Lô</th><th>Trạng thái</th></tr></thead><tbody id="rows"></tbody></table></div>`;
 
 const MAT=[
   {n:'Gel lạnh triệt lông', sku:'NVL-GEL-1L', whole:'24 chai', open:'3 chai (≈40%)', min:'10 chai', loss:'+16%', exp:'06/2026', st:'loss', flags:['open','low']},
@@ -113,14 +138,57 @@ const MAT=[
   {n:'Đầu kim lăn', sku:'NVL-NDL-1', whole:'42 đầu', open:'—', min:'30 đầu', loss:'0%', exp:'—', st:'ok', flags:[]},
 ];
 const badge={loss:['over','Hao hụt cao'],low:['busy','Dưới ĐM'],ok:['ok','Bình thường']};
+// Lô + HSD cho vật tư tiêm/cấy (FEFO: hạn sớm xuất trước). st: active | near | expired
+const LOTS={
+  'NVL-SER-500':[
+    {lot:'SER-2503A', exp:'04/2026', qty:'4 lọ',  in:'05/03/2026', st:'near'},
+    {lot:'SER-2505B', exp:'09/2026', qty:'14 lọ', in:'18/05/2026', st:'active'},
+  ],
+  'NVL-HIFU-C':[
+    {lot:'HIFU-2502X', exp:'08/2026', qty:'9 đầu', in:'20/02/2026', st:'active'},
+    {lot:'HIFU-2504Y', exp:'02/2027', qty:'5 đầu', in:'10/04/2026', st:'active'},
+  ],
+  'NVL-SOOTH-500':[
+    {lot:'SOOTH-2412C', exp:'05/2026', qty:'5 lọ', in:'28/12/2025', st:'near'},
+    {lot:'SOOTH-2503D', exp:'11/2026', qty:'4 lọ', in:'12/03/2026', st:'active'},
+  ],
+  'NVL-VITC-30':[
+    {lot:'VITC-2411E', exp:'04/2026', qty:'2 lọ', in:'15/11/2025', st:'near'},
+    {lot:'VITC-2502F', exp:'10/2026', qty:'5 lọ', in:'08/02/2026', st:'active'},
+  ],
+  'NVL-NDL-1':[
+    {lot:'NDL-2504G', exp:'04/2027', qty:'30 đầu', in:'02/04/2026', st:'active'},
+    {lot:'NDL-2505H', exp:'05/2027', qty:'12 đầu', in:'15/05/2026', st:'active'},
+  ],
+};
+// FEFO: lô hạn sớm nhất (chưa hết hạn) là lô đang xuất
+function fefoLot(sku){
+  const ls=LOTS[sku]; if(!ls) return null;
+  const sorted=[...ls].sort((a,b)=>expKey(a.exp)-expKey(b.exp));
+  return sorted[0];
+}
+function expKey(e){ const [m,y]=e.split('/'); return parseInt(y)*12+parseInt(m); }
 function render(list){
   document.getElementById('rows').innerHTML = list.map(m=>{
     const [bc,bl]=badge[m.st];
+    const lots=LOTS[m.sku];
+    let expCell;
+    if(lots){
+      const f=fefoLot(m.sku);
+      const cls=f.st==='near'?'near':(f.st==='expired'?'expired':'');
+      expCell=`<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+        <span class="lot-chip ${cls}">${f.lot}</span>
+        <span style="font-size:11px;color:var(--ink-soft)">HSD ${f.exp}</span>
+        <button class="lot-btn" onclick="openLots('${m.sku}','${m.n.replace(/'/g,"\\'")}')">${lots.length} lô ›</button>
+      </div>`;
+    } else {
+      expCell=`${m.exp}`;
+    }
     return `<tr ${m.st!=='ok'?'style="background:#fdf6f0"':''}>
       <td><b>${m.n}</b></td><td>${m.sku}</td><td>${m.whole}</td>
       <td>${m.open==='—'?'<span style="color:var(--ink-soft)">—</span>':m.open}</td>
       <td>${m.min}</td><td class="${m.loss.includes('+')?'diff-up':(m.loss.includes('−')?'diff-ok':'')}">${m.loss}</td>
-      <td>${m.exp}</td><td><span class="badge ${bc}">${bl}</span></td></tr>`;
+      <td>${expCell}</td><td><span class="badge ${bc}">${bl}</span></td></tr>`;
   }).join('');
 }
 function tab(k){
@@ -130,5 +198,33 @@ function tab(k){
   render(k==='all'?MAT:MAT.filter(m=>m.flags.includes(k)));
 }
 window.tab=tab; render(MAT);
+
+// ===== Drawer chi tiết lô =====
+const drawer=document.createElement('div');
+drawer.innerHTML=`<div class="lot-mask" id="lotMask" onclick="closeLots()"></div>
+<aside class="lot-drawer" id="lotDrawer">
+  <div class="lot-dh"><div><h3 class="ld-t" id="ldT">—</h3><div class="ld-s" id="ldS">Số lô · HSD · xuất theo FEFO</div></div><button class="ld-x" onclick="closeLots()">✕</button></div>
+  <div class="lot-db" id="ldBody"></div>
+</aside>`;
+document.body.appendChild(drawer);
+function openLots(sku,name){
+  const ls=LOTS[sku]||[];
+  const sorted=[...ls].sort((a,b)=>expKey(a.exp)-expKey(b.exp));
+  document.getElementById('ldT').textContent=name;
+  document.getElementById('ldS').textContent=sku+' · '+ls.length+' lô đang giữ · xuất theo FEFO';
+  const stLbl={active:['ok','Còn hạn'],near:['busy','Cận date'],expired:['over','Hết hạn']};
+  document.getElementById('ldBody').innerHTML=`
+    <table class="lot-tbl"><thead><tr><th>Số lô</th><th>HSD</th><th>Tồn lô</th><th>Ngày nhập</th><th>Trạng thái</th></tr></thead><tbody>
+    ${sorted.map((l,i)=>{const [c,t]=stLbl[l.st];return `<tr class="${i===0?'fefo':''}">
+      <td><span class="lot-no">${l.lot}</span>${i===0?'<span class="lot-flag fefo">FEFO</span>':''}</td>
+      <td>${l.exp}</td><td>${l.qty}</td><td>${l.in}</td><td><span class="badge ${c}">${t}</span></td></tr>`}).join('')}
+    </tbody></table>
+    <div class="lot-note"><b>FEFO</b> — lô <b>${sorted[0].lot}</b> (HSD ${sorted[0].exp}) sẽ được xuất trước. Khi ghi NVL thực tế ở buổi dịch vụ, hệ thống gợi ý đúng lô này và lưu lô vào hồ sơ buổi để truy vết.</div>
+    <a class="lot-trace" href="inventory-trace.html?sku=${encodeURIComponent(sku)}">Xem log lô này →</a>`;
+  document.getElementById('lotMask').classList.add('on');
+  document.getElementById('lotDrawer').classList.add('on');
+}
+function closeLots(){document.getElementById('lotMask').classList.remove('on');document.getElementById('lotDrawer').classList.remove('on');}
+window.openLots=openLots; window.closeLots=closeLots;
 </script>
 </body></html>

@@ -101,20 +101,20 @@ document.getElementById('main').innerHTML = topbar('Vận hành','Log xuất NVL
 const LOG=[
   {t:'09:42', tk:'DV-0825', sku:'Triệt lông Diode', step:'Step 2 · Bôi gel lạnh vùng bụng', nvl:'Gel lạnh triệt lông', bom:'45 ml', act:'58 ml', over:true},
   {t:'09:40', tk:'DV-0825', sku:'Triệt lông Diode', step:'Step 1 · Vệ sinh & sát khuẩn', nvl:'Bông + cồn y tế', bom:'1 set', act:'1 set', over:false},
-  {t:'09:31', tk:'DV-0830', sku:'Chăm sóc da phục hồi', step:'Step 3 · Đắp tinh chất', nvl:'Tinh chất phục hồi', bom:'30 ml', act:'30 ml', over:false},
+  {t:'09:31', tk:'DV-0830', sku:'Chăm sóc da phục hồi', step:'Step 3 · Đắp tinh chất', nvl:'Tinh chất phục hồi', bom:'30 ml', act:'30 ml', over:false, lot:'SER-2503A'},
   {t:'09:28', tk:'DV-0830', sku:'Chăm sóc da phục hồi', step:'Step 2 · Massage dẫn', nvl:'Kem massage', bom:'15 ml', act:'15 ml', over:false},
   {t:'09:15', tk:'DV-0841', sku:'Đắp mặt nạ chuyên sâu', step:'Step 1 · Đắp mặt nạ', nvl:'Mặt nạ chuyên dụng', bom:'1 cái', act:'2 cái', over:true},
   {t:'09:02', tk:'DV-0836', sku:'Giảm béo RF bụng', step:'Step 2 · Bôi gel dẫn RF', nvl:'Gel dẫn RF', bom:'30 ml', act:'28 ml', over:false},
   {t:'08:55', tk:'DV-0836', sku:'Giảm béo RF bụng', step:'Step 1 · Đo & đánh dấu vùng', nvl:'Bút đánh dấu', bom:'—', act:'—', over:false},
   {t:'08:47', tk:'DV-0848', sku:'Gội dưỡng sinh', step:'Step 1 · Gội & ủ dưỡng', nvl:'Dầu gội dưỡng', bom:'50 ml', act:'52 ml', over:false},
-  {t:'08:30', tk:'DV-0852', sku:'Điện di vitamin C', step:'Step 2 · Điện di serum', nvl:'Serum vitamin C', bom:'30 ml', act:'30 ml', over:false},
+  {t:'08:30', tk:'DV-0852', sku:'Điện di vitamin C', step:'Step 2 · Điện di serum', nvl:'Serum vitamin C', bom:'30 ml', act:'30 ml', over:false, lot:'VITC-2411E'},
   {t:'08:18', tk:'DV-0855', sku:'Massage trị liệu', step:'Step 1 · Massage toàn thân', nvl:'Tinh dầu massage', bom:'40 ml', act:'45 ml', over:true},
 ];
 document.getElementById('log').innerHTML = LOG.map(l=>`
   <div class="log-row">
     <span class="log-tk">${l.t}</span>
     <div class="log-step"><b>${l.sku}</b> · <a href="inventory-ticket.html?id=${l.tk}" style="color:var(--teal-deep);font-family:Consolas,monospace;font-size:11.5px">${l.tk}</a>
-      <span>${l.step} — ${l.nvl}</span></div>
+      <span>${l.step} — ${l.nvl}${l.lot?` · <b style="color:var(--teal-deep);font-family:Consolas,monospace;font-size:11px">Lô ${l.lot}</b>`:''}</span></div>
     <div class="log-qty">${l.act==='—'?'<span style="color:var(--ink-soft);font-weight:400">—</span>':`<span class="${l.over?'diff-up':''}">${l.act}</span> <span style="color:var(--ink-soft);font-weight:400;font-size:11px">/ ĐM ${l.bom}</span>`}
       ${l.over?'<span class="badge over" style="margin-left:6px">lố</span>':''}</div>
   </div>`).join('');

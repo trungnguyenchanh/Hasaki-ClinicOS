@@ -78,6 +78,26 @@
 .mini-tab button{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--ink-soft)}
 .mini-tab button.on{background:var(--teal-soft);color:var(--teal-deep);border-color:var(--teal);font-weight:600}
 .bar-mini{display:inline-block;width:54px;height:6px;border-radius:3px;background:var(--bg-2);overflow:hidden;vertical-align:middle;margin-right:6px}.bar-mini i{display:block;height:100%}
+/* ==== lô / batch ==== */
+.lot-chip{font-family:Consolas,monospace;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--teal-soft);color:var(--teal-deep);white-space:nowrap}
+.lot-chip.near{background:#fbeccb;color:#9a6a1e}.lot-chip.expired{background:#f4d3cb;color:#9a3b2c}
+.lot-btn{border:1px solid var(--line);background:#fff;font-family:inherit;font-size:11px;padding:3px 9px;border-radius:7px;cursor:pointer;color:var(--teal-deep);font-weight:600;white-space:nowrap}
+.lot-btn:hover{border-color:var(--teal);background:var(--teal-soft)}
+.lot-mask{position:fixed;inset:0;background:rgba(35,30,28,.34);display:none;z-index:60}.lot-mask.on{display:block}
+.lot-drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,92vw);background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.12);transform:translateX(100%);transition:.22s;z-index:61;display:flex;flex-direction:column}
+.lot-drawer.on{transform:translateX(0)}
+.lot-dh{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:10px}
+.lot-dh .ld-t{font-family:'Fraunces',serif;font-size:17px;margin:0}.lot-dh .ld-s{font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+.lot-dh .ld-x{margin-left:auto;border:none;background:var(--bg-2);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px;color:var(--ink-soft);flex:none}
+.lot-db{padding:16px 20px;overflow:auto;flex:1}
+.lot-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.lot-tbl th{text-align:left;font-size:10.5px;color:var(--ink-soft);font-weight:600;padding:7px 8px;border-bottom:1px solid var(--line)}
+.lot-tbl td{padding:9px 8px;border-bottom:1px solid var(--line)}
+.lot-tbl tr.fefo td{background:var(--teal-soft)}
+.lot-no{font-family:Consolas,monospace;font-weight:600}
+.lot-flag{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:5px;margin-left:5px}.lot-flag.fefo{background:var(--teal-deep);color:#fff}
+.lot-note{font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-top:14px;padding:11px 13px;background:var(--bg-2);border-radius:10px}
+.lot-trace{display:inline-flex;align-items:center;gap:5px;margin-top:13px;font-size:12px;font-weight:600;color:var(--teal-deep);text-decoration:none}
 @media(max-width:900px){.rep-menu{grid-template-columns:1fr}}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
@@ -93,17 +113,60 @@ document.getElementById('main').innerHTML = topbar('Vận hành','Kho sản ph�
     <div class="sb warn"><div class="sl">Sắp hết</div><div class="sv">5</div><div class="sl">dưới định mức</div></div>
     <div class="sb warn"><div class="sl">Cận hạn (90 ngày)</div><div class="sv">3</div><div class="sl">cần đẩy bán</div></div>
   </div>
-  <div class="panel" style="padding:6px 4px"><div class="panel-h" style="padding:12px 14px 4px"><div class="panel-title">Tồn kho sản phẩm bán<small>còn nguyên seal · đồng bộ WMS</small></div><button class="btn btn-teal" style="padding:7px 14px;font-size:12.5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo phiếu nhập</button></div>
-    <table class="ov-table"><thead><tr><th>Sản phẩm</th><th>SKU</th><th>Tồn</th><th>Định mức tối thiểu</th><th>Bán/tháng</th><th>Vòng quay</th><th>Hạn gần nhất</th><th>Trạng thái</th></tr></thead><tbody>
-      <tr><td><b>Serum phục hồi B5</b></td><td>SP-B5-30</td><td>140</td><td>60</td><td>820</td><td>5,9</td><td>08/2026</td><td><span class="badge ok">Tốt</span></td></tr>
-      <tr><td><b>Kem chống nắng SPF50</b></td><td>SP-SUN-50</td><td>210</td><td>80</td><td>640</td><td>3,0</td><td>11/2026</td><td><span class="badge ok">Tốt</span></td></tr>
-      <tr><td><b>Sữa rửa mặt dịu nhẹ</b></td><td>SP-CLN-150</td><td>95</td><td>60</td><td>510</td><td>5,4</td><td>05/2026</td><td><span class="badge ok">Tốt</span></td></tr>
-      <tr style="background:#fdf6f0"><td><b>Mặt nạ dưỡng ẩm (hộp)</b></td><td>SP-MSK-10</td><td>320</td><td>50</td><td>110</td><td>0,3</td><td>03/2026</td><td><span class="badge busy">Tồn cao · cận hạn</span></td></tr>
-      <tr style="background:#fdf6f0"><td><b>Tinh chất trị mụn</b></td><td>SP-ACN-20</td><td>18</td><td>40</td><td>180</td><td>4,5</td><td>09/2026</td><td><span class="badge over">Sắp hết</span></td></tr>
-      <tr><td><b>Toner cân bằng da</b></td><td>SP-TON-200</td><td>76</td><td>50</td><td>240</td><td>3,2</td><td>07/2026</td><td><span class="badge ok">Tốt</span></td></tr>
-      <tr style="background:#fdf6f0"><td><b>Kem dưỡng ẩm ban đêm</b></td><td>SP-NMT-50</td><td>22</td><td>40</td><td>160</td><td>2,8</td><td>04/2026</td><td><span class="badge over">Sắp hết · cận hạn</span></td></tr>
-      <tr><td><b>Gel rửa mặt tạo bọt</b></td><td>SP-FOM-120</td><td>130</td><td>60</td><td>290</td><td>2,2</td><td>10/2026</td><td><span class="badge ok">Tốt</span></td></tr>
-    </tbody></table>
+  <div style="font-size:11.5px;color:var(--ink-soft);margin:-6px 0 14px;display:flex;align-items:center;gap:6px">Sản phẩm bán theo dõi <b style="color:var(--teal-deep)">số lô + HSD</b> · xuất bán theo FEFO (đẩy lô cận date trước). <a href="inventory-trace.html" style="color:var(--teal-deep);font-weight:600;text-decoration:none">Log theo lô →</a></div>
+  <div class="panel" style="padding:6px 4px"><div class="panel-h" style="padding:12px 14px 4px"><div class="panel-title">Tồn kho sản phẩm bán<small>còn nguyên seal · đồng bộ WMS · lô + HSD</small></div><button class="btn btn-teal" style="padding:7px 14px;font-size:12.5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tạo phiếu nhập</button></div>
+    <table class="ov-table"><thead><tr><th>Sản phẩm</th><th>SKU</th><th>Tồn</th><th>Định mức tối thiểu</th><th>Bán/tháng</th><th>Vòng quay</th><th>Hạn gần nhất · Lô</th><th>Trạng thái</th></tr></thead><tbody id="prows"></tbody></table>
   </div>`;
+
+// Sản phẩm bán + lô/HSD (FEFO). st lô: active | near | expired
+const PROD=[
+  {n:'Serum phục hồi B5', sku:'SP-B5-30', stock:140, min:60, sold:820, turn:'5,9', st:'ok', stl:'Tốt'},
+  {n:'Kem chống nắng SPF50', sku:'SP-SUN-50', stock:210, min:80, sold:640, turn:'3,0', st:'ok', stl:'Tốt'},
+  {n:'Sữa rửa mặt dịu nhẹ', sku:'SP-CLN-150', stock:95, min:60, sold:510, turn:'5,4', st:'ok', stl:'Tốt'},
+  {n:'Mặt nạ dưỡng ẩm (hộp)', sku:'SP-MSK-10', stock:320, min:50, sold:110, turn:'0,3', st:'busy', stl:'Tồn cao · cận hạn'},
+  {n:'Tinh chất trị mụn', sku:'SP-ACN-20', stock:18, min:40, sold:180, turn:'4,5', st:'over', stl:'Sắp hết'},
+  {n:'Toner cân bằng da', sku:'SP-TON-200', stock:76, min:50, sold:240, turn:'3,2', st:'ok', stl:'Tốt'},
+  {n:'Kem dưỡng ẩm ban đêm', sku:'SP-NMT-50', stock:22, min:40, sold:160, turn:'2,8', st:'over', stl:'Sắp hết · cận hạn'},
+  {n:'Gel rửa mặt tạo bọt', sku:'SP-FOM-120', stock:130, min:60, sold:290, turn:'2,2', st:'ok', stl:'Tốt'},
+];
+const PLOTS={
+  'SP-B5-30':[{lot:'B5-2503',exp:'08/2026',qty:140,in:'02/03/2026',st:'active'},{lot:'B5-2506',exp:'12/2026',qty:60,in:'01/06/2026',st:'active'}],
+  'SP-SUN-50':[{lot:'SUN-2504',exp:'11/2026',qty:210,in:'10/04/2026',st:'active'}],
+  'SP-CLN-150':[{lot:'CLN-2501',exp:'05/2026',qty:55,in:'15/01/2026',st:'near'},{lot:'CLN-2504',exp:'10/2026',qty:40,in:'20/04/2026',st:'active'}],
+  'SP-MSK-10':[{lot:'MSK-2412',exp:'03/2026',qty:240,in:'05/12/2025',st:'near'},{lot:'MSK-2503',exp:'09/2026',qty:80,in:'12/03/2026',st:'active'}],
+  'SP-ACN-20':[{lot:'ACN-2503',exp:'09/2026',qty:18,in:'08/03/2026',st:'active'}],
+  'SP-TON-200':[{lot:'TON-2502',exp:'07/2026',qty:76,in:'18/02/2026',st:'active'}],
+  'SP-NMT-50':[{lot:'NMT-2411',exp:'04/2026',qty:22,in:'20/11/2025',st:'near'}],
+  'SP-FOM-120':[{lot:'FOM-2505',exp:'10/2026',qty:130,in:'06/05/2026',st:'active'}],
+};
+function expKey(e){const [m,y]=e.split('/');return parseInt(y)*12+parseInt(m);}
+function fefoLot(sku){const ls=PLOTS[sku];if(!ls)return null;return [...ls].sort((a,b)=>expKey(a.exp)-expKey(b.exp))[0];}
+const pbadge={ok:'ok',busy:'busy',over:'over'};
+document.getElementById('prows').innerHTML = PROD.map(p=>{
+  const f=fefoLot(p.sku); const cls=f.st==='near'?'near':(f.st==='expired'?'expired':'');
+  const nlots=(PLOTS[p.sku]||[]).length;
+  const expCell=`<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><span class="lot-chip ${cls}">${f.lot}</span><span style="font-size:11px;color:var(--ink-soft)">HSD ${f.exp}</span><button class="lot-btn" onclick="openLots('${p.sku}','${p.n.replace(/'/g,"\\'")}')">${nlots} lô ›</button></div>`;
+  return `<tr ${p.st!=='ok'?'style="background:#fdf6f0"':''}><td><b>${p.n}</b></td><td>${p.sku}</td><td>${p.stock}</td><td>${p.min}</td><td>${p.sold}</td><td>${p.turn}</td><td>${expCell}</td><td><span class="badge ${pbadge[p.st]}">${p.stl}</span></td></tr>`;
+}).join('');
+
+// drawer
+const drawer=document.createElement('div');
+drawer.innerHTML=`<div class="lot-mask" id="lotMask" onclick="closeLots()"></div>
+<aside class="lot-drawer" id="lotDrawer"><div class="lot-dh"><div><h3 class="ld-t" id="ldT">—</h3><div class="ld-s" id="ldS"></div></div><button class="ld-x" onclick="closeLots()">✕</button></div><div class="lot-db" id="ldBody"></div></aside>`;
+document.body.appendChild(drawer);
+function openLots(sku,name){
+  const ls=PLOTS[sku]||[]; const sorted=[...ls].sort((a,b)=>expKey(a.exp)-expKey(b.exp));
+  const stLbl={active:['ok','Còn hạn'],near:['busy','Cận date'],expired:['over','Hết hạn']};
+  document.getElementById('ldT').textContent=name;
+  document.getElementById('ldS').textContent=sku+' · '+ls.length+' lô · xuất bán FEFO';
+  document.getElementById('ldBody').innerHTML=`<table class="lot-tbl"><thead><tr><th>Số lô</th><th>HSD</th><th>Tồn lô</th><th>Ngày nhập</th><th>Trạng thái</th></tr></thead><tbody>
+    ${sorted.map((l,i)=>{const [c,t]=stLbl[l.st];return `<tr class="${i===0?'fefo':''}"><td><span class="lot-no">${l.lot}</span>${i===0?'<span class="lot-flag fefo">FEFO</span>':''}</td><td>${l.exp}</td><td>${l.qty}</td><td>${l.in}</td><td><span class="badge ${c}">${t}</span></td></tr>`}).join('')}
+    </tbody></table>
+    <div class="lot-note"><b>FEFO</b> — lô <b>${sorted[0].lot}</b> (HSD ${sorted[0].exp}) được đẩy bán trước. Khi bán ở POS, hệ thống gán đúng lô này cho sản phẩm và lưu vào hoá đơn để truy vết khi thu hồi.</div>
+    <a class="lot-trace" href="inventory-trace.html?sku=${encodeURIComponent(sku)}">Xem log lô này →</a>`;
+  document.getElementById('lotMask').classList.add('on');document.getElementById('lotDrawer').classList.add('on');
+}
+function closeLots(){document.getElementById('lotMask').classList.remove('on');document.getElementById('lotDrawer').classList.remove('on');}
+window.openLots=openLots;window.closeLots=closeLots;
 </script>
 </body></html>

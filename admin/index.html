@@ -45,7 +45,10 @@
 <script src="assets/app.js"></script>
 <script>
 renderLayout('dashboard',{fromRoot:true});
-const right=`<div class="tenant" style="background:var(--teal-soft);color:var(--teal-deep);border-color:transparent"><span style="width:8px;height:8px;border-radius:50%;background:var(--teal-deep);display:inline-block"></span> Realtime · cập nhật 30s</div>`;
+const _now=new Date();
+const _hh=String(_now.getHours()).padStart(2,'0'), _mm=String(_now.getMinutes()).padStart(2,'0');
+const _dd=String(_now.getDate()).padStart(2,'0'), _mo=String(_now.getMonth()+1).padStart(2,'0');
+const right=`<div class="tenant" style="background:var(--teal-soft);color:var(--teal-deep);border-color:transparent"><span style="width:8px;height:8px;border-radius:50%;background:var(--teal-deep);display:inline-block"></span> Cập nhật lần cuối ${_hh}:${_mm} · ${_dd}/${_mo} <span style="opacity:.7;font-weight:400">· tự làm mới 30s</span></div>`;
 document.getElementById('main').innerHTML = topbar('Tổng quan vận hành','Bảng điều hành · CN Quận 1',{who:'MA',branch:'CN Quận 1',right}) + `
   <div class="ops-snap">
     <div class="sb"><div class="sl">Booking chờ tới lượt</div><div class="sv">9</div><div class="sl">đã lấy số</div></div>
