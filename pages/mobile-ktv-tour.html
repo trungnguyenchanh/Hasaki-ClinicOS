@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Hasaki ClinicOS · App nhân viên</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+body{background:#dfe5e3;display:flex;justify-content:center;margin:0;padding:0}
+.phone{width:100%;max-width:430px;min-height:100vh;background:var(--bg);display:flex;flex-direction:column;position:relative;box-shadow:0 0 40px rgba(0,0,0,.12)}
+@media(min-width:470px){.phone{min-height:900px;height:900px;margin:22px 0;border-radius:34px;border:9px solid #1d2a28;overflow:hidden}}
+/* header */
+.mhead{background:linear-gradient(135deg,var(--teal-deep),var(--teal));color:#fff;padding:18px 18px 16px;flex:none}
+.mhead .who{display:flex;align-items:center;gap:11px}
+.mhead .av{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-weight:700;font-size:15px}
+.mhead .nm{font-weight:600;font-size:16px}.mhead .sub{font-size:12px;opacity:.85}
+.mstatus{margin-left:auto}
+.avail-toggle{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.18);padding:6px 12px;border-radius:30px;font-size:12px;font-weight:600;cursor:pointer;border:none;color:#fff}
+.avail-toggle .d{width:9px;height:9px;border-radius:50%;background:#7ef0b8}.avail-toggle.off .d{background:#f0c97e}
+.mstat-row{display:flex;gap:9px;margin-top:14px}
+.mstat{flex:1;background:rgba(255,255,255,.14);border-radius:12px;padding:9px 11px}
+.mstat b{font-family:'Fraunces',serif;font-size:18px;display:block;line-height:1}.mstat span{font-size:10.5px;opacity:.85}
+.mbody{flex:1;overflow-y:auto;padding:16px 16px 86px;-webkit-overflow-scrolling:touch}
+.sec-t{font-size:12px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.6px;margin:6px 2px 11px}
+/* offer */
+.offer{background:#fff;border:2px solid var(--teal);border-radius:18px;overflow:hidden;box-shadow:0 8px 26px rgba(15,118,110,.16);margin-bottom:16px}
+.offer-timer{background:var(--teal-soft);padding:9px 16px;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--teal-deep)}
+.offer-timer .bar{flex:1;height:5px;border-radius:3px;background:#cfe9e2;overflow:hidden}.offer-timer .bar i{display:block;height:100%;background:var(--teal)}
+.offer-body{padding:16px}
+.offer-svc{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:3px}
+.offer-meta{font-size:12.5px;color:var(--ink-soft);margin-bottom:12px}
+.anon{display:inline-flex;align-items:center;gap:6px;background:var(--bg-2);border:1px dashed var(--line);border-radius:9px;padding:7px 11px;font-size:11.5px;color:var(--ink-soft);margin-bottom:13px}
+.chip-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px}
+.chip{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px}
+.chip-skill{background:var(--teal-soft);color:var(--teal-deep)}.chip-time{background:#ece9fb;color:#5a4bd0}.chip-mach{background:#fbeccb;color:#9a6a1e}
+.offer-acts{display:flex;gap:10px}
+.bm{flex:1;border:none;border-radius:13px;padding:14px;font-family:inherit;font-size:14.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+.bm-take{background:var(--teal-deep);color:#fff}.bm-skip{background:var(--bg-2);color:var(--ink-soft);flex:0 0 38%}.bm svg{width:18px;height:18px}
+.prep-alert{background:#fdf3e3;border:1px solid #f0d9a8;border-radius:12px;padding:11px 13px;font-size:12.5px;color:#9a6a1e;display:flex;gap:9px;align-items:center;margin-bottom:14px}
+.prep-alert svg{width:18px;height:18px;flex:none}
+.stepjob{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:14px}
+.stepjob-h{display:flex;align-items:center;gap:9px;margin-bottom:4px}.stepjob-h b{font-size:14.5px}.stepjob .code{font-size:11px;color:var(--ink-soft);font-family:Consolas,monospace}
+.steps2{margin-top:12px;display:flex;flex-direction:column}
+.stp-item{display:flex;gap:11px;position:relative;padding-bottom:14px}.stp-item:last-child{padding-bottom:0}
+.stp-item::before{content:"";position:absolute;left:13px;top:26px;bottom:0;width:2px;background:var(--line)}.stp-item:last-child::before{display:none}
+.stp-dot{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;font-weight:700;z-index:1}
+.stp-done .stp-dot{background:var(--teal);color:#fff}.stp-now .stp-dot{background:#e0a13a;color:#fff;box-shadow:0 0 0 4px #fbeccb}.stp-wait .stp-dot{background:var(--bg-2);color:var(--ink-soft);border:1px solid var(--line)}
+.stp-mine .stp-info{background:var(--teal-soft);border-radius:11px;padding:9px 12px;margin:-6px 0}
+.stp-info{flex:1}.stp-info .sn{font-size:13.5px;font-weight:600}.stp-info .sm{font-size:11.5px;color:var(--ink-soft)}
+.stp-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:6px}.stp-tag.you{background:var(--teal-deep);color:#fff}.stp-tag.soon{background:#fbeccb;color:#9a6a1e}
+/* my jobs */
+.job{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:11px}
+.job-top{display:flex;align-items:center;gap:12px}
+.job .jt{flex:1}.job .jt b{font-size:13.5px}.job .jt span{font-size:11.5px;color:var(--ink-soft);display:block}
+.job-state{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px}
+.js-now{background:#fbeccb;color:#9a6a1e}.js-next{background:var(--teal-soft);color:var(--teal-deep)}.js-done{background:var(--bg-2);color:var(--ink-soft)}
+.job-go{width:100%;margin-top:11px;border:none;background:var(--teal-deep);color:#fff;font-family:inherit;font-weight:700;font-size:13.5px;padding:11px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+.job-go.ghost{background:#fff;color:var(--teal-deep);border:1px solid var(--teal)}.job-go svg{width:16px;height:16px}
+.job-photos{font-size:11px;color:var(--ink-soft);margin-top:8px}
+.empty{text-align:center;color:var(--ink-soft);font-size:13px;padding:30px 16px}
+.fair-note{background:var(--teal-soft);border-radius:12px;padding:12px 14px;font-size:11.5px;color:var(--teal-deep);line-height:1.6;margin-top:8px}
+/* thu nhập */
+.inc-hero{background:linear-gradient(140deg,var(--teal-deep),var(--teal));color:#fff;border-radius:18px;padding:18px;margin-bottom:14px}
+.inc-hero .il{font-size:12px;opacity:.85}.inc-hero .iv{font-family:'Fraunces',serif;font-size:33px;line-height:1;margin:4px 0 2px}
+.inc-hero .is{font-size:11.5px;opacity:.8}
+.inc-split{display:flex;gap:10px;margin-top:14px}
+.inc-split .isb{flex:1;background:rgba(255,255,255,.14);border-radius:11px;padding:9px 11px}
+.inc-split .isb b{font-family:'Fraunces',serif;font-size:16px;display:block}.inc-split .isb span{font-size:10px;opacity:.85}
+.inc-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px 14px;margin-bottom:13px}
+.inc-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--bg-2);font-size:13px}
+.inc-row:last-child{border:none}.inc-row .ico{width:32px;height:32px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}.inc-row .ico svg{width:16px;height:16px}
+.inc-row .it{flex:1}.inc-row .it b{font-size:13px}.inc-row .it span{font-size:11px;color:var(--ink-soft);display:block}
+.inc-row .iamt{font-family:'Fraunces',serif;font-weight:600;color:var(--teal-deep)}
+.inc-bd{font-size:11.5px;color:var(--ink-soft);line-height:1.6;background:var(--bg-2);border-radius:11px;padding:11px 13px}
+/* tabbar */
+.tabbar{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:10}
+.tabbar button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--ink-soft);cursor:pointer;font-family:inherit}
+.tabbar button.on{color:var(--teal-deep);font-weight:600}.tabbar svg{width:20px;height:20px}
+.toast{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:#1d2a28;color:#fff;padding:11px 18px;border-radius:30px;font-size:13px;opacity:0;transition:.3s;z-index:30;white-space:nowrap}.toast.show{opacity:1}
+/* ===== step runner (chụp ảnh) ===== */
+.runner-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.rh-back{border:none;background:var(--bg-2);width:34px;height:34px;border-radius:10px;font-size:17px;cursor:pointer;flex:none;color:var(--ink-soft)}
+.rh-t{font-family:'Fraunces',serif;font-size:16px;line-height:1.1}.rh-s{font-size:11.5px;color:var(--ink-soft)}
+.prog{display:flex;gap:5px;margin-bottom:14px}.prog i{flex:1;height:5px;border-radius:3px;background:var(--line)}.prog i.done{background:var(--teal)}.prog i.cur{background:#e0a13a}
+.step-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.step-h{display:flex;align-items:flex-start;gap:10px}.step-no{width:28px;height:28px;border-radius:9px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.step-nm{font-family:'Fraunces',serif;font-size:16px;line-height:1.15}.step-meta{font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+.step-info{margin:13px 0;padding:11px 13px;background:var(--bg-2);border-radius:12px;font-size:12.5px}
+.step-info .si-row{display:flex;justify-content:space-between;padding:2px 0}.step-info .si-row span{color:var(--ink-soft)}.step-info .si-row b{font-weight:600}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.shot{border:1.5px dashed var(--line);border-radius:14px;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;background:var(--bg-2)}
+.shot.filled{border-style:solid;border-color:var(--teal)}
+.shot .ph-lbl{position:absolute;top:7px;left:7px;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:6px;z-index:2}.ph-lbl.before{background:#e4e9ef;color:#4a5b6b}.ph-lbl.after{background:var(--teal-soft);color:var(--teal-deep)}
+.shot .ph-ic{color:var(--ink-soft);text-align:center}.shot .ph-ic svg{width:26px;height:26px}.shot .ph-ic div{font-size:11px;margin-top:5px;font-weight:600}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shot .retake{position:absolute;bottom:7px;right:7px;background:rgba(0,0,0,.55);color:#fff;border:none;font-size:10px;padding:3px 9px;border-radius:7px;cursor:pointer;z-index:2}
+.shot.locked{opacity:.5}
+.shot-hint{font-size:11px;color:var(--ink-soft);margin-top:9px;display:flex;align-items:center;gap:6px}.shot-hint svg{width:13px;height:13px;flex:none;color:#e0a13a}
+.cmp-open{width:100%;margin-top:11px;border:1px solid var(--teal);background:#fff;color:var(--teal-deep);font-family:inherit;font-weight:600;font-size:12.5px;padding:9px;border-radius:11px;cursor:pointer}
+.step-foot{display:flex;gap:9px;margin-top:6px}
+.step-foot button{flex:1;border:none;font-family:inherit;font-weight:600;font-size:13.5px;padding:12px;border-radius:13px;cursor:pointer}
+.bt-next{background:var(--teal-deep);color:#fff}.bt-next:disabled{background:var(--line);color:var(--ink-soft);cursor:not-allowed}
+.bt-prev{background:#fff;color:var(--ink-soft);border:1px solid var(--line)!important;flex:0 0 auto;padding:12px 16px}
+/* camera sheet */
+.sheet-mask{position:absolute;inset:0;background:rgba(0,0,0,.55);display:none;z-index:40;align-items:flex-end}.sheet-mask.on{display:flex}
+.sheet{background:#11201e;width:100%;border-radius:22px 22px 0 0;padding:14px 14px 18px;color:#fff;animation:up .25s}@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-h{display:flex;align-items:center;margin-bottom:11px}.sheet-h b{font-size:14px}.sheet-h .sh-x{margin-left:auto;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:8px;cursor:pointer}
+.viewfinder{position:relative;width:100%;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#000}
+.viewfinder .vf-base,.viewfinder .vf-ghost{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.viewfinder .vf-ghost{opacity:.45;mix-blend-mode:screen;pointer-events:none}
+.vf-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.18) 1px,transparent 1px);background-size:33.33% 33.33%}
+.vf-tag{position:absolute;top:9px;left:9px;background:rgba(0,0,0,.5);font-size:10px;font-weight:600;padding:3px 9px;border-radius:7px;z-index:3}
+.vf-ghosttag{position:absolute;top:9px;right:9px;background:rgba(31,156,139,.75);font-size:10px;font-weight:600;padding:3px 9px;border-radius:7px;z-index:3}
+/* khung canh + chú thích ghosting */
+.vf-align{position:absolute;left:8%;top:9%;right:8%;bottom:9%;border:2px dashed rgba(126,240,184,.85);border-radius:50%/42%;z-index:3;pointer-events:none;font-size:9px;color:#7ef0b8;font-weight:700;text-align:center;padding-top:3px}
+.vf-anno{position:absolute;left:0;right:0;bottom:11%;z-index:4;pointer-events:none;display:flex;flex-direction:column;align-items:center}
+.vf-anno .anno-dot{width:13px;height:13px;border-radius:50%;background:#7ef0b8;box-shadow:0 0 0 5px rgba(126,240,184,.28)}
+.vf-anno .anno-line{width:2px;height:14px;background:#7ef0b8}
+.vf-anno .anno-lbl{background:rgba(17,32,30,.92);color:#dffaef;font-size:10.5px;line-height:1.35;padding:7px 11px;border-radius:10px;max-width:80%;border:1px solid rgba(126,240,184,.5)}
+.vf-anno .anno-lbl b{color:#7ef0b8}
+/* mini-guide ghosting */
+.gguide{background:linear-gradient(140deg,#fff,var(--teal-soft));border:1px solid #bfe3da;border-radius:13px;padding:12px 13px;margin-bottom:11px}
+.gg-h{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--teal-deep);margin-bottom:9px}.gg-h svg{width:15px;height:15px;flex:none}
+.gg-steps{display:flex;flex-direction:column;gap:9px}
+.gg-s{display:flex;gap:9px;font-size:11.8px;line-height:1.4;color:var(--ink)}
+.gg-s .gg-n{width:20px;height:20px;border-radius:50%;background:var(--teal-deep);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;flex:none}
+.gg-s b{font-weight:600}
+.ghost-ctl{margin:13px 2px 4px}.ghost-ctl label{font-size:11.5px;opacity:.85;display:flex;justify-content:space-between;margin-bottom:5px}.ghost-ctl input[type=range]{width:100%;accent-color:var(--teal)}
+.shutter-row{display:flex;align-items:center;justify-content:center;gap:26px;margin-top:14px}
+.shutter{width:64px;height:64px;border-radius:50%;background:#fff;border:4px solid rgba(255,255,255,.4);cursor:pointer}.shutter:active{transform:scale(.94)}
+.flip{background:rgba(255,255,255,.15);border:none;color:#fff;width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:17px}
+/* compare */
+.cmp-mask{position:absolute;inset:0;background:rgba(0,0,0,.6);display:none;z-index:50;align-items:center;justify-content:center;padding:18px}.cmp-mask.on{display:flex}
+.cmp-box{background:#fff;border-radius:18px;width:100%;overflow:hidden}
+.cmp-h{display:flex;align-items:center;padding:13px 16px;border-bottom:1px solid var(--line)}.cmp-h b{font-family:'Fraunces',serif;font-size:15px}.cmp-h .cmp-x{margin-left:auto;background:var(--bg-2);border:none;width:28px;height:28px;border-radius:8px;cursor:pointer;color:var(--ink-soft)}
+.cmp-stage{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;user-select:none;touch-action:none}
+.cmp-stage .cmp-after,.cmp-stage .cmp-before{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cmp-stage .cmp-before-wrap{position:absolute;inset:0;overflow:hidden;width:50%}
+.cmp-stage .cmp-before-wrap .cmp-before{width:100vw;max-width:412px}
+.cmp-handle{position:absolute;top:0;bottom:0;width:3px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.15);left:50%;transform:translateX(-50%);z-index:3}
+.cmp-handle::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.cmp-handle::before{content:'⟷';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;font-size:15px;color:var(--teal-deep)}
+.cmp-tag{position:absolute;bottom:10px;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:8px;z-index:2}.cmp-tag.bf{left:10px;background:rgba(74,91,107,.85);color:#fff}.cmp-tag.af{right:10px;background:rgba(31,156,139,.9);color:#fff}
+.cmp-foot{padding:12px 16px;font-size:11.5px;color:var(--ink-soft);text-align:center}
+.note-tip{font-size:11px;color:var(--ink-soft);background:var(--bg-2);border-radius:11px;padding:10px 12px;margin-top:8px;line-height:1.5}
+.done-wrap{text-align:center;padding:24px 16px}
+.done-ic{width:68px;height:68px;border-radius:50%;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;margin:0 auto 14px}.done-ic svg{width:34px;height:34px}
+.done-wrap h2{font-family:'Fraunces',serif;font-size:20px;margin:0 0 6px}.done-wrap p{font-size:13px;color:var(--ink-soft);margin:0 0 16px;line-height:1.5}
+</style></head>
+<body><div class="phone">
+  <div class="mhead" id="mhead"></div>
+  <div class="mbody" id="mbody"></div>
+  <div class="tabbar" id="tabbar">
+    <button class="on" id="tab-offer" onclick="showTab('offer')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>Tua mời</button>
+    <button id="tab-mine" onclick="showTab('mine')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Tua của tôi</button>
+    <button id="tab-income" onclick="showTab('income')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Thu nhập</button>
+    <button id="tab-fair" onclick="showTab('fair')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 4 7-4V8"/></svg>Công bằng</button>
+  </div>
+  <div class="toast" id="toast"></div>
+  <div class="sheet-mask" id="camMask"><div class="sheet" id="camSheet"></div></div>
+  <div class="cmp-mask" id="cmpMask"></div>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+const fmtMin = m => m>=60 ? `${Math.floor(m/60)}h${m%60?(' '+(m%60)+'p'):''}` : `${m}p`;
+const ME={ nm:'Hồng Trang', init:'HT', sub:'KTV · Senior · ca 08–17' };
+let avail=true, tab='offer';
+
+/* ===== ảnh mẫu SVG (demo, không camera) ===== */
+function genImg(seed, phase){
+  // Khuôn mặt minh hoạ có MỐC RÕ (viền mặt, chân tóc, mắt, gò má) để canh ghosting.
+  // seed lệch nhẹ vị trí/nghiêng -> mô phỏng "camera chưa canh", cần khớp ảnh before.
+  const dx=((seed*37)%14)-7, dy=((seed*53)%12)-6, rot=((seed*29)%8)-4;
+  const skin = phase==='before' ? ['#ecc6a6','#dca684'] : ['#f0d0b2','#e3b896'];
+  const ink = phase==='before' ? '#1d2a28' : '#35506b';
+  const marks = phase==='before'
+    ? `<circle cx="96" cy="150" r="9" fill="#a8483a" opacity=".6"/><circle cx="150" cy="150" r="7" fill="#a8483a" opacity=".55"/><circle cx="118" cy="185" r="6" fill="#9c4030" opacity=".5"/><ellipse cx="120" cy="212" rx="30" ry="12" fill="#b8604a" opacity=".32"/><circle cx="150" cy="195" r="5" fill="#a8483a" opacity=".45"/>`
+    : `<circle cx="96" cy="150" r="4" fill="#cf9b80" opacity=".28"/><circle cx="150" cy="150" r="3" fill="#cf9b80" opacity=".22"/><ellipse cx="120" cy="212" rx="18" ry="7" fill="#cf9b80" opacity=".18"/>`;
+  const svg =
+   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320">`+
+   `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3ede3"/><stop offset="1" stop-color="#e7ddcd"/></linearGradient>`+
+   `<linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${skin[0]}"/><stop offset="1" stop-color="${skin[1]}"/></linearGradient></defs>`+
+   `<rect width="240" height="320" fill="url(#bg)"/>`+
+   `<g transform="translate(${dx},${dy}) rotate(${rot} 120 165)">`+
+   `<path d="M62 96 Q120 30 178 96 L178 120 Q120 70 62 120 Z" fill="#5a4636" opacity=".85"/>`+
+   `<ellipse cx="120" cy="168" rx="62" ry="80" fill="url(#sk)" stroke="${ink}" stroke-width="1.5" opacity=".97"/>`+
+   `<ellipse cx="60" cy="172" rx="9" ry="16" fill="url(#sk)" stroke="${ink}" stroke-width="1"/>`+
+   `<ellipse cx="180" cy="172" rx="9" ry="16" fill="url(#sk)" stroke="${ink}" stroke-width="1"/>`+
+   `<ellipse cx="98" cy="150" rx="10" ry="5" fill="#fff"/><circle cx="98" cy="150" r="3.4" fill="${ink}"/>`+
+   `<ellipse cx="142" cy="150" rx="10" ry="5" fill="#fff"/><circle cx="142" cy="150" r="3.4" fill="${ink}"/>`+
+   `<path d="M86 140 Q98 134 110 140" stroke="${ink}" stroke-width="1.4" fill="none"/>`+
+   `<path d="M130 140 Q142 134 154 140" stroke="${ink}" stroke-width="1.4" fill="none"/>`+
+   `<path d="M120 158 L116 184 Q120 188 124 184" stroke="${ink}" stroke-width="1.3" fill="none"/>`+
+   `<path d="M104 206 Q120 216 136 206" stroke="${ink}" stroke-width="1.6" fill="none"/>`+
+   marks+
+   `</g></svg>`;
+  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+}
+
+/* ===== data ===== */
+let offers=[
+  { id:'OF-1', svc:'Giảm béo RF bụng · 1 buổi', skill:'RF · Senior', machine:'RF Slim', mins:45, start:'10:05', countdown:38, anon:'Khách #A · ẩn danh' },
+];
+let stepJob={ code:'DV-0825', anon:'Khách #B · ẩn danh', total:'2h05', steps:[
+  { n:'Khám da liễu', who:'BS', skill:'Bác sĩ', mins:20, state:'done', at:'09:40' },
+  { n:'Giảm béo RF bụng', who:'Bạn', skill:'RF·Senior', mins:45, state:'now', at:'10:05', mine:true },
+  { n:'Triệt lông Diode', who:'KTV khác', skill:'Laser·Mid', mins:30, state:'wait', at:'10:55' },
+  { n:'Chăm sóc da phục hồi', who:'ĐD', skill:'Skincare·Mid', mins:40, state:'wait', at:'11:30' },
+]};
+// tua đã nhận — mỗi tua có steps để chụp ảnh
+let myJobs=[
+  { id:'DV-0825', cust:'Khách #B', svc:'Giảm béo RF bụng · buổi 2/10', at:'10:05', state:'now',
+    steps:[
+      {n:'Tư vấn & đo chỉ số', meta:'Đo vòng eo, chụp đối chiếu', needBoth:true, machine:'—', nvl:'—'},
+      {n:'Làm sạch & chuẩn bị da', meta:'Tẩy trang, sát khuẩn', needBoth:false, machine:'—', nvl:'Gel làm sạch 20ml'},
+      {n:'Trị liệu RF vùng bụng', meta:'RF · 42°C · 25 phút', needBoth:true, machine:'Máy RF Slim · EQ-RF-02', nvl:'Gel dẫn RF 48ml'},
+      {n:'Làm dịu & kết thúc', meta:'Đắp mặt nạ làm dịu', needBoth:true, machine:'—', nvl:'Mặt nạ làm dịu 1 cái'},
+    ]},
+  { id:'DV-0830', cust:'Khách lẻ', svc:'Triệt lông Diode 2 vùng', at:'09:15', state:'done',
+    steps:[
+      {n:'Làm sạch & chuẩn bị da', meta:'Cạo lông, sát khuẩn', needBoth:false, machine:'—', nvl:'Gel làm sạch'},
+      {n:'Bắn laser triệt lông', meta:'Diode 808nm · 14 J/cm² · 240 shot', needBoth:true, machine:'Laser Diode XL', nvl:'Gel lạnh 30ml'},
+    ]},
+];
+let shots={}; // shots[jobId][stepIdx]={before,after}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+/* ===== header ===== */
+function renderHead(){
+  document.getElementById('mhead').innerHTML=`
+    <div class="who"><div class="av">${ME.init}</div>
+      <div><div class="nm">${ME.nm}</div><div class="sub">${ME.sub}</div></div>
+      <div class="mstatus"><button class="avail-toggle ${avail?'':'off'}" onclick="toggleAvail()"><span class="d"></span>${avail?'Sẵn sàng':'Tạm nghỉ'}</button></div></div>
+    <div class="mstat-row">
+      <div class="mstat"><b>2</b><span>Tua hôm nay</span></div>
+      <div class="mstat"><b>1,2tr</b><span>Công hôm nay</span></div>
+      <div class="mstat"><b>#2</b><span>Lượt ưu tiên</span></div></div>`;
+}
+function toggleAvail(){avail=!avail;renderHead();toast(avail?'Đã bật Sẵn sàng — hệ sẽ mời tua phù hợp':'Đã tạm nghỉ — không nhận tua mới');if(tab==='offer')render();}
+
+/* ===== TAB: Tua mời ===== */
+function offerCard(o){
+  return `<div class="offer">
+    <div class="offer-timer"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Tự chuyển người khác sau <b style="margin:0 2px">${o.countdown}s</b> nếu chưa nhận<span class="bar"><i style="width:${Math.round(o.countdown/60*100)}%"></i></span></div>
+    <div class="offer-body">
+      <div class="offer-svc">${o.svc}</div>
+      <div class="offer-meta">Bắt đầu lúc ${o.start} · dự kiến ${fmtMin(o.mins)}</div>
+      <div class="anon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><line x1="3" y1="3" x2="21" y2="21"/></svg>${o.anon} — danh tính & giá trị khách được ẩn để công bằng</div>
+      <div class="chip-row"><span class="chip chip-skill">cần ${o.skill}</span><span class="chip chip-time">${o.start}</span>${o.machine?`<span class="chip chip-mach">⚙ ${o.machine}</span>`:''}</div>
+      <div class="offer-acts"><button class="bm bm-skip" onclick="skipOffer('${o.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Bỏ qua</button>
+        <button class="bm bm-take" onclick="takeOffer('${o.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Nhận tua</button></div>
+    </div></div>`;
+}
+function takeOffer(id){const o=offers.find(x=>x.id===id);if(!o)return;
+  myJobs.unshift({id:'DV-'+(900+myJobs.length),cust:o.anon.split(' ')[0]+' '+o.anon.split(' ')[1],svc:o.svc,at:o.start,state:'next',
+    steps:[{n:'Tư vấn & đo chỉ số',meta:'Chụp đối chiếu',needBoth:true,machine:'—',nvl:'—'},{n:'Trị liệu chính',meta:o.svc,needBoth:true,machine:o.machine||'—',nvl:'Theo phác đồ'},{n:'Làm dịu & kết thúc',meta:'Đắp mặt nạ',needBoth:true,machine:'—',nvl:'Mặt nạ'}]});
+  offers=offers.filter(x=>x.id!==id);toast('✓ Đã nhận tua — xem ở "Tua của tôi"');render();}
+function skipOffer(id){offers=offers.filter(x=>x.id!==id);toast('Đã bỏ qua — lượt ưu tiên bị lùi');render();}
+function renderOffer(){
+  const b=document.getElementById('mbody');
+  if(!avail){b.innerHTML=`<div class="empty">Bạn đang <b>Tạm nghỉ</b>.<br>Bật "Sẵn sàng" để hệ thống mời tua phù hợp kỹ năng.</div>`;return;}
+  let html='';
+  const myNow=stepJob.steps.find(s=>s.mine&&s.state==='now');
+  if(myNow) html+=`<div class="prep-alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div>Sắp tới lượt bạn ở liệu trình <b>${stepJob.code}</b> — step <b>${myNow.n}</b> lúc <b>${myNow.at}</b>. Chuẩn bị phòng/máy ngay.</div></div>`;
+  html+=`<div class="sec-t">Tua hệ thống mời cho bạn</div>`;
+  html+=offers.length?offers.map(offerCard).join(''):`<div class="empty">Chưa có tua mới được mời.</div>`;
+  html+=`<div class="sec-t" style="margin-top:18px">Liệu trình bạn đang tham gia</div>`+stepJobCard(stepJob);
+  b.innerHTML=html;
+}
+function stepJobCard(j){
+  return `<div class="stepjob"><div class="stepjob-h"><b>Liệu trình tổ hợp</b> <span class="code">${j.code}</span><span style="margin-left:auto;font-size:11.5px;color:var(--ink-soft)">tổng ~${j.total}</span></div>
+    <div style="font-size:11.5px;color:var(--ink-soft)">${j.anon} · nhiều NV phối hợp — bạn xem để canh giờ</div>
+    <div class="steps2">${j.steps.map(s=>{const cls=s.state==='done'?'stp-done':s.state==='now'?'stp-now':'stp-wait';const tag=s.mine?'<span class="stp-tag you">VIỆC CỦA BẠN</span>':(s.state==='now'?'<span class="stp-tag soon">đang làm</span>':'');
+      return `<div class="stp-item ${cls} ${s.mine?'stp-mine':''}"><div class="stp-dot">${s.state==='done'?'✓':(s.state==='now'?'▶':'·')}</div><div class="stp-info"><div class="sn">${s.n}${tag}</div><div class="sm">${s.who} · ${s.skill} · ${s.mins}p · ~${s.at}</div></div></div>`;}).join('')}</div></div>`;
+}
+
+/* ===== TAB: Tua của tôi ===== */
+function jobPhotoCount(j){
+  const sh=shots[j.id]; if(!sh)return 0;
+  return j.steps.map((s,i)=>i).filter(i=>s_needBoth(j,i)&&sh[i]&&sh[i].before&&sh[i].after).length;
+}
+function s_needBoth(j,i){return j.steps[i].needBoth;}
+function renderMine(){
+  const b=document.getElementById('mbody');
+  b.innerHTML=`<div class="sec-t">Tua của tôi hôm nay</div>`+(myJobs.length?myJobs.map(j=>{
+    const st=j.state==='now'?['js-now','Đang làm']:j.state==='next'?['js-next','Sắp làm']:['js-done','Hoàn tất'];
+    const needN=j.steps.filter(s=>s.needBoth).length; const doneN=jobPhotoCount(j);
+    return `<div class="job"><div class="job-top"><div class="q-av av-teal" style="width:36px;height:36px;border-radius:11px">${j.id.slice(-2)}</div>
+      <div class="jt"><b>${j.svc}</b><span>${j.id} · ~${j.at} · ${j.cust}</span></div>
+      <span class="job-state ${st[0]}">${st[1]}</span></div>
+      <div class="job-photos">📷 Ảnh Before/After: <b>${doneN}/${needN}</b> bước đã chụp</div>
+      <button class="job-go ${j.state==='done'?'ghost':''}" onclick="openJob('${j.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>${j.state==='done'?'Xem lại ảnh':(doneN?'Tiếp tục chụp':'Bắt đầu & chụp ảnh')}</button>
+    </div>`;
+  }).join(''):`<div class="empty">Chưa có tua nào hôm nay.</div>`)+`<div class="note-tip">Bấm <b>Bắt đầu & chụp ảnh</b> để thực hiện theo từng bước và chụp Before/After có ghosting.</div>`;
+}
+
+/* ===== TAB: Thu nhập ===== */
+function renderIncome(){
+  const b=document.getElementById('mbody');
+  const rows=[
+    {ic:'RF',n:'Giảm béo RF bụng',s:'DV-0830 · 09:15 · hoàn tất',amt:'+420.000'},
+    {ic:'L',n:'Triệt lông Diode',s:'DV-0825 · 10:05 · đang làm',amt:'+360.000'},
+    {ic:'TH',n:'Thưởng đủ ảnh B/A',s:'2 buổi đủ ảnh đối chiếu',amt:'+80.000'},
+    {ic:'KH',n:'Hoa hồng bán sản phẩm',s:'Serum B5 · RC-0825',amt:'+34.000'},
+  ];
+  b.innerHTML=`<div class="inc-hero"><div class="il">Thu nhập hôm nay (tạm tính)</div><div class="iv">1.294.000đ</div><div class="is">2 tua · cập nhật realtime khi hoàn tất buổi</div>
+    <div class="inc-split"><div class="isb"><b>18,4tr</b><span>Tháng này</span></div><div class="isb"><b>1,02tr</b><span>TB/ngày</span></div><div class="isb"><b>#2</b><span>Hạng nhóm</span></div></div></div>
+  <div class="sec-t">Chi tiết công hôm nay</div>
+  <div class="inc-card">${rows.map(r=>`<div class="inc-row"><div class="ico">${r.ic}</div><div class="it"><b>${r.n}</b><span>${r.s}</span></div><div class="iamt">${r.amt}</div></div>`).join('')}</div>
+  <div class="sec-t">Cơ cấu thu nhập</div>
+  <div class="inc-bd">Lương cứng theo ca + <b>công theo tua</b> (đơn giá theo loại dịch vụ & skill) + <b>thưởng chất lượng</b> (đủ ảnh Before/After, đánh giá khách) + <b>hoa hồng</b> bán sản phẩm. Số liệu là tạm tính trong ngày, chốt lương cuối kỳ ở hệ thống nhân sự.</div>`;
+}
+
+/* ===== TAB: Công bằng ===== */
+function renderFair(){
+  const b=document.getElementById('mbody');
+  b.innerHTML=`<div class="sec-t">Cơ chế đảm bảo công bằng</div>
+    <div class="stepjob"><div style="font-size:13px;line-height:1.85">
+      • <b>Hệ thống tự gán</b> theo điểm — bạn <b>chỉ nhận</b>, không bốc chọn khách.<br>
+      • <b>Ẩn danh tính & giá trị khách</b> trước khi nhận.<br>
+      • <b>Lượt ưu tiên xoay vòng</b>: ai ít tua/công thấp được mời trước.<br>
+      • Bỏ qua / nhận chậm → <b>lùi lượt ưu tiên</b>.<br>
+      • Mọi can thiệp tay của quản lý đều <b>ghi nhật ký</b>.</div></div>
+    <div class="sec-t" style="margin-top:16px">Chỉ số công bằng hôm nay</div>
+    <div class="mstat-row" style="margin-top:0"><div class="mstat" style="background:var(--teal-soft);color:var(--teal-deep)"><b>2</b><span>Tua đã nhận</span></div>
+      <div class="mstat" style="background:var(--teal-soft);color:var(--teal-deep)"><b>0</b><span>Lần bỏ qua</span></div>
+      <div class="mstat" style="background:var(--teal-soft);color:var(--teal-deep)"><b>#2</b><span>Hạng ưu tiên</span></div></div>
+    <div class="fair-note">Bạn đang được ưu tiên cao (#2) vì tải tua thấp & công ca dưới trung bình nhóm.</div>`;
+}
+
+/* ===== STEP RUNNER (chụp ảnh) ===== */
+let curJob=null, curStep=0;
+function openJob(id){curJob=myJobs.find(j=>j.id===id);curStep=0;if(!shots[id])shots[id]={};screenStep();}
+function backToMine(){curJob=null;document.getElementById('tabbar').style.display='';showTab('mine');}
+function screenStep(){
+  const j=curJob,s=j.steps[curStep];
+  document.getElementById('tabbar').style.display='none'; // ẩn tabbar trong runner
+  if(!shots[j.id][curStep])shots[j.id][curStep]={before:null,after:null};
+  const sh=shots[j.id][curStep];
+  const prog=j.steps.map((_,i)=>`<i class="${i<curStep?'done':(i===curStep?'cur':'')}"></i>`).join('');
+  const shotsHtml=s.needBoth?`
+    <div class="sec-t" style="margin-top:4px">Ảnh Before / After (có ghosting)</div>
+    ${(!sh.before||!sh.after)?`<div class="gguide">
+      <div class="gg-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Ghosting hoạt động thế nào?</div>
+      <div class="gg-steps">
+        <div class="gg-s"><span class="gg-n">1</span><div><b>Chụp Before</b><br>Chụp vùng điều trị trước khi làm.</div></div>
+        <div class="gg-s"><span class="gg-n">2</span><div><b>Khi chụp After</b>, ảnh Before hiện <b>mờ đè</b> lên khung — canh viền mặt &amp; vết cho <b>trùng khít</b> rồi chụp.</div></div>
+        <div class="gg-s"><span class="gg-n">3</span><div><b>Kéo slider</b> so sánh Before ↔ After để thấy thay đổi.</div></div>
+      </div></div>`:''}
+    <div class="shots">${slot('before',sh.before)}${slot('after',sh.after,!sh.before)}</div>
+    <div class="shot-hint">${sh.before?'':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3z"/></svg>Chụp Before trước để mở chụp After'}</div>
+    ${sh.before&&sh.after?`<button class="cmp-open" onclick="openCmp(${curStep})">⟷ So sánh Before / After (trượt)</button>`:''}`
+    :`<div class="note-tip">Bước này không yêu cầu ảnh Before/After.</div>`;
+  const canNext=!s.needBoth||(sh.before&&sh.after);
+  document.getElementById('mbody').innerHTML=`
+    <div class="runner-head"><button class="rh-back" onclick="backToMine()">‹</button><div><div class="rh-t">${j.cust} · ${j.id}</div><div class="rh-s">${j.svc}</div></div></div>
+    <div class="prog">${prog}</div>
+    <div class="step-card"><div class="step-h"><div class="step-no">${curStep+1}</div><div><div class="step-nm">${s.n}</div><div class="step-meta">${s.meta}</div></div></div>
+      <div class="step-info"><div class="si-row"><span>Máy</span><b>${s.machine}</b></div><div class="si-row"><span>NVL</span><b>${s.nvl}</b></div></div>
+      ${shotsHtml}</div>
+    <div class="step-foot">${curStep>0?'<button class="bt-prev" onclick="prevStep()">‹</button>':''}<button class="bt-next" onclick="nextStep()" ${canNext?'':'disabled'}>${curStep===j.steps.length-1?'Hoàn tất tua':'Bước tiếp →'}</button></div>`;
+}
+function slot(phase,url,locked){
+  const lbl=phase==='before'?'BEFORE':'AFTER';
+  if(url)return `<div class="shot filled"><span class="ph-lbl ${phase}">${lbl}</span><img src="${url}"><button class="retake" onclick="openCam('${phase}')">Chụp lại</button></div>`;
+  return `<div class="shot ${locked?'locked':''}" ${locked?'':`onclick="openCam('${phase}')"`}><span class="ph-lbl ${phase}">${lbl}</span><div class="ph-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><div>${locked?'Khoá':'Chụp '+lbl}</div></div></div>`;
+}
+function prevStep(){if(curStep>0){curStep--;screenStep();}}
+function nextStep(){if(curStep<curJob.steps.length-1){curStep++;screenStep();}else screenDone();}
+
+let camPhase=null,camSeed=1;
+function openCam(phase){camPhase=phase;camSeed++;
+  const sh=shots[curJob.id][curStep];const ghost=phase==='after'&&sh.before;const base=genImg(camSeed,phase);
+  document.getElementById('camSheet').innerHTML=`
+    <div class="sheet-h"><b>Chụp ${phase==='before'?'Before':'After'} · ${curJob.steps[curStep].n}</b><button class="sh-x" onclick="closeCam()">✕</button></div>
+    <div class="viewfinder ${ghost?'has-ghost':''}" id="vf"><img class="vf-base" id="vfBase" src="${base}">${ghost?`<img class="vf-ghost" id="vfGhost" src="${sh.before}" style="opacity:.45">`:''}<div class="vf-grid"></div><div class="vf-tag">● REC ${phase==='before'?'BEFORE':'AFTER'}</div>${ghost?`<div class="vf-ghosttag">👻 Ghost: Before</div>
+      <div class="vf-anno"><div class="anno-dot"></div><div class="anno-line"></div><div class="anno-lbl">Ảnh <b>Before</b> đang hiện mờ — căn viền mặt &amp; vết cho trùng khít rồi chụp</div></div>
+      <div class="vf-align">Khung canh</div>`:''}</div>
+    ${ghost?`<div class="ghost-ctl"><label>Độ mờ ảnh Before (ghosting) <span id="gv">45%</span></label><input type="range" min="0" max="80" value="45" oninput="setGhost(this.value)"></div>`:''}
+    <div class="shutter-row"><button class="flip" onclick="reframe()">⟳</button><button class="shutter" onclick="capture()"></button><div style="width:42px"></div></div>
+    <div style="text-align:center;font-size:11px;opacity:.7;margin-top:9px">${ghost?'Bấm ⟳ để mô phỏng đổi góc — canh cho trùng ảnh Before mờ rồi bấm chụp':'Bấm nút tròn để chụp (demo: ảnh mẫu)'}</div>`;
+  document.getElementById('camMask').classList.add('on');
+}
+function setGhost(v){const g=document.getElementById('vfGhost');if(g)g.style.opacity=v/100;document.getElementById('gv').textContent=v+'%';}
+function reframe(){camSeed++;document.getElementById('vfBase').src=genImg(camSeed,camPhase);}
+function capture(){shots[curJob.id][curStep][camPhase]=document.getElementById('vfBase').src;closeCam();screenStep();}
+function closeCam(){document.getElementById('camMask').classList.remove('on');}
+
+function openCmp(stepIdx){const sh=shots[curJob.id][stepIdx];const m=document.getElementById('cmpMask');
+  m.innerHTML=`<div class="cmp-box"><div class="cmp-h"><b>So sánh · ${curJob.steps[stepIdx].n}</b><button class="cmp-x" onclick="closeCmp()">✕</button></div>
+    <div class="cmp-stage" id="cmpStage"><img class="cmp-after" src="${sh.after}"><div class="cmp-before-wrap" id="bwrap"><img class="cmp-before" src="${sh.before}"></div><div class="cmp-handle" id="chandle"></div><span class="cmp-tag bf">Before</span><span class="cmp-tag af">After</span></div>
+    <div class="cmp-foot">Kéo thanh giữa để trượt so sánh Before ↔ After</div></div>`;
+  m.classList.add('on');initSlider();
+}
+function initSlider(){const stage=document.getElementById('cmpStage'),wrap=document.getElementById('bwrap'),handle=document.getElementById('chandle');
+  function setPct(px){const r=stage.getBoundingClientRect();let pct=(px-r.left)/r.width*100;pct=Math.max(0,Math.min(100,pct));wrap.style.width=pct+'%';handle.style.left=pct+'%';}
+  function move(e){const x=e.touches?e.touches[0].clientX:e.clientX;setPct(x);}
+  stage.addEventListener('mousedown',e=>{move(e);const up=()=>{document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up);};document.addEventListener('mousemove',move);document.addEventListener('mouseup',up);});
+  stage.addEventListener('touchstart',move);stage.addEventListener('touchmove',move);
+}
+function closeCmp(){document.getElementById('cmpMask').classList.remove('on');}
+
+function screenDone(){
+  const j=curJob;
+  // đánh dấu tua hoàn tất
+  const ref=myJobs.find(x=>x.id===j.id); if(ref)ref.state='done';
+  const withBA=j.steps.map((s,i)=>({s,i})).filter(x=>x.s.needBoth&&shots[j.id][x.i]&&shots[j.id][x.i].before&&shots[j.id][x.i].after);
+  document.getElementById('mbody').innerHTML=`<div class="done-wrap">
+    <div class="done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+    <h2>Đã hoàn tất tua</h2><p>${j.cust} · ${j.svc}<br>${withBA.length} bước có ảnh Before/After đã lưu vào hồ sơ buổi.</p>
+    ${withBA.map(x=>`<button class="cmp-open" onclick="openCmp(${x.i})">⟷ Xem so sánh — ${x.s.n}</button>`).join('')}
+    <button class="job-go" style="margin-top:16px" onclick="backToMine()">Về danh sách tua</button>
+    <div class="note-tip">Ảnh & thông số đồng bộ về <b>hồ sơ thực hiện</b> (service-record) trên hệ thống admin.</div></div>`;
+}
+
+/* ===== tabs ===== */
+function showTab(t){tab=t;['offer','mine','income','fair'].forEach(x=>document.getElementById('tab-'+x).classList.toggle('on',x===t));render();}
+function render(){
+  if(curJob){return;} // đang trong runner
+  if(tab==='offer')renderOffer();else if(tab==='mine')renderMine();else if(tab==='income')renderIncome();else renderFair();
+}
+window.toggleAvail=toggleAvail;window.takeOffer=takeOffer;window.skipOffer=skipOffer;window.showTab=showTab;
+window.openJob=openJob;window.backToMine=backToMine;window.prevStep=prevStep;window.nextStep=nextStep;
+window.openCam=openCam;window.closeCam=closeCam;window.capture=capture;window.reframe=reframe;window.setGhost=setGhost;window.openCmp=openCmp;window.closeCmp=closeCmp;
+renderHead();render();
+</script>
+</body></html>

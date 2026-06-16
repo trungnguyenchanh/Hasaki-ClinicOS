@@ -115,7 +115,7 @@
 <script src="../assets/app.js"></script>
 <script>
 renderLayout('flow-tracking');
-const right=`<div class="tenant" style="background:var(--teal-soft);color:var(--teal-deep);border-color:transparent"><span style="width:8px;height:8px;border-radius:50%;background:var(--teal-deep);display:inline-block"></span> Realtime · cập nhật 30s</div>`;
+const right=`<a class="btn btn-teal" href="mobile-ktv-tour.html" style="padding:8px 14px;font-size:12.5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>App nhân viên (mobile)</a><div class="tenant" style="background:var(--teal-soft);color:var(--teal-deep);border-color:transparent"><span style="width:8px;height:8px;border-radius:50%;background:var(--teal-deep);display:inline-block"></span> Realtime · cập nhật 30s</div>`;
 document.getElementById('main').innerHTML = topbar('Quy trình tiếp khách','Đang làm dịch vụ',{who:'OP',branch:'CN Quận 1',right}) + `
   <div class="flow-tabs" id="ft"><button onclick="location.href='flow-queue.html'">Hàng đợi khách</button><button class="on" onclick="location.href='flow-inservice.html'">Đang làm dịch vụ</button><button onclick="location.href='flow-timeline.html'">Hành trình 1 khách</button></div>
   <div id="fv"></div>`;
