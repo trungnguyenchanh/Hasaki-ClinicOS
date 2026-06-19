@@ -30,6 +30,10 @@ const NAV = [
     { id:"booking", label:"Lịch & Booking", href:"booking.html", badge:"14", icon:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>' },
     { id:"customers", label:"Khách hàng", href:"customers.html", icon:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>' },
   ]},
+  { group: "Quy trình tiếp khách", items: [
+    { id:"reception", label:"Tiếp nhận khách", href:"reception.html", icon:'<path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9v0M9 13v0M9 17v0"/>' },
+    { id:"flow-tracking", label:"Tracking flow trong ngày", href:"flow-queue.html", badge:"12", icon:'<path d="M3 12h4l3-8 4 16 3-8h4"/>' },
+  ]},
   { group: "Nghiệp vụ", items: [
     { id:"doctor", label:"Bác sĩ · Khám", href:"doctor-cn.html", badge:"6", icon:'<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/><circle cx="9" cy="10" r="1.5"/><path d="M13 9h4M13 12h4"/>' },
     { id:"consultant", label:"Tư vấn viên", href:"consultant-cn.html", icon:'<path d="M10 2v6l-3 3 3 3v6M14 2v6l3 3-3 3v6"/>' },
@@ -39,10 +43,6 @@ const NAV = [
     { id:"dispatch", label:"Điều phối tua", href:"dispatch.html", badge:"5", icon:'<path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/>' },
     { id:"inventory", label:"Kho & Pha chế", href:"inventory.html", icon:'<path d="M3 3h18v4H3zM5 7v14h14V7M9 11h6"/>' },
     { id:"pharmacy", label:"Đơn thuốc · GPP", href:"pharmacy.html", badge:"3", icon:'<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/><circle cx="9" cy="10" r="1.5"/><path d="M13 9h4M13 12h4"/>' },
-  ]},
-  { group: "Quy trình tiếp khách", items: [
-    { id:"reception", label:"Tiếp nhận khách", href:"reception.html", icon:'<path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9v0M9 13v0M9 17v0"/>' },
-    { id:"flow-tracking", label:"Tracking flow trong ngày", href:"flow-queue.html", badge:"12", icon:'<path d="M3 12h4l3-8 4 16 3-8h4"/>' },
   ]},
   { group: "Danh mục (Catalog)", items: [
     { id:"protocol-catalog", label:"Danh mục phác đồ", href:"protocol-catalog.html", icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
