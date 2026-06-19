@@ -44,6 +44,36 @@
 .sku-note label{font-size:11.5px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:4px}
 .sku-note input{width:100%;font-family:inherit;font-size:12.5px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;outline:none;background:var(--bg-2)}
 .sku-note input:focus{border-color:var(--teal);background:#fff}
+/* ==== chỉ định: vùng điều trị ==== */
+.ind-card{border:1px solid var(--line);border-radius:13px;padding:11px 12px;margin-bottom:10px;background:#fff}
+.ind-top{display:flex;align-items:center;gap:10px}
+.ind-top .wi{flex:1}.ind-top .wi b{font-size:13.5px}.ind-top .wi span{font-size:11.5px;color:var(--ink-soft);display:block}
+.ind-rm{border:none;background:var(--bg-2);width:26px;height:26px;border-radius:8px;cursor:pointer;color:var(--rose);flex:none}
+.ind-zones{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
+.ind-zlbl{font-size:10.5px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.zchip{display:inline-flex;align-items:center;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--teal-soft);color:var(--teal-deep);margin:0 5px 5px 0}
+.zchip.empty{background:#fbeccb;color:#9a6a1e}
+.zedit{font-size:11.5px;font-weight:600;color:var(--teal-deep);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline}
+/* popup chọn vùng / thêm chỉ định */
+.dpop-mask{position:fixed;inset:0;background:rgba(35,30,28,.4);display:none;z-index:80;align-items:center;justify-content:center;padding:18px}
+.dpop-mask.on{display:flex}
+.dpop{background:#fff;border-radius:18px;width:min(460px,95vw);max-height:88vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.dpop-h{display:flex;align-items:center;padding:15px 18px;border-bottom:1px solid var(--line)}.dpop-h b{font-family:'Fraunces',serif;font-size:16px}.dpop-x{margin-left:auto;background:var(--bg-2);border:none;width:28px;height:28px;border-radius:8px;cursor:pointer;color:var(--ink-soft)}
+.dpop-b{padding:16px 18px}
+.dpop-l{font-size:12px;font-weight:600;margin:13px 0 7px}.dpop-l:first-child{margin-top:0}
+.dpop-sel{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:13px;background:#fff}
+.zgrid{display:flex;flex-wrap:wrap;gap:7px}
+.zopt{font-size:12px;padding:7px 12px;border:1px solid var(--line);border-radius:20px;background:#fff;cursor:pointer;user-select:none}
+.zopt.on{background:var(--teal-soft);border-color:var(--teal);color:var(--teal-deep);font-weight:600}
+.zhint{font-size:11px;color:var(--ink-soft);margin-top:9px;line-height:1.5}
+.facepick{position:relative;width:170px;margin:6px auto 0}
+.facepick svg{width:100%;display:block;cursor:crosshair;background:var(--bg-2);border:1px solid var(--line);border-radius:12px}
+.fp-list{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.fp-row{display:flex;align-items:center;gap:8px;font-size:12px;background:var(--bg-2);border-radius:9px;padding:6px 9px}
+.fp-row .fp-n{width:17px;height:17px;border-radius:50%;background:var(--rose);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;flex:none}
+.fp-row input{flex:1;border:none;background:none;font-family:inherit;font-size:12px;outline:none}
+.fp-row .fp-x{border:none;background:none;color:var(--rose);cursor:pointer;font-size:13px}
+.dpop-f{display:flex;justify-content:flex-end;gap:9px;padding:14px 18px;border-top:1px solid var(--line)}
 @media(max-width:1080px){.rx{grid-template-columns:1fr}}
 </style></head>
 <body><div class="app"><aside class="sidebar"></aside><main class="main" id="main"></main></div>
@@ -83,8 +113,8 @@ document.getElementById('main').innerHTML = topbar('Bác sĩ › Kê toa','Khám
 
     <div class="panel"><div class="panel-h"><div class="panel-title">Chỉ định & liên thông</div></div>
       <div class="panel-title" style="font-size:14px;margin-bottom:8px">Chỉ định liệu trình</div>
-      <div class="wpill"><div class="q-av av-gold">RF</div><div class="wi"><b>Giảm béo RF bụng</b><span>10 buổi · chuyển tư vấn</span></div></div>
-      <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-bottom:18px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Thêm chỉ định</button>
+      <div id="indList"></div>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-bottom:18px" onclick="openInd()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Thêm chỉ định</button>
       <div class="panel-title" style="font-size:14px;margin-bottom:8px">Kiểm tra an toàn</div>
       <div class="alert al-info" id="safeBox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div id="allergyCheck"><b>Kiểm tra dị ứng:</b> chưa phát hiện xung đột.</div></div>
       <div style="margin-top:18px;display:flex;flex-direction:column;gap:9px">
@@ -157,5 +187,135 @@ document.addEventListener('click',e=>{
   if(!e.target.closest('#msearch')&&!e.target.closest('#mdrop'))document.getElementById('mdrop').style.display='none';
 });
 renderDxChips();renderDxDrop();renderMedDrop();renderRx();wireUI();
+
+/* ====== Chỉ định dịch vụ + vùng điều trị ====== */
+// Cấu hình vùng áp dụng theo dịch vụ (kind: 'body' = vùng lớn | 'face' = chấm điểm)
+const SVC_CFG={
+  'Giảm béo RF bụng':{ic:'RF',av:'av-gold',kind:'body',zones:['Bụng','Eo trái','Eo phải','Lưng','Bắp tay trái','Bắp tay phải','Đùi trái','Đùi phải']},
+  'Triệt lông Diode':{ic:'L',av:'av-teal',kind:'body',zones:['Nách trái','Nách phải','Bikini','Cánh tay trái','Cánh tay phải','Đùi trái','Đùi phải','Bắp chân trái','Bắp chân phải']},
+  'Nâng cơ HIFU mặt':{ic:'HF',av:'av-blush',kind:'face',zones:[]},
+  'Điều trị nám laser':{ic:'NM',av:'av-blush',kind:'face',zones:[]},
+  'Tiểu phẫu nốt ruồi (BS)':{ic:'PT',av:'av-indigo',kind:'face',zones:[]},
+  'Chăm sóc da phục hồi':{ic:'DA',av:'av-teal',kind:'face',zones:[]},
+};
+// chỉ định hiện có (RF bụng đã chọn sẵn vùng để minh hoạ)
+let INDS=[
+  {svc:'Giảm béo RF bụng', sessions:'10 buổi · chuyển tư vấn', zones:['Bụng','Eo trái','Eo phải'], facePoints:[]},
+];
+function renderInds(){
+  document.getElementById('indList').innerHTML = INDS.map((ind,idx)=>{
+    const cfg=SVC_CFG[ind.svc]||{ic:'DV',av:'av-teal',kind:'body',zones:[]};
+    let zoneHtml;
+    if(cfg.kind==='face'){
+      const n=ind.facePoints.length;
+      zoneHtml=`<div class="ind-zlbl"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>Vị trí trên mặt</div>`+
+        (n?ind.facePoints.map((p,i)=>`<span class="zchip">${i+1}. ${p.note||'điểm '+(i+1)}</span>`).join(''):'<span class="zchip empty">Chưa đánh dấu — bấm Chọn vùng</span>')+
+        `<div style="margin-top:5px"><button class="zedit" onclick="openZone(${idx})">${n?'Sửa vị trí':'Chọn vị trí trên mặt'}</button></div>`;
+    } else {
+      zoneHtml=`<div class="ind-zlbl"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Vùng điều trị</div>`+
+        (ind.zones.length?ind.zones.map(z=>`<span class="zchip">${z}</span>`).join(''):'<span class="zchip empty">Chưa chọn vùng — bấm Chọn vùng</span>')+
+        `<div style="margin-top:5px"><button class="zedit" onclick="openZone(${idx})">${ind.zones.length?'Sửa vùng':'Chọn vùng'}</button></div>`;
+    }
+    return `<div class="ind-card"><div class="ind-top"><div class="q-av ${cfg.av}">${cfg.ic}</div><div class="wi"><b>${ind.svc}</b><span>${ind.sessions}</span></div><button class="ind-rm" onclick="rmInd(${idx})" title="Bỏ chỉ định">✕</button></div>
+      <div class="ind-zones">${zoneHtml}</div></div>`;
+  }).join('') || '<div style="font-size:12.5px;color:var(--ink-soft);padding:6px 2px 12px">Chưa có chỉ định nào.</div>';
+}
+function rmInd(i){INDS.splice(i,1);renderInds();}
+
+/* popup THÊM CHỈ ĐỊNH */
+function openInd(){
+  ensurePop();
+  const opts=Object.keys(SVC_CFG).map(s=>`<option value="${s}">${s}</option>`).join('');
+  document.getElementById('dpopBody').innerHTML=`
+    <div class="dpop-l">Dịch vụ chỉ định</div>
+    <select class="dpop-sel" id="indSvc" onchange="indSvcChanged()">${opts}</select>
+    <div class="dpop-l">Số buổi / ghi chú</div>
+    <input class="dpop-sel" id="indSes" placeholder="vd: 10 buổi · chuyển tư vấn" value="1 buổi">
+    <div id="indZoneArea"></div>`;
+  document.getElementById('dpopTitle').textContent='Thêm chỉ định dịch vụ';
+  document.getElementById('dpopSave').onclick=saveInd;
+  popMode='add'; tmpZones=[]; FP.list=[];
+  indSvcChanged();
+  showPop();
+}
+function indSvcChanged(){
+  const svc=document.getElementById('indSvc').value; const cfg=SVC_CFG[svc];
+  tmpZones=[]; FP.list=[];
+  document.getElementById('indZoneArea').innerHTML = zonePickerHtml(cfg);
+  bindZonePicker(cfg);
+}
+
+/* popup CHỌN/SỬA VÙNG cho chỉ định sẵn có */
+let popMode='add', editIdx=null, tmpZones=[];
+const FP={list:[]};
+function openZone(idx){
+  ensurePop();
+  const ind=INDS[idx]; const cfg=SVC_CFG[ind.svc]||{kind:'body',zones:[]};
+  popMode='edit'; editIdx=idx; tmpZones=[...ind.zones]; FP.list=ind.facePoints.map(p=>({...p}));
+  document.getElementById('dpopTitle').textContent=(cfg.kind==='face'?'Chọn vị trí trên mặt · ':'Chọn vùng điều trị · ')+ind.svc;
+  document.getElementById('dpopBody').innerHTML=`<div id="indZoneArea"></div>`;
+  document.getElementById('indZoneArea').innerHTML=zonePickerHtml(cfg);
+  bindZonePicker(cfg);
+  document.getElementById('dpopSave').onclick=()=>{INDS[editIdx].zones=[...tmpZones];INDS[editIdx].facePoints=FP.list.map(p=>({...p}));renderInds();hidePop();};
+  showPop();
+}
+function zonePickerHtml(cfg){
+  if(cfg.kind==='face'){
+    return `<div class="dpop-l">Đánh dấu vị trí trên khuôn mặt</div>
+      <div class="facepick"><svg id="fpSvg" viewBox="0 0 100 120" onclick="fpAdd(event)">
+        <ellipse cx="50" cy="58" rx="32" ry="40" fill="#fff" stroke="var(--line)"/>
+        <path d="M22 32 Q50 10 78 32" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+        <circle cx="38" cy="52" r="1.8" fill="var(--ink-soft)"/><circle cx="62" cy="52" r="1.8" fill="var(--ink-soft)"/>
+        <path d="M42 80 Q50 85 58 80" fill="none" stroke="var(--ink-soft)" stroke-width="1.2"/>
+        <g id="fpDots"></g>
+      </svg></div>
+      <div class="zhint">Bấm lên mặt để thêm điểm điều trị. Mỗi điểm ghi chú vị trí (vd nốt ruồi má phải).</div>
+      <div class="fp-list" id="fpList"></div>`;
+  }
+  return `<div class="dpop-l">Vùng áp dụng cho dịch vụ này (chọn nhiều)</div>
+    <div class="zgrid" id="zGrid">${cfg.zones.map(z=>`<div class="zopt ${tmpZones.includes(z)?'on':''}" data-z="${z}">${z}</div>`).join('')}</div>
+    <div class="zhint">Chọn các vùng bác sĩ chỉ định làm. Khi KTV thực hiện sẽ ghi nhận theo đúng vùng này.</div>`;
+}
+function bindZonePicker(cfg){
+  if(cfg.kind==='face'){ renderFp(); return; }
+  document.querySelectorAll('#zGrid .zopt').forEach(el=>el.addEventListener('click',()=>{
+    const z=el.dataset.z; const i=tmpZones.indexOf(z);
+    if(i>=0)tmpZones.splice(i,1);else tmpZones.push(z);
+    el.classList.toggle('on');
+  }));
+}
+function fpAdd(ev){
+  const svg=document.getElementById('fpSvg'); const r=svg.getBoundingClientRect();
+  const x=Math.round((ev.clientX-r.left)/r.width*100); const y=Math.round((ev.clientY-r.top)/r.height*120);
+  if(x<10||x>90||y<8||y>112)return;
+  FP.list.push({x,y,note:''}); renderFp();
+}
+function renderFp(){
+  const dots=document.getElementById('fpDots'); if(!dots)return;
+  dots.innerHTML=FP.list.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="var(--rose)" stroke="#fff" stroke-width="1.2"/><text x="${p.x}" y="${p.y+2.4}" font-size="5.5" fill="#fff" text-anchor="middle" font-weight="700">${i+1}</text>`).join('');
+  document.getElementById('fpList').innerHTML=FP.list.map((p,i)=>`<div class="fp-row"><span class="fp-n">${i+1}</span><input value="${p.note}" placeholder="Ghi chú vị trí (vd nốt ruồi má phải)" oninput="fpNote(${i},this.value)"><button class="fp-x" onclick="fpDel(${i})">✕</button></div>`).join('');
+}
+function saveInd(){
+  const svc=document.getElementById('indSvc').value;
+  const ses=document.getElementById('indSes').value||'1 buổi';
+  INDS.push({svc, sessions:ses, zones:[...tmpZones], facePoints:FP.list.map(p=>({...p}))});
+  renderInds(); hidePop();
+}
+
+/* popup shell */
+function ensurePop(){
+  if(document.getElementById('dpopMask'))return;
+  const d=document.createElement('div');
+  d.innerHTML=`<div class="dpop-mask" id="dpopMask" onclick="if(event.target===this)hidePop()"><div class="dpop">
+    <div class="dpop-h"><b id="dpopTitle">—</b><button class="dpop-x" onclick="hidePop()">✕</button></div>
+    <div class="dpop-b" id="dpopBody"></div>
+    <div class="dpop-f"><button class="btn btn-ghost" onclick="hidePop()">Huỷ</button><button class="btn btn-teal" id="dpopSave">Lưu</button></div>
+  </div></div>`;
+  document.body.appendChild(d.firstElementChild);
+}
+function showPop(){document.getElementById('dpopMask').classList.add('on');}
+function hidePop(){document.getElementById('dpopMask').classList.remove('on');}
+window.openInd=openInd; window.openZone=openZone; window.rmInd=rmInd; window.indSvcChanged=indSvcChanged; window.fpAdd=fpAdd; window.renderFp=renderFp; window.hidePop=hidePop; window.fpNote=(i,v)=>{FP.list[i].note=v;}; window.fpDel=(i)=>{FP.list.splice(i,1);renderFp();};
+renderInds();
 </script>
 </body></html>
